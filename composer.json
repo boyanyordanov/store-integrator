@@ -1,0 +1,18 @@
+{
+    "name": "cloudcart/store-integrator",
+    "description": "Integrates different shopping platforms with CloudCart",
+    "type": "library",
+    "require": {
+        "cpigroup/php-amazon-mws": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
+    "authors": [
+        {
+            "name": "Boyan Yordanov",
+            "email": "b.yordanov@cloudcart.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
