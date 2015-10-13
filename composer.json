@@ -3,7 +3,8 @@
     "description": "Integrates different shopping platforms with CloudCart",
     "type": "library",
     "require": {
-        "cpigroup/php-amazon-mws": "^1.1"
+        "cpigroup/php-amazon-mws": "^1.1",
+        "sabre/xml": "~1.2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0"
