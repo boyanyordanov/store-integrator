@@ -1,0 +1,1025 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2010 rel. 2 (http://www.altova.com) by sunil sachdev (amazon.com) -->
+<!-- Revision="$Revision: #1 $" -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<!--
+    $Date: 2007/06/28 $
+
+    AMAZON.COM CONFIDENTIAL.  This document and the information contained in it are
+    confidential and proprietary information of Amazon.com and may not be reproduced, 
+    distributed or used, in whole or in part, for any purpose other than as necessary 
+    to list products for sale on the www.amazon.com web site pursuant to an agreement 
+    with Amazon.com.
+    -->
+	<xsd:include schemaLocation="amzn-base.xsd"/>
+	<!--
+    Please read the corresponding documentation that contains the recommended values for elements
+    of type StringNotNull.
+    -->
+	<xsd:element name="Computers">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ProductType">
+					<xsd:complexType>
+						<xsd:choice>
+							<xsd:element ref="ComputerComponent"/>
+							<xsd:element ref="ComputerDriveOrStorage"/>
+							<xsd:element ref="InkOrToner"/>
+							<xsd:element ref="Monitor"/>
+							<xsd:element ref="NotebookComputer"/>
+							<xsd:element ref="PersonalComputer"/>
+							<xsd:element ref="Printer"/>
+							<xsd:element ref="Scanner"/>
+							<xsd:element ref="VideoProjector"/>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="Battery" minOccurs="0"/>
+				<xsd:element name="BatteryAverageLife" type="PositiveNonZeroDimension" minOccurs="0"/>
+				<xsd:element name="BatteryAverageLifeStandby" type="PositiveNonZeroDimension" minOccurs="0"/>
+				<xsd:element name="BatteryChargeTime" type="PositiveNonZeroDimension" minOccurs="0"/>
+				<xsd:element name="Color" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ColorMap" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="CountryOfOrigin" type="CountryOfOriginType" minOccurs="0"/>
+				<xsd:element name="DisplayLength" type="LengthDimension" minOccurs="0"/>
+				<xsd:element name="DisplayVolume" type="VolumeDimension" minOccurs="0"/>
+				<xsd:element name="DisplayWeight" type="WeightDimension" minOccurs="0"/>
+				<xsd:element name="LithiumBatteryEnergyContent" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="LithiumBatteryPackaging" minOccurs="0">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="batteries_contained_in_equipment"/>
+							<xsd:enumeration value="batteries_only"/>
+							<xsd:enumeration value="batteries_packed_with_equipment"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LithiumBatteryVoltage" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="LithiumBatteryWeight" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ManufacturerWarrantyType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MfrWarrantyDescriptionLabor" type="SuperLongStringNotNull" minOccurs="0"/>
+				<xsd:element name="MfrWarrantyDescriptionParts" type="SuperLongStringNotNull" minOccurs="0"/>
+				<xsd:element name="NumberOfLithiumIonCells" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="NumberOfLithiumMetalCells" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="PowerSource" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="Size" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="SellerWarrantyDescription" type="SuperLongStringNotNull" minOccurs="0"/>
+				<xsd:element name="Warnings" type="LongStringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ComputerComponent">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+										<xsd:enumeration value="Size"/>
+										<xsd:enumeration value="SizeColor"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="AdditionalFeatures" type="LongString" minOccurs="0"/>
+				<xsd:element name="AudioOutputMode" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ChipsetType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ComponentMemoryStorageCapacity" minOccurs="0">
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="PositiveInteger">
+								<xsd:attribute name="unitOfMeasure" type="MemorySizeUnitOfMeasure" use="required"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="CompatibleProcessorTypes" type="StringNotNull" minOccurs="0" maxOccurs="4"/>
+				<xsd:element name="ComponentWirelessType" minOccurs="0" maxOccurs="3">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="2.4_ghz_radio_frequency"/>
+							<xsd:enumeration value="5.8_ghz_radio_frequency"/>
+							<xsd:enumeration value="54g"/>
+							<xsd:enumeration value="802_11_A"/>
+							<xsd:enumeration value="802_11_AB"/>
+							<xsd:enumeration value="802_11_ABG"/>
+							<xsd:enumeration value="802_11_AG"/>
+							<xsd:enumeration value="802_11_B"/>
+							<xsd:enumeration value="802_11_BGN"/>
+							<xsd:enumeration value="802_11_G"/>
+							<xsd:enumeration value="802_11_G_108Mbps"/>
+							<xsd:enumeration value="802_11_N"/>
+							<xsd:enumeration value="900_mhz_radio_frequency"/>
+							<xsd:enumeration value="bluetooth"/>
+							<xsd:enumeration value="dect"/>
+							<xsd:enumeration value="dect_6.0"/>
+							<xsd:enumeration value="infrared"/>
+							<xsd:enumeration value="irda"/>
+							<xsd:enumeration value="radio_frequency"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="CommunicationInterface" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ConnectorType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="DigitalAudioCapacity" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="DigitalMediaFormat" minOccurs="0">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="3480_tape_cartridge"/>
+							<xsd:enumeration value="4_mm_tape"/>
+							<xsd:enumeration value="6250_magstar_tape"/>
+							<xsd:enumeration value="8_mm"/>
+							<xsd:enumeration value="8_mm_tape"/>
+							<xsd:enumeration value="abridged"/>
+							<xsd:enumeration value="ac-3"/>
+							<xsd:enumeration value="adobe_ebook_reader"/>
+							<xsd:enumeration value="adpcm"/>
+							<xsd:enumeration value="adult"/>
+							<xsd:enumeration value="aiff"/>
+							<xsd:enumeration value="ali"/>
+							<xsd:enumeration value="alx"/>
+							<xsd:enumeration value="amazon_ebook_reader"/>
+							<xsd:enumeration value="anamorphic"/>
+							<xsd:enumeration value="animated"/>
+							<xsd:enumeration value="antique_books"/>
+							<xsd:enumeration value="antique_reproduction_map"/>
+							<xsd:enumeration value="atlas"/>
+							<xsd:enumeration value="atrac3"/>
+							<xsd:enumeration value="audiobook"/>
+							<xsd:enumeration value="aus_import"/>
+							<xsd:enumeration value="authorized_bootleg"/>
+							<xsd:enumeration value="avi"/>
+							<xsd:enumeration value="bargain_price"/>
+							<xsd:enumeration value="best_of"/>
+							<xsd:enumeration value="blu_ray"/>
+							<xsd:enumeration value="blu_spec_cd"/>
+							<xsd:enumeration value="blu_spec_cd_and_dvd"/>
+							<xsd:enumeration value="bookplus_reader"/>
+							<xsd:enumeration value="box_calendar"/>
+							<xsd:enumeration value="box_set"/>
+							<xsd:enumeration value="braille"/>
+							<xsd:enumeration value="bsides"/>
+							<xsd:enumeration value="bw"/>
+							<xsd:enumeration value="ca_import"/>
+							<xsd:enumeration value="cab"/>
+							<xsd:enumeration value="cast_recording"/>
+							<xsd:enumeration value="cd"/>
+							<xsd:enumeration value="cd_and_blu_ray"/>
+							<xsd:enumeration value="cd_and_dvd"/>
+							<xsd:enumeration value="cd_rom"/>
+							<xsd:enumeration value="cd-4"/>
+							<xsd:enumeration value="cd-6"/>
+							<xsd:enumeration value="cd-single"/>
+							<xsd:enumeration value="classical"/>
+							<xsd:enumeration value="clay_animation"/>
+							<xsd:enumeration value="clean"/>
+							<xsd:enumeration value="closed-captioned"/>
+							<xsd:enumeration value="clv"/>
+							<xsd:enumeration value="cod"/>
+							<xsd:enumeration value="collectors_edition"/>
+							<xsd:enumeration value="color"/>
+							<xsd:enumeration value="compact_flash"/>
+							<xsd:enumeration value="compilation"/>
+							<xsd:enumeration value="complete"/>
+							<xsd:enumeration value="copy_protected_cd"/>
+							<xsd:enumeration value="criterion"/>
+							<xsd:enumeration value="csv"/>
+							<xsd:enumeration value="cutout"/>
+							<xsd:enumeration value="cx_encoding"/>
+							<xsd:enumeration value="dat_tape"/>
+							<xsd:enumeration value="deluxe_edition"/>
+							<xsd:enumeration value="desk_calendar"/>
+							<xsd:enumeration value="dff"/>
+							<xsd:enumeration value="digital_8"/>
+							<xsd:enumeration value="digital_sound"/>
+							<xsd:enumeration value="directors_cut"/>
+							<xsd:enumeration value="diskette35"/>
+							<xsd:enumeration value="diskette525"/>
+							<xsd:enumeration value="dlt"/>
+							<xsd:enumeration value="doc"/>
+							<xsd:enumeration value="dolby"/>
+							<xsd:enumeration value="double_cd"/>
+							<xsd:enumeration value="double_lp"/>
+							<xsd:enumeration value="drama_enhanced"/>
+							<xsd:enumeration value="dts_stereo"/>
+							<xsd:enumeration value="dual_disc"/>
+							<xsd:enumeration value="dubbed"/>
+							<xsd:enumeration value="dvd_and_blu_ray"/>
+							<xsd:enumeration value="dvd_audio"/>
+							<xsd:enumeration value="dvd_ram"/>
+							<xsd:enumeration value="dvd_region"/>
+							<xsd:enumeration value="dvd_rom"/>
+							<xsd:enumeration value="dvd_single"/>
+							<xsd:enumeration value="dvd_video"/>
+							<xsd:enumeration value="dvt"/>
+							<xsd:enumeration value="electronic_software_download"/>
+							<xsd:enumeration value="engagement_calendar"/>
+							<xsd:enumeration value="enhanced"/>
+							<xsd:enumeration value="everybook"/>
+							<xsd:enumeration value="exe"/>
+							<xsd:enumeration value="explicit_lyrics"/>
+							<xsd:enumeration value="extended_play"/>
+							<xsd:enumeration value="extra_tracks"/>
+							<xsd:enumeration value="facsimile"/>
+							<xsd:enumeration value="flash"/>
+							<xsd:enumeration value="folded_map"/>
+							<xsd:enumeration value="full_screen"/>
+							<xsd:enumeration value="full-length"/>
+							<xsd:enumeration value="gif"/>
+							<xsd:enumeration value="globe"/>
+							<xsd:enumeration value="gold_cd"/>
+							<xsd:enumeration value="hd_dvd"/>
+							<xsd:enumeration value="hi_8"/>
+							<xsd:enumeration value="hi-fidelity"/>
+							<xsd:enumeration value="highlights"/>
+							<xsd:enumeration value="hqcd"/>
+							<xsd:enumeration value="html"/>
+							<xsd:enumeration value="hybrid_sacd"/>
+							<xsd:enumeration value="illustrated"/>
+							<xsd:enumeration value="import"/>
+							<xsd:enumeration value="ipk"/>
+							<xsd:enumeration value="jad"/>
+							<xsd:enumeration value="jar"/>
+							<xsd:enumeration value="jp_import"/>
+							<xsd:enumeration value="jpg"/>
+							<xsd:enumeration value="karaoke"/>
+							<xsd:enumeration value="kindle_blog"/>
+							<xsd:enumeration value="kindle_book"/>
+							<xsd:enumeration value="kindle_magazine"/>
+							<xsd:enumeration value="kindle_newspaper"/>
+							<xsd:enumeration value="large_print"/>
+							<xsd:enumeration value="laser_printed"/>
+							<xsd:enumeration value="letterboxed"/>
+							<xsd:enumeration value="limited_collectors_edition"/>
+							<xsd:enumeration value="limited_edition"/>
+							<xsd:enumeration value="live"/>
+							<xsd:enumeration value="magazine_subscription"/>
+							<xsd:enumeration value="maxi_single"/>
+							<xsd:enumeration value="mdb"/>
+							<xsd:enumeration value="mde"/>
+							<xsd:enumeration value="memory_stick"/>
+							<xsd:enumeration value="microsoft_reader_desktop"/>
+							<xsd:enumeration value="minidisc"/>
+							<xsd:enumeration value="minidv"/>
+							<xsd:enumeration value="miniseries"/>
+							<xsd:enumeration value="mobipocket_ebook"/>
+							<xsd:enumeration value="mono"/>
+							<xsd:enumeration value="movie_tie_in"/>
+							<xsd:enumeration value="mp3_audio"/>
+							<xsd:enumeration value="mpeg"/>
+							<xsd:enumeration value="mpeg_2_5"/>
+							<xsd:enumeration value="multisystem"/>
+							<xsd:enumeration value="mvi"/>
+							<xsd:enumeration value="mvi_plus_cd"/>
+							<xsd:enumeration value="newsletter_subscription"/>
+							<xsd:enumeration value="newspaper_subscription"/>
+							<xsd:enumeration value="nintendo"/>
+							<xsd:enumeration value="ntsc"/>
+							<xsd:enumeration value="numbered_edition"/>
+							<xsd:enumeration value="online_game_code"/>
+							<xsd:enumeration value="original_antique_map"/>
+							<xsd:enumeration value="original_recording"/>
+							<xsd:enumeration value="pal"/>
+							<xsd:enumeration value="palm_ebook_reader"/>
+							<xsd:enumeration value="pdb"/>
+							<xsd:enumeration value="pdf"/>
+							<xsd:enumeration value="photocopy"/>
+							<xsd:enumeration value="playstation"/>
+							<xsd:enumeration value="popout_map"/>
+							<xsd:enumeration value="pqa"/>
+							<xsd:enumeration value="prc"/>
+							<xsd:enumeration value="print"/>
+							<xsd:enumeration value="print_and_cd_rom"/>
+							<xsd:enumeration value="print_and_dvd_rom"/>
+							<xsd:enumeration value="prn"/>
+							<xsd:enumeration value="processor386"/>
+							<xsd:enumeration value="pulldown_wall_map"/>
+							<xsd:enumeration value="raised_relief_map"/>
+							<xsd:enumeration value="rar"/>
+							<xsd:enumeration value="real_audio"/>
+							<xsd:enumeration value="realaudio_g2"/>
+							<xsd:enumeration value="registration_code"/>
+							<xsd:enumeration value="reissued"/>
+							<xsd:enumeration value="remastered"/>
+							<xsd:enumeration value="remixes"/>
+							<xsd:enumeration value="rental"/>
+							<xsd:enumeration value="restored"/>
+							<xsd:enumeration value="ringle"/>
+							<xsd:enumeration value="roughcut"/>
+							<xsd:enumeration value="sacd"/>
+							<xsd:enumeration value="secam"/>
+							<xsd:enumeration value="sega"/>
+							<xsd:enumeration value="sheet_music"/>
+							<xsd:enumeration value="shm_cd"/>
+							<xsd:enumeration value="silent"/>
+							<xsd:enumeration value="sis"/>
+							<xsd:enumeration value="sit"/>
+							<xsd:enumeration value="smart_media"/>
+							<xsd:enumeration value="soundtrack"/>
+							<xsd:enumeration value="special_edition"/>
+							<xsd:enumeration value="special_extended_version"/>
+							<xsd:enumeration value="special_limited_edition"/>
+							<xsd:enumeration value="student_edition"/>
+							<xsd:enumeration value="studio"/>
+							<xsd:enumeration value="subtitled"/>
+							<xsd:enumeration value="supratitled"/>
+							<xsd:enumeration value="surround"/>
+							<xsd:enumeration value="tarot"/>
+							<xsd:enumeration value="teachers_edition"/>
+							<xsd:enumeration value="threeD"/>
+							<xsd:enumeration value="thx"/>
+							<xsd:enumeration value="tiff"/>
+							<xsd:enumeration value="topaz_ebook"/>
+							<xsd:enumeration value="tv_tie_in"/>
+							<xsd:enumeration value="txt"/>
+							<xsd:enumeration value="uk_import"/>
+							<xsd:enumeration value="ultimate_edition"/>
+							<xsd:enumeration value="umd"/>
+							<xsd:enumeration value="unabridged"/>
+							<xsd:enumeration value="unknown_format"/>
+							<xsd:enumeration value="us_import"/>
+							<xsd:enumeration value="value_price"/>
+							<xsd:enumeration value="vhd"/>
+							<xsd:enumeration value="vhs"/>
+							<xsd:enumeration value="vhs_c"/>
+							<xsd:enumeration value="vqf"/>
+							<xsd:enumeration value="wall_calendar"/>
+							<xsd:enumeration value="wall_map"/>
+							<xsd:enumeration value="wav"/>
+							<xsd:enumeration value="widescreen"/>
+							<xsd:enumeration value="wks"/>
+							<xsd:enumeration value="wma"/>
+							<xsd:enumeration value="xd_card"/>
+							<xsd:enumeration value="xls"/>
+							<xsd:enumeration value="xml"/>
+							<xsd:enumeration value="zip"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="EffectiveInputArea" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="FormFactor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HandOrientation" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HasAutoFocus" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HasProgrammableButtons" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HolderCapacity" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="InputType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="IsAmplifierIntegrated" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="KeyboardDescription" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MovementDetectionTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxOperatingDistance" type="LengthIntegerDimension" minOccurs="0"/>
+				<xsd:element name="MemorySlotsAvailable" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="NumberOfPorts" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="OutputWattage" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="RecordingCapacity" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ScannerResolution" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="SpeakerDiameter" type="LengthDimension" minOccurs="0"/>
+				<xsd:element name="SpeakersMaxOutputPower" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="SpeakersNominalOutputPower" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="SpeakerOutputChannelQuantity" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="SpeakerSurroundSoundChannelConfiguration" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="SpeedRating" type="TenStringNotNull" minOccurs="0"/>
+				<xsd:element name="Voltage" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="Wattage" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="WriteSpeed" type="FiveStringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ComputerDriveOrStorage">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Size"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="BufferSize" minOccurs="0">
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="PositiveInteger">
+								<xsd:attribute name="unitOfMeasure" type="MemorySizeUnitOfMeasure" use="required"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="DataTransferRate" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="DriveMemoryStorageCapacity" minOccurs="0">
+					<xsd:complexType>
+						<xsd:simpleContent>
+							<xsd:extension base="PositiveInteger">
+								<xsd:attribute name="unitOfMeasure" type="MemorySizeUnitOfMeasure" use="required"/>
+							</xsd:extension>
+						</xsd:simpleContent>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InkOrToner">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string"/>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="InkColor" type="StringNotNull" minOccurs="0" maxOccurs="5"/>
+				<xsd:element name="InkOrTonerCompatibleDevices" type="MediumStringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Monitor">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+										<xsd:enumeration value="Size"/>
+										<xsd:enumeration value="SizeColor"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="DisplayResolutionMaximum" type="FortyStringNotNull" minOccurs="0"/>
+				<xsd:element name="DisplayTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HasColorScreen" type="xsd:boolean" minOccurs="0"/>
+				<xsd:element name="MonitorTunerTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ResponseTime" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ScreenResolution" type="FortyStringNotNull" minOccurs="0"/>
+				<xsd:element name="ScreenSize" type="LengthDimension" minOccurs="0"/>
+				<xsd:element name="ViewingAngle" type="PositiveInteger" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NotebookComputer">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+										<xsd:enumeration value="Size"/>
+										<xsd:enumeration value="SizeColor"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="AdditionalDrives" minOccurs="0" maxOccurs="10"/>
+				<xsd:element ref="ComputerMemoryType" maxOccurs="7"/>
+				<xsd:element name="ComputerTunerTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="ComputerWirelessType" minOccurs="0" maxOccurs="3"/>
+				<xsd:element name="DisplayResolutionMaximum" type="FortyStringNotNull" minOccurs="0"/>
+				<xsd:element name="GraphicsCard" minOccurs="0" maxOccurs="2">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="GraphicsCardDescription" type="MediumStringNotNull"/>
+							<xsd:element name="GraphicsCardRamSize" type="MemorySizeDimension"/>
+							<xsd:element ref="GraphicsCardInterface"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="GraphicsCoProcessor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="GraphicsRAMType" minOccurs="0">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="72_pin_edo_simm"/>
+							<xsd:enumeration value="ddr_dram"/>
+							<xsd:enumeration value="ddr_sdram"/>
+							<xsd:enumeration value="ddr2_sdram"/>
+							<xsd:enumeration value="ddr3_sdram"/>
+							<xsd:enumeration value="dimm"/>
+							<xsd:enumeration value="dram"/>
+							<xsd:enumeration value="edo_dram"/>
+							<xsd:enumeration value="eeprom"/>
+							<xsd:enumeration value="eprom"/>
+							<xsd:enumeration value="fpm_dram"/>
+							<xsd:enumeration value="fpm_ram"/>
+							<xsd:enumeration value="l2_cache"/>
+							<xsd:enumeration value="micro_dimm"/>
+							<xsd:enumeration value="pc_100_sdram"/>
+							<xsd:enumeration value="pc_1066"/>
+							<xsd:enumeration value="pc_133_sdram"/>
+							<xsd:enumeration value="pc_1600"/>
+							<xsd:enumeration value="pc_2100_ddr"/>
+							<xsd:enumeration value="pc_2700_ddr"/>
+							<xsd:enumeration value="pc_3000"/>
+							<xsd:enumeration value="pc_3200_ddr"/>
+							<xsd:enumeration value="pc_3500_ddr"/>
+							<xsd:enumeration value="pc_3700"/>
+							<xsd:enumeration value="pc_4000_ddr"/>
+							<xsd:enumeration value="pc_4200"/>
+							<xsd:enumeration value="pc_4300"/>
+							<xsd:enumeration value="pc_4400"/>
+							<xsd:enumeration value="pc_66_sdram"/>
+							<xsd:enumeration value="pc_800"/>
+							<xsd:enumeration value="pc2_4200"/>
+							<xsd:enumeration value="pc2_4300"/>
+							<xsd:enumeration value="pc2_5300"/>
+							<xsd:enumeration value="pc2_5400"/>
+							<xsd:enumeration value="pc2_6000"/>
+							<xsd:enumeration value="rambus"/>
+							<xsd:enumeration value="rdram"/>
+							<xsd:enumeration value="rimm"/>
+							<xsd:enumeration value="sdram"/>
+							<xsd:enumeration value="sgram"/>
+							<xsd:enumeration value="simm"/>
+							<xsd:enumeration value="sipp"/>
+							<xsd:enumeration value="sldram"/>
+							<xsd:enumeration value="sodimm"/>
+							<xsd:enumeration value="sorimm"/>
+							<xsd:enumeration value="sram"/>
+							<xsd:enumeration value="unknown"/>
+							<xsd:enumeration value="vram"/>
+							<xsd:enumeration value="wram"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="HardDiskRotationalSpeed" type="PositiveNonZeroDimension" minOccurs="0"/>
+				<xsd:element name="HardDiskTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="HardDriveInterface" maxOccurs="4"/>
+				<xsd:element name="HardDriveSize" type="MemorySizeDimension" maxOccurs="8"/>
+				<xsd:element name="HardwarePlatform" type="StringNotNull"/>
+				<xsd:element name="HasColorScreen" type="xsd:boolean" minOccurs="0"/>
+				<xsd:element name="MonitorTunerTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="NotebookDisplayTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="OperatingSystem" type="StringNotNull" maxOccurs="2"/>
+				<xsd:element name="OpticalDeviceType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="OpticalDriveIntegrated" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ProcessorBrand" type="StringNotNull"/>
+				<xsd:element name="ProcessorCount" type="PositiveInteger"/>
+				<xsd:element name="ProcessorSocket" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ProcessorSpeed" type="FrequencyDimension"/>
+				<xsd:element name="ProcessorType" type="StringNotNull"/>
+				<xsd:element name="RAMSize" type="MemorySizeDimension"/>
+				<xsd:element name="ResponseTime" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScreenResolution" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScreenSize" type="LengthDimension" minOccurs="0"/>
+				<xsd:element name="SoftwareIncluded" type="LongString" minOccurs="0"/>
+				<xsd:element name="U-RackSize" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ViewingAngle" type="PositiveInteger" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PersonalComputer">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="AdditionalDrives" minOccurs="0" maxOccurs="10"/>
+				<xsd:element ref="ComputerMemoryType" maxOccurs="7"/>
+				<xsd:element name="ComputerTunerTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="ComputerWirelessType" minOccurs="0" maxOccurs="3"/>
+				<xsd:element name="DisplayResolutionMaximum" type="FortyStringNotNull" minOccurs="0"/>
+				<xsd:element name="GraphicsCard" minOccurs="0" maxOccurs="2">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="GraphicsCardDescription" type="MediumStringNotNull"/>
+							<xsd:element name="GraphicsCardRamSize" type="MemorySizeDimension"/>
+							<xsd:element ref="GraphicsCardInterface"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="GraphicsCoProcessor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="GraphicsRAMType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="HardDiskRotationalSpeed" type="PositiveNonZeroDimension" minOccurs="0"/>
+				<xsd:element name="HardDiskTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="HardDriveInterface" maxOccurs="4"/>
+				<xsd:element name="HardDriveSize" type="MemorySizeDimension" maxOccurs="8"/>
+				<xsd:element name="HardwarePlatform" type="StringNotNull"/>
+				<xsd:element name="OperatingSystem" type="StringNotNull" maxOccurs="2"/>
+				<xsd:element name="OpticalDeviceType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="OpticalDriveIntegrated" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ProcessorBrand" type="StringNotNull"/>
+				<xsd:element name="ProcessorCount" type="PositiveInteger"/>
+				<xsd:element name="ProcessorSocket" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ProcessorSpeed" type="FrequencyDimension"/>
+				<xsd:element name="ProcessorType" type="StringNotNull"/>
+				<xsd:element name="RAMSize" type="MemorySizeDimension"/>
+				<xsd:element name="ResponseTime" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScreenResolution" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="SoftwareIncluded" type="LongString" minOccurs="0"/>
+				<xsd:element name="U-RackSize" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="ViewingAngle" type="PositiveInteger" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Printer">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="HasGreyScale" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="LightSourceType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxInputSheetCapacity" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="MaxPrintResolutionBlackWhite" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxPrintResolutionColor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxPrintSpeedBlackWhite" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="MaxPrintSpeedColor" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="MaxScanningSize" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MinScanningSize" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="PrinterMediaSizeMaximum" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="PrinterOutputType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="PrinterWirelessType" minOccurs="0" maxOccurs="3"/>
+				<xsd:element ref="PrintingMediaType" minOccurs="0"/>
+				<xsd:element name="PrintingTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScanRate" type="HundredFiftyStringNotNull" minOccurs="0"/>
+				<xsd:element name="ScannerResolution" type="StringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Scanner">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="Color"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="HasGreyScale" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="LightSourceType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxInputSheetCapacity" type="PositiveInteger" minOccurs="0"/>
+				<xsd:element name="MaxPrintResolutionBlackWhite" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxPrintResolutionColor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxPrintSpeedBlackWhite" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxPrintSpeedColor" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MaxScanningSize" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="MinScanningSize" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="PrinterMediaSizeMaximum" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="PrinterOutputType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element ref="PrinterWirelessType" minOccurs="0" maxOccurs="3"/>
+				<xsd:element ref="PrintingMediaType" minOccurs="0"/>
+				<xsd:element name="PrintingTechnology" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScanRate" type="HundredFiftyStringNotNull" minOccurs="0"/>
+				<xsd:element name="ScannerResolution" type="StringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="VideoProjector">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VariationData" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Parentage">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="parent"/>
+										<xsd:enumeration value="child"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="VariationTheme" minOccurs="0">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string"/>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="HasGreyScale" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="LightSourceType" type="StringNotNull" minOccurs="0"/>
+				<xsd:element name="ScannerResolution" type="StringNotNull" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AdditionalDrives">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="blu_ray"/>
+				<xsd:enumeration value="cd_rom"/>
+				<xsd:enumeration value="cd_rw"/>
+				<xsd:enumeration value="dvd"/>
+				<xsd:enumeration value="dvd_cd_rw"/>
+				<xsd:enumeration value="dvd_plus_minus_rw"/>
+				<xsd:enumeration value="dvd_plus_r"/>
+				<xsd:enumeration value="dvd_plus_rw"/>
+				<xsd:enumeration value="dvd_r"/>
+				<xsd:enumeration value="dvd_ram"/>
+				<xsd:enumeration value="dvd_rom"/>
+				<xsd:enumeration value="dvd_rw"/>
+				<xsd:enumeration value="floppy"/>
+				<xsd:enumeration value="ide_tape_drive"/>
+				<xsd:enumeration value="jazz"/>
+				<xsd:enumeration value="scsi_cdrom"/>
+				<xsd:enumeration value="scsi_tape_drive"/>
+				<xsd:enumeration value="thumb_drive"/>
+				<xsd:enumeration value="zip"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="ComputerMemoryType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="72_pin_edo_simm"/>
+				<xsd:enumeration value="ddr_dram"/>
+				<xsd:enumeration value="ddr_sdram"/>
+				<xsd:enumeration value="ddr2_sdram"/>
+				<xsd:enumeration value="ddr3_sdram"/>
+				<xsd:enumeration value="dimm"/>
+				<xsd:enumeration value="dram"/>
+				<xsd:enumeration value="edo_dram"/>
+				<xsd:enumeration value="eeprom"/>
+				<xsd:enumeration value="eprom"/>
+				<xsd:enumeration value="fpm_dram"/>
+				<xsd:enumeration value="fpm_ram"/>
+				<xsd:enumeration value="l2_cache"/>
+				<xsd:enumeration value="micro_dimm"/>
+				<xsd:enumeration value="pc_100_sdram"/>
+				<xsd:enumeration value="pc_1066"/>
+				<xsd:enumeration value="pc_133_sdram"/>
+				<xsd:enumeration value="pc_1600"/>
+				<xsd:enumeration value="pc_2100_ddr"/>
+				<xsd:enumeration value="pc_2700_ddr"/>
+				<xsd:enumeration value="pc_3000"/>
+				<xsd:enumeration value="pc_3200_ddr"/>
+				<xsd:enumeration value="pc_3500_ddr"/>
+				<xsd:enumeration value="pc_3700"/>
+				<xsd:enumeration value="pc_4000_ddr"/>
+				<xsd:enumeration value="pc_4200"/>
+				<xsd:enumeration value="pc_4300"/>
+				<xsd:enumeration value="pc_4400"/>
+				<xsd:enumeration value="pc_66_sdram"/>
+				<xsd:enumeration value="pc_800"/>
+				<xsd:enumeration value="pc2_4200"/>
+				<xsd:enumeration value="pc2_4300"/>
+				<xsd:enumeration value="pc2_5300"/>
+				<xsd:enumeration value="pc2_5400"/>
+				<xsd:enumeration value="pc2_6000"/>
+				<xsd:enumeration value="rambus"/>
+				<xsd:enumeration value="rdram"/>
+				<xsd:enumeration value="rimm"/>
+				<xsd:enumeration value="sdram"/>
+				<xsd:enumeration value="sgram"/>
+				<xsd:enumeration value="simm"/>
+				<xsd:enumeration value="sipp"/>
+				<xsd:enumeration value="sldram"/>
+				<xsd:enumeration value="sodimm"/>
+				<xsd:enumeration value="sorimm"/>
+				<xsd:enumeration value="sram"/>
+				<xsd:enumeration value="unknown"/>
+				<xsd:enumeration value="vram"/>
+				<xsd:enumeration value="wram"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="ComputerWirelessType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="2.4_ghz_radio_frequency"/>
+				<xsd:enumeration value="5.8_ghz_radio_frequency"/>
+				<xsd:enumeration value="54g"/>
+				<xsd:enumeration value="802_11_A"/>
+				<xsd:enumeration value="802_11_AB"/>
+				<xsd:enumeration value="802_11_ABG"/>
+				<xsd:enumeration value="802_11_AG"/>
+				<xsd:enumeration value="802_11_B"/>
+				<xsd:enumeration value="802_11_BGN"/>
+				<xsd:enumeration value="802_11_G"/>
+				<xsd:enumeration value="802_11_G_108Mbps"/>
+				<xsd:enumeration value="802_11_N"/>
+				<xsd:enumeration value="900_mhz_radio_frequency"/>
+				<xsd:enumeration value="bluetooth"/>
+				<xsd:enumeration value="dect"/>
+				<xsd:enumeration value="dect_6.0"/>
+				<xsd:enumeration value="infrared"/>
+				<xsd:enumeration value="irda"/>
+				<xsd:enumeration value="radio_frequency"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="GraphicsCardInterface">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="integrated"/>
+				<xsd:enumeration value="agp"/>
+				<xsd:enumeration value="pci"/>
+				<xsd:enumeration value="pci_e"/>
+				<xsd:enumeration value="unknown"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="HardDriveInterface">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="ata"/>
+				<xsd:enumeration value="ata100"/>
+				<xsd:enumeration value="ata133"/>
+				<xsd:enumeration value="ata_2"/>
+				<xsd:enumeration value="ata_3"/>
+				<xsd:enumeration value="ata_4"/>
+				<xsd:enumeration value="atapi"/>
+				<xsd:enumeration value="dma"/>
+				<xsd:enumeration value="eide"/>
+				<xsd:enumeration value="eio"/>
+				<xsd:enumeration value="esata"/>
+				<xsd:enumeration value="esdi"/>
+				<xsd:enumeration value="ethernet_100base_t"/>
+				<xsd:enumeration value="ethernet_100base_tx"/>
+				<xsd:enumeration value="ethernet_10base_t"/>
+				<xsd:enumeration value="fast_scsi"/>
+				<xsd:enumeration value="fast_wide_scsi"/>
+				<xsd:enumeration value="fata"/>
+				<xsd:enumeration value="fc_al"/>
+				<xsd:enumeration value="fc_al_2"/>
+				<xsd:enumeration value="fdd"/>
+				<xsd:enumeration value="fibre_channel"/>
+				<xsd:enumeration value="firewire"/>
+				<xsd:enumeration value="ide"/>
+				<xsd:enumeration value="ieee_1284"/>
+				<xsd:enumeration value="ieee_1394b"/>
+				<xsd:enumeration value="iscsi"/>
+				<xsd:enumeration value="lvds"/>
+				<xsd:enumeration value="pc_card"/>
+				<xsd:enumeration value="raid"/>
+				<xsd:enumeration value="scsi"/>
+				<xsd:enumeration value="serial_ata"/>
+				<xsd:enumeration value="serial_ata150"/>
+				<xsd:enumeration value="serial_ata300"/>
+				<xsd:enumeration value="serial_ata600"/>
+				<xsd:enumeration value="serial_scsi"/>
+				<xsd:enumeration value="solid_state"/>
+				<xsd:enumeration value="ssa"/>
+				<xsd:enumeration value="st412"/>
+				<xsd:enumeration value="ultra2_scsi"/>
+				<xsd:enumeration value="ultra2_wide_scsi"/>
+				<xsd:enumeration value="ultra3_scsi"/>
+				<xsd:enumeration value="ultra_160_scsi"/>
+				<xsd:enumeration value="ultra_320_scsi"/>
+				<xsd:enumeration value="ultra_ata"/>
+				<xsd:enumeration value="ultra_scsi"/>
+				<xsd:enumeration value="ultra_wide_scsi"/>
+				<xsd:enumeration value="unknown"/>
+				<xsd:enumeration value="usb"/>
+				<xsd:enumeration value="usb_1.1"/>
+				<xsd:enumeration value="usb_2.0"/>
+				<xsd:enumeration value="usb_3.0"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrintingMediaType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="back_print_film"/>
+				<xsd:enumeration value="banner_paper"/>
+				<xsd:enumeration value="card_stock"/>
+				<xsd:enumeration value="envelopes"/>
+				<xsd:enumeration value="fabric"/>
+				<xsd:enumeration value="glossy_film"/>
+				<xsd:enumeration value="glossy_photo_paper"/>
+				<xsd:enumeration value="high_resolution_paper"/>
+				<xsd:enumeration value="labels"/>
+				<xsd:enumeration value="paper_plain"/>
+				<xsd:enumeration value="transparencies"/>
+				<xsd:enumeration value="unknown"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterWirelessType">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="2.4_ghz_radio_frequency"/>
+				<xsd:enumeration value="5.8_ghz_radio_frequency"/>
+				<xsd:enumeration value="54g"/>
+				<xsd:enumeration value="802_11_A"/>
+				<xsd:enumeration value="802_11_AB"/>
+				<xsd:enumeration value="802_11_ABG"/>
+				<xsd:enumeration value="802_11_AG"/>
+				<xsd:enumeration value="802_11_B"/>
+				<xsd:enumeration value="802_11_BGN"/>
+				<xsd:enumeration value="802_11_G"/>
+				<xsd:enumeration value="802_11_G_108Mbps"/>
+				<xsd:enumeration value="802_11_N"/>
+				<xsd:enumeration value="900_mhz_radio_frequency"/>
+				<xsd:enumeration value="bluetooth"/>
+				<xsd:enumeration value="dect"/>
+				<xsd:enumeration value="dect_6.0"/>
+				<xsd:enumeration value="infrared"/>
+				<xsd:enumeration value="irda"/>
+				<xsd:enumeration value="radio_frequency"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+</xsd:schema>
