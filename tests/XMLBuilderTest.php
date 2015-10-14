@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\tests;
 
+use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 use StoreIntegrator\Amazon\XMLBuilder;
 
@@ -18,7 +19,7 @@ class MyItem implements XmlSerializable {
         $this->description = $data['description'];
     }
 
-    function xmlSerialize(\Sabre\Xml\Writer $writer)
+    function xmlSerialize(Writer $writer)
     {
         $writer->write([
            'name' => $this->name,
@@ -34,44 +35,28 @@ class XMLBuilderConcrete extends XMLBuilder {
     protected $rootElAttributes = [];
 
     /**
-     * @param array $data
+     * @param XmlSerializable $data
      * @return mixed
      */
-    public function create(array $data)
+    public function create(XmlSerializable $data)
     {
-        $item = new MyItem($data);
+        $this->mapNamespace('http://www.w3.org/2001/XMLSchema', '');
+        $this->setRootElAttribute('some-root-attr', 'root-attr-value');
 
-        return $this->buildMessage($item);
+        return $this->buildMessage($data);
     }
 }
 
 class XMLBuilderTest extends TestCase
 {
-    public function testXMLBuilding()
+    public function testXMLBuildingAndNamespacing()
     {
-        $builder = new XMLBuilderConcrete(new \Sabre\Xml\Writer());
+        $builder = new XMLBuilderConcrete(new Writer());
 
-        $data = [
+        $data = new MyItem([
             'name' => 'Product name',
             'description' => 'Product description'
-        ];
-
-        $expectedXML = '<?xml version="1.0" encoding="iso-8859-1"?><item><name>Product name</name><description>Product description</description></item>';
-
-        $this->assertXmlStringEqualsXmlString($expectedXML, $builder->create($data));
-    }
-
-    public function testXMLNamespace()
-    {
-        $builder = new XMLBuilderConcrete(new \Sabre\Xml\Writer());
-
-        $builder->mapNamespace('http://www.w3.org/2001/XMLSchema', '');
-        $builder->setRootElAttribute('some-root-attr', 'root-attr-value');
-
-        $data = [
-            'name' => 'Product name',
-            'description' => 'Product description'
-        ];
+        ]);
 
         $expectedXML = '<?xml version="1.0" encoding="iso-8859-1"?><item xmlns="http://www.w3.org/2001/XMLSchema" some-root-attr="root-attr-value"><name>Product name</name><description>Product description</description></item>';
 

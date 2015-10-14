@@ -37,13 +37,14 @@ abstract class XMLBuilder
     }
 
     /**
-     * @param array $data
+     * @param XmlSerializable $data
      * @return mixed
      */
-    abstract public function create(array $data);
+    abstract public function create(XmlSerializable $data);
 
     /**
      * @param XmlSerializable $data
+     * @return string
      */
     protected function buildMessage(XmlSerializable $data)
     {
