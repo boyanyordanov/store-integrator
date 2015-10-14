@@ -1,12 +1,13 @@
 <?php
 
-class AmazonProductFeedTest extends PHPUnit_Framework_TestCase
-{
-    public function testAgainstXSD()
-    {
-        $xml = new DOMDocument();
-        $xml->load(__DIR__ . '/xmlStubs/amazon-product.xml');
+namespace StoreIntegrator\tests;
 
-        $this->assertTrue($xml->schemaValidate(__DIR__ . '/xmlStubs/another-xsds/amzn-envelope.xsd'), 'The generated feed does not validate against Amazon definition.');
+class AmazonProductFeedTest extends TestCase
+{
+    public function testTestXMLAgainstXSD()
+    {
+        $schema = __DIR__ . '/xmlStubs/xsd/amzn-envelope.xsd';
+        $xml = __DIR__ . '/xmlStubs/amazon-product.xml';
+        $this->assertValidXML($schema, $xml, 'The generated feed does not validate against Amazon definition.');
     }
 }

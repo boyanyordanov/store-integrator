@@ -1,5 +1,7 @@
 <?php
 
+namespace StoreIntegrator\tests;
+
 use StoreIntegrator\Contracts\OrderIntegratorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 
@@ -57,7 +59,7 @@ class IntegratorMock implements ProductIntegratorInterface, OrderIntegratorInter
     }
 }
 
-class InterfacesTestTest extends PHPUnit_Framework_TestCase
+class InterfacesTestTest extends TestCase
 {
     public function testProductIntegratorInterfaceInstance()
     {

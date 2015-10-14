@@ -1,5 +1,7 @@
 <?php
 
+namespace StoreIntegrator\tests;
+
 use Sabre\Xml\XmlSerializable;
 use StoreIntegrator\Amazon\XMLBuilder;
 
@@ -43,7 +45,7 @@ class XMLBuilderConcrete extends XMLBuilder {
     }
 }
 
-class XMLBuilderTest extends PHPUnit_Framework_TestCase
+class XMLBuilderTest extends TestCase
 {
     public function testXMLBuilding()
     {
