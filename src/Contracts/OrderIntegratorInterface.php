@@ -9,7 +9,7 @@ interface OrderIntegratorInterface {
     /**
      * @return mixed
      */
-    public function getOrders();agga
+    public function getOrders();agg
 dd
     /**
      * @param $id
