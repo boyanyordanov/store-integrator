@@ -8,11 +8,13 @@ namespace StoreIntegrator\Contracts;
 interface ProductIntegratorInterface {
     /**
      *
+     * @param array $product
      * @return mixed
      */
     public function postProduct(array $product);
 
     /**
+     * @param array $products
      * @return mixed
      */
     public function postProducts(array $products);
