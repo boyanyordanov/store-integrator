@@ -10,8 +10,11 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="PackageSuite">
+        <testsuite name="Package">
             <directory>./tests/</directory>
+        </testsuite>
+        <testsuite name="Amazon">
+            <directory>./tests/Amazon/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

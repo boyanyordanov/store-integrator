@@ -10,8 +10,8 @@ class AmazonProductFeedTest extends TestCase
 {
     public function testTestXMLAgainstXSD()
     {
-        $schema = __DIR__ . '/xmlStubs/xsd/amzn-envelope.xsd';
-        $xml = __DIR__ . '/xmlStubs/amazon-product.xml';
+        $schema = __DIR__ . '/../xmlStubs/xsd/amzn-envelope.xsd';
+        $xml = __DIR__ . '/../xmlStubs/amazon-product.xml';
         $this->assertValidXML($schema, $xml, 'The generated feed does not validate against Amazon definition.');
     }
 
@@ -31,6 +31,6 @@ class AmazonProductFeedTest extends TestCase
 
         $feedGenerator = new ProductFeed(new Writer());
 
-        $this->assertValidXML(__DIR__ . '/xmlStubs/xsd/amzn-envelope.xsd', $feedGenerator->create($product));
+        $this->assertValidXML(__DIR__ . '/../xmlStubs/xsd/amzn-envelope.xsd', $feedGenerator->create($product));
     }
 }
