@@ -20,9 +20,10 @@ class AmazonProductFeedTest extends TestCase
         $product = new Product([
             'name' => 'Dell Vostro',
             'description' => 'Somee cool seo description',
-            'category' => 'computers',
+            'category' => 'Computers',
             'productType' => 'NotebookComputer',
             'price' => 2000,
+            'currency' => 'USD',
             'vendor' => 'Dell',
             'sku' => 'd1234',
             'weight' => 7000

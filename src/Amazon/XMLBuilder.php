@@ -20,12 +20,17 @@ abstract class XMLBuilder
     /**
      * @var array
      */
-    protected $rootElAttributes;
+    protected $rootElAttributes = [];
 
     /**
      * @var string
      */
     protected $rootEl;
+
+    /**
+     * @var array
+     */
+    protected $predefinedElements = [];
 
     /**
      * @param Writer $writer
@@ -50,10 +55,12 @@ abstract class XMLBuilder
     {
         $this->writer->openMemory();
 
+        $msgData = $this->buildMsgData($data);
+
         $this->writer->write([
             $this->rootEl => [
                 'attributes' => $this->rootElAttributes,
-                'value' => $data
+                'value' => $msgData
             ]
         ]);
 
@@ -76,5 +83,16 @@ abstract class XMLBuilder
     public function setRootElAttribute($name, $value)
     {
         $this->rootElAttributes[$name] = $value;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    private function buildMsgData($data)
+    {
+        $result = ['Message' =>$data];
+
+        return array_merge($this->predefinedElements, $result);
     }
 }

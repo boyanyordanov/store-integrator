@@ -6,13 +6,30 @@ use Sabre\Xml\XmlSerializable;
 
 class ProductFeed extends XMLBuilder
 {
+    protected $rootEl = 'AmazonEnvelope';
+
+    protected $rootElAttributes = [
+        'xsi:noNamespaceSchemaLocation' => 'amzn-envelope.xsd'
+    ];
+
+    protected $predefinedElements = [
+        'Header' => [
+            'DocumentVersion' => '1.01',
+            // should be dynamic
+            'MerchantIdentifier' => 'M_EXAMPLE_123456'
+        ],
+        'MessageType' => 'Product',
+        'PurgeAndReplace' => 'false'
+    ];
 
     /**
-     * @param XmlSerializable $data
+     * @param XmlSerializable $product
      * @return mixed
      */
-    public function create(XmlSerializable $data)
+    public function create(XmlSerializable $product)
     {
-        // TODO: Implement create() method.
+        $this->mapNamespace('http://www.w3.org/2001/XMLSchema-instance', 'xsi');
+
+        return $this->buildMessage($product);
     }
 }

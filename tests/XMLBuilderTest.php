@@ -58,7 +58,7 @@ class XMLBuilderTest extends TestCase
             'description' => 'Product description'
         ]);
 
-        $expectedXML = '<?xml version="1.0" encoding="iso-8859-1"?><item xmlns="http://www.w3.org/2001/XMLSchema" some-root-attr="root-attr-value"><name>Product name</name><description>Product description</description></item>';
+        $expectedXML = '<?xml version="1.0" encoding="iso-8859-1"?><item xmlns="http://www.w3.org/2001/XMLSchema" some-root-attr="root-attr-value"><Message><name>Product name</name><description>Product description</description></Message></item>';
 
         $this->assertXmlStringEqualsXmlString($expectedXML, $builder->create($data));
     }
