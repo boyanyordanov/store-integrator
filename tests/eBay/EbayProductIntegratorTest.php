@@ -37,7 +37,7 @@ class EbayProductIntegratorTest extends TestCase
     /**
      *
      */
-    public function testGettingCategorVersion()
+    public function testGettingCategoriesVersion()
     {
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/categories-general.xml');
         $this->attachMockedEbayResponse($mockResponse);
@@ -45,5 +45,34 @@ class EbayProductIntegratorTest extends TestCase
         $this->productIntegrator->getCategories();
 
         $this->assertEquals(113, $this->productIntegrator->getCategoriesVersion(), 'Received category version does not match.');
+    }
+
+    public function testGettingCategories()
+    {
+        $expectedData = [
+            [
+                'id'    => '20081',
+                'name'  => 'Antiques'
+            ],
+            [
+                'id'    => '37903',
+                'name'  => 'Antiquities'
+            ],
+            [
+                'id'    => '37908',
+                'name'  => 'The Americas'
+            ]
+        ];
+
+        $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/categories-all.xml');
+        $this->attachMockedEbayResponse($mockResponse);
+
+        $categories = $this->productIntegrator->getCategories();
+
+        $this->assertCount(3, $categories, 'The number of categories retrieved is not correct.');
+        $this->assertArrayHasKey('id', $categories[0], 'The category does not have id attribute as expected.');
+        $this->assertArrayHasKey('name', $categories[0], 'The category does not have name attribute as expected.');
+
+        $this->assertEquals($expectedData, $categories, 'The result does not match the expected result.');
     }
 }
