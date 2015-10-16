@@ -5,6 +5,7 @@ namespace StoreIntegrator\tests\Amazon;
 use Sabre\Xml\Writer;
 use StoreIntegrator\Amazon\Product;
 use StoreIntegrator\Amazon\ProductFeed;
+use StoreIntegrator\tests\TestCase;
 
 class AmazonProductFeedTest extends TestCase
 {

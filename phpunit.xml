@@ -16,5 +16,8 @@
         <testsuite name="Amazon">
             <directory>./tests/Amazon/</directory>
         </testsuite>
+        <testsuite name="eBay">
+            <directory>./tests/eBay/</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

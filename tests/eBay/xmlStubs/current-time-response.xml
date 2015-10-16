@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GeteBayOfficialTimeResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+    <Timestamp>2015-10-16T06:50:51.013Z</Timestamp>
+    <Ack>Success</Ack>
+    <Version>927</Version>
+    <Build>E927_CORE_API_17590338_R1</Build>
+</GeteBayOfficialTimeResponse>​

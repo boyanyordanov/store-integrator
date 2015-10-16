@@ -5,6 +5,7 @@ namespace StoreIntegrator\tests\Amazon;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 use StoreIntegrator\Amazon\XMLBuilder;
+use StoreIntegrator\tests\TestCase;
 
 class MyItem implements XmlSerializable {
 

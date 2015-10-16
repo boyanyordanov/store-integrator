@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetCategoriesResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+    <Timestamp>2015-10-16T07:27:09.686Z</Timestamp>
+    <Ack>Success</Ack>
+    <Version>927</Version>
+    <Build>E927_CORE_API_17590338_R1</Build>
+    <CategoryArray>
+        <Category>
+            <BestOfferEnabled>true</BestOfferEnabled>
+            <AutoPayEnabled>true</AutoPayEnabled>
+            <CategoryID>20081</CategoryID>
+            <CategoryLevel>1</CategoryLevel>
+            <CategoryName>Antiques</CategoryName>
+            <CategoryParentID>20081</CategoryParentID>
+        </Category>
+        <Category>
+            <BestOfferEnabled>true</BestOfferEnabled>
+            <AutoPayEnabled>true</AutoPayEnabled>
+            <CategoryID>37903</CategoryID>
+            <CategoryLevel>2</CategoryLevel>
+            <CategoryName>Antiquities</CategoryName>
+            <CategoryParentID>20081</CategoryParentID>
+        </Category>
+        <Category>
+            <BestOfferEnabled>true</BestOfferEnabled>
+            <AutoPayEnabled>true</AutoPayEnabled>
+            <CategoryID>37908</CategoryID>
+            <CategoryLevel>3</CategoryLevel>
+            <CategoryName>The Americas</CategoryName>
+            <CategoryParentID>37903</CategoryParentID>
+            <LeafCategory>true</LeafCategory>
+        </Category>
+    </CategoryArray>
+</GetCategoriesResponse>
