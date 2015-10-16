@@ -42,12 +42,12 @@ class EbayProductIntegratorTest extends TestCase
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/categories-general.xml');
         $this->attachMockedEbayResponse($mockResponse);
 
-        $this->productIntegrator->getCategories();
+        $this->productIntegrator->updateCategoriesVersion();
 
         $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
         $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
 
-        $this->assertEquals(113, $this->productIntegrator->getCategoriesVersion(), 'Received category version does not match.');
+        $this->assertEquals('113', $this->productIntegrator->getCategoriesVersion(), 'Received category version does not match.');
     }
 
     public function testGettingCategories()

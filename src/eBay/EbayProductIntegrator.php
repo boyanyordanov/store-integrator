@@ -5,6 +5,7 @@ namespace StoreIntegrator\eBay;
 
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
+use DTS\eBaySDK\Types\UnboundType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -16,9 +17,9 @@ use StoreIntegrator\Product;
 class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAggregatorInterface
 {
     /**
-     * @var int
+     * @var string
      */
-    protected $categoriesVersion = 113;
+    protected $categoriesVersion = '113';
 
     /**
      * @var TradingService
@@ -68,18 +69,50 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     /**
      * Returns an array of categories to map to the product
      * Each category is an array with id and name
-     *
      * @return array
      */
     public function getCategories()
     {
         $categoriesRequest = new GetCategoriesRequestType([
-           'DetailLevel' => 'ReturnAll',
             // TODO: get the version from environment
-            'Version'    => 943
+            'Version'    => '943'
         ]);
 
-        return $this->service->getCategories($categoriesRequest);
+        $categoriesRequest->DetailLevel = ['ReturnAll'];
+
+        $response = $this->service->getCategories($categoriesRequest);
+
+        $result = [];
+
+        $this->categoriesVersion = $response->CategoryVersion;
+
+        $categories = $response->toArray()['CategoryArray']['Category'];
+
+        foreach($categories as $item) {
+            array_push($result, [
+                'id' => $item['CategoryID'],
+                'name' => $item['CategoryName']
+            ]);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function updateCategoriesVersion()
+    {
+        $categoriesRequest = new GetCategoriesRequestType([
+            // TODO: get the version from environment
+            'Version'    => '943'
+        ]);
+
+        $response = $this->service->getCategories($categoriesRequest);
+
+        $this->categoriesVersion = $response->CategoryVersion;
+
+        return $response->toArray();
     }
 
     /**
