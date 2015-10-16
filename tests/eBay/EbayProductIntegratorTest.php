@@ -44,6 +44,9 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->productIntegrator->getCategories();
 
+        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
+        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+
         $this->assertEquals(113, $this->productIntegrator->getCategoriesVersion(), 'Received category version does not match.');
     }
 
@@ -68,6 +71,9 @@ class EbayProductIntegratorTest extends TestCase
         $this->attachMockedEbayResponse($mockResponse);
 
         $categories = $this->productIntegrator->getCategories();
+
+        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
+        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
 
         $this->assertCount(3, $categories, 'The number of categories retrieved is not correct.');
         $this->assertArrayHasKey('id', $categories[0], 'The category does not have id attribute as expected.');
