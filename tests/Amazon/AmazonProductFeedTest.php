@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreIntegrator\tests;
+namespace StoreIntegrator\tests\Amazon;
 
 use Sabre\Xml\Writer;
 use StoreIntegrator\Amazon\Product;
