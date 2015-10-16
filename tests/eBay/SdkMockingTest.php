@@ -2,18 +2,13 @@
 
 namespace StoreIntegrator\tests\eBay;
 
-use DTS\eBaySDK\Constants\SiteIds;
 use StoreIntegrator\tests\TestCase;
 
 use DTS\eBaySDK\Interfaces\HttpClientInterface;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
-use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Constants;
 use DTS\eBaySDK\Trading\Types\GeteBayOfficialTimeRequestType;
 use Guzzle\Http\Client;
-use Guzzle\Http\EntityBody;
-use Guzzle\Http\Message\Response;
-use Guzzle\Plugin\Mock\MockPlugin;
 
 
 /**
@@ -71,16 +66,18 @@ class SdkMockingTest extends TestCase
      */
     public function testGetCurrentTimeOp()
     {
-        $mockReponse = new Response(200);
-        $mockReponse->setBody(EntityBody::factory(file_get_contents(__DIR__ . '/xmlStubs/current-time-response.xml')));
+        $mockReponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/current-time-response.xml');
 
-        $request = $this->attachMockedEbayResponse($mockReponse);
+        $this->attachMockedEbayResponse($mockReponse);
+
+        $request = new GeteBayOfficialTimeRequestType();
+
+        $request->RequesterCredentials = new CustomSecurityHeaderType();
+        $request->RequesterCredentials->eBayAuthToken = 'some-user-token';
 
         $response = $this->tradingService->geteBayOfficialTime($request);
 
         $this->assertEquals('Success', $response->Ack, 'The request was not successfull.');
         $this->assertEquals('2015-10-16 06:50:51', $response->Timestamp->format('Y-m-d H:i:s'));
     }
-
-
 }

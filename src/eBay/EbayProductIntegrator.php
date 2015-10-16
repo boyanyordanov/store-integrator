@@ -50,4 +50,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     {
         // TODO: Implement getCategories() method.
     }
+
+    public function getCategoriesVersion()
+    {
+    }
 }
