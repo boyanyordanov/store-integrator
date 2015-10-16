@@ -57,33 +57,13 @@ class MockClient implements HttpClientInterface {
 class SdkMockingTest extends TestCase
 {
     /**
-     * @var
-     */
-    protected $tradingService;
-    /**
-     * @var
-     */
-    protected $mockHttpClient;
-    /**
-     * @var
-     */
-    protected $guzzle;
-
-    /**
      *
      */
     public function setUp()
     {
         parent::setUp();
 
-        $this->guzzle = new Client();
-
-        $this->mockHttpClient = new MockClient($this->guzzle);
-
-        $this->tradingService = new TradingService([
-            'siteId' => SiteIds::US,
-            'sandbox' => true
-        ], $this->mockHttpClient);
+        $this->setUpEbayServiceMocks();
     }
 
     /**
@@ -94,19 +74,13 @@ class SdkMockingTest extends TestCase
         $mockReponse = new Response(200);
         $mockReponse->setBody(EntityBody::factory(file_get_contents(__DIR__ . '/xmlStubs/current-time-response.xml')));
 
-        $plugin = new MockPlugin();
-        $plugin->addResponse($mockReponse);
-
-        $this->guzzle->addSubscriber($plugin);
-
-        $request = new GeteBayOfficialTimeRequestType();
-
-        $request->RequesterCredentials = new CustomSecurityHeaderType();
-        $request->RequesterCredentials->eBayAuthToken = 'some-user-token';
+        $request = $this->attachMockedEbayResponse($mockReponse);
 
         $response = $this->tradingService->geteBayOfficialTime($request);
 
         $this->assertEquals('Success', $response->Ack, 'The request was not successfull.');
         $this->assertEquals('2015-10-16 06:50:51', $response->Timestamp->format('Y-m-d H:i:s'));
     }
+
+
 }
