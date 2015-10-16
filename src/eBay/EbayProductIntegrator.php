@@ -4,6 +4,7 @@ namespace StoreIntegrator\eBay;
 
 
 use DTS\eBaySDK\Trading\Services\TradingService;
+use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -30,6 +31,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     public function __construct(TradingService $service = null)
     {
         if(is_null($service)) {
+            // TODO: implement configuration from environment variables
             $this->service = new TradingService();
         } else {
             $this->service = $service;
@@ -71,7 +73,13 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function getCategories()
     {
+        $categoriesRequest = new GetCategoriesRequestType([
+           'DetailLevel' => 'ReturnAll',
+            // TODO: get the version from environment
+            'Version'    => 943
+        ]);
 
+        return $this->service->getCategories($categoriesRequest);
     }
 
     /**

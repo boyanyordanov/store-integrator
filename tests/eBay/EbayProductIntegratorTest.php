@@ -27,11 +27,11 @@ class EbayProductIntegratorTest extends TestCase
      */
     public function setUp()
     {
-        $this->productIntegrator = new EbayProductIntegrator();
-
         parent::setUp();
 
         $this->setUpEbayServiceMocks();
+
+        $this->productIntegrator = new EbayProductIntegrator($this->tradingService);
     }
 
     /**
