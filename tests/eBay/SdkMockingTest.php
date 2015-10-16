@@ -54,7 +54,7 @@ class MockClient implements HttpClientInterface {
  * Class SdkWrappingTest
  * @package StoreIntegrator\tests\eBay
  */
-class SdkWrappingTest extends TestCase
+class SdkMockingTest extends TestCase
 {
     /**
      * @var
