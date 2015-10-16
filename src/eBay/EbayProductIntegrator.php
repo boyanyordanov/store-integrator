@@ -5,7 +5,6 @@ namespace StoreIntegrator\eBay;
 
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
-use DTS\eBaySDK\Types\UnboundType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -41,10 +40,10 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
     /**
      *
-     * @param array $product
+     * @param Product $product
      * @return mixed
      */
-    public function postProduct(array $product)
+    public function postProduct(Product $product)
     {
         // TODO: Implement postProduct() method.
     }

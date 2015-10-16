@@ -81,4 +81,9 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->assertEquals($expectedData, $categories, 'The result does not match the expected result.');
     }
+
+    public function testAddingProduct()
+    {
+        
+    }
 }

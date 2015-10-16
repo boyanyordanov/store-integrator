@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AddFixedPriceItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+    <Timestamp>2015-10-16T13:02:40.765Z</Timestamp>
+    <Ack>Warning</Ack>
+    <Errors>
+        <ShortMessage>No product found for ProductListingDetails.&lt;UPC&gt; &lt;885909298594&gt;. </ShortMessage>
+        <LongMessage>No product found for ProductListingDetails.&lt;UPC&gt; &lt;885909298594&gt;. </LongMessage>
+        <ErrorCode>21916689</ErrorCode>
+        <SeverityCode>Warning</SeverityCode>
+        <ErrorParameters ParamID="0">
+            <Value>UPC</Value>
+        </ErrorParameters>
+        <ErrorParameters ParamID="1">
+            <Value>885909298594</Value>
+        </ErrorParameters>
+        <ErrorClassification>RequestError</ErrorClassification>
+    </Errors>
+    <Errors>
+        <ShortMessage>Invalid PayPal email address.</ShortMessage>
+        <LongMessage>The email address you entered isn't linked to a PayPal account. If you don't have a PayPal account, you'll need to set one up with this address so that buyers can pay you. (You can set up your account after your item sells).</LongMessage>
+        <ErrorCode>21919158</ErrorCode>
+        <SeverityCode>Warning</SeverityCode>
+        <ErrorClassification>RequestError</ErrorClassification>
+    </Errors>
+    <Errors>
+        <ShortMessage>Add product details to this listing.</ShortMessage>
+        <LongMessage>This listing should contain product details from the eBay catalog. Add product details to this listing.</LongMessage>
+        <ErrorCode>21917108</ErrorCode>
+        <SeverityCode>Warning</SeverityCode>
+        <ErrorClassification>RequestError</ErrorClassification>
+    </Errors>
+    <Version>931</Version>
+    <Build>E931_UNI_API5_17617533_R1</Build>
+    <ItemID>110170141422</ItemID>
+    <StartTime>2015-10-16T13:02:40.390Z</StartTime>
+    <EndTime>2015-10-23T13:02:40.390Z</EndTime>
+    <Fees>
+        <Fee>
+            <Name>AuctionLengthFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>BoldFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>BuyItNowFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>CategoryFeaturedFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>FeaturedFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>GalleryPlusFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>FeaturedGalleryFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>FixedPriceDurationFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>GalleryFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>GiftIconFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>HighLightFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>InsertionFee</Name>
+            <Fee currencyID="USD">0.3</Fee>
+        </Fee>
+        <Fee>
+            <Name>InternationalInsertionFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ListingDesignerFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ListingFee</Name>
+            <Fee currencyID="USD">0.3</Fee>
+        </Fee>
+        <Fee>
+            <Name>PhotoDisplayFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>PhotoFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ReserveFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>SchedulingFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>SubtitleFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>BorderFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ProPackBundleFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>BasicUpgradePackBundleFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ValuePackBundleFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>PrivateListingFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>ProPackPlusBundleFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+        <Fee>
+            <Name>MotorsGermanySearchFee</Name>
+            <Fee currencyID="USD">0.0</Fee>
+        </Fee>
+    </Fees>
+</AddFixedPriceItemResponse>​

@@ -4,15 +4,17 @@ namespace StoreIntegrator\tests;
 
 use StoreIntegrator\Contracts\OrderIntegratorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
+use StoreIntegrator\Product;
 
 
 class IntegratorMock implements ProductIntegratorInterface, OrderIntegratorInterface {
 
     /**
      *
+     * @param Product $product
      * @return mixed
      */
-    public function postProduct(array $product)
+    public function postProduct(Product $product)
     {
         // TODO: Implement postProduct() method.
     }

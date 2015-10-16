@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddFixedPriceItemRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+    <ErrorLanguage>en_US</ErrorLanguage>
+    <WarningLevel>High</WarningLevel>
+    <Item>
+        <Title>Apple MacBook Pro MB990LL/A 13.3 in. Notebook NEW</Title>
+        <Description>Brand New Apple MacBook Pro MB990LL/A 13.3 in. Notebook!</Description>
+        <PrimaryCategory><CategoryID>111422</CategoryID>
+        </PrimaryCategory>
+        <StartPrice>500.0</StartPrice>
+        <CategoryMappingAllowed>true</CategoryMappingAllowed>
+        <ConditionID>1000</ConditionID>
+        <Country>US</Country>
+        <Currency>USD</Currency>
+        <DispatchTimeMax>3</DispatchTimeMax>
+        <ListingDuration>Days_7</ListingDuration>
+        <ListingType>FixedPriceItem</ListingType>
+        <PaymentMethods>PayPal</PaymentMethods>
+        <PayPalEmailAddress>megaonlinemerchant@gmail.com</PayPalEmailAddress>
+        <PictureDetails><GalleryType>Gallery</GalleryType>
+        </PictureDetails>
+        <PostalCode>95125</PostalCode>
+        <ProductListingDetails><UPC>885909298594</UPC>
+            <IncludeStockPhotoURL>true</IncludeStockPhotoURL>
+            <IncludePrefilledItemInformation>true</IncludePrefilledItemInformation>
+            <UseFirstProduct>true</UseFirstProduct>
+            <UseStockPhotoURLAsGallery>true</UseStockPhotoURLAsGallery>
+            <ReturnSearchResultOnDuplicates>true</ReturnSearchResultOnDuplicates>
+        </ProductListingDetails>
+        <Quantity>6</Quantity>
+        <ReturnPolicy><ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
+            <RefundOption>MoneyBack</RefundOption>
+            <ReturnsWithinOption>Days_30</ReturnsWithinOption>
+            <Description>If you are not satisfied, return the item for refund.</Description>
+            <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
+        </ReturnPolicy>
+        <ShippingDetails><ShippingType>Flat</ShippingType>
+            <ShippingServiceOptions><ShippingServicePriority>1</ShippingServicePriority>
+                <ShippingService>UPSGround</ShippingService>
+                <FreeShipping>true</FreeShipping>
+                <ShippingServiceAdditionalCost>0.00</ShippingServiceAdditionalCost>
+            </ShippingServiceOptions>
+        </ShippingDetails>
+        <Site>US</Site>
+    </Item>
+    <RequesterCredentials>
+        <eBayAuthToken>AgAAAA**AQAAAA**aAAAAA**5LIfVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhDpKHpw2dj6x9nY+seQ**HZgDAA**AAMAAA**Lq26chdVRmArPSfgcmUIy/p8w5eKZKgOBvnwNKUQZw4fn/CPjbkMhopqd+KwAJli9qWzHk3v4Vo4imaOSqMz4XxqQYBS10je2M0mMWzQnwsx/2Zqc86WlljhPwEmkl4ijQyE+w8TgV+HfCgXsEO00wib3SuwjqKX5iK7E3maHZpUJ/sGizHnxUwdfxWcAJ0FMU03ef/MoFdvBglVRuQ8T98AdnTyNuuH3B3zK9W71tpx3ZvmzKgYXKz0+dQptDpZZf99+gHPVXl5T5Y+WF30YjebQkH9he5EWc605gjJ4ScEAEyZMFBgxMGKxb/hXrOrK3qdIup0Gd4JJmcbciaSta5ufsy5Hnj3PJbFV/OKsoolaIDTjNi1pb1SlLouZouEhHNJh7YcwRc3ZpGwVVNV25lIQk/chCrrrpSOFjA8xVvBKIueOZvP0NjOjyaiaK9G8Mmkz8gStsAwByYOAadVFSRNhG6b0IUDe4qnxNGrIDm6P26PF7O1SWxGHGxibULUk+m5brxF6p6YqCNcvRhm0oYH69/gXU/TESsVdGmubO+QDi5YylhrWOYlvUD64VTIsad+KEGoFnBAVQsWCQq/KE/SkerXH46ZnFXWbdtsp4w8j6HroLMs0ARfbvTxOJifZo6DSRmQRodFPvsdhz/qSEauKMMHiAOGCQkubYE5TGPejrTR30RkLmX0ebO24F0ITXrafNidifPL4L8McJbtCPJWZ3uFtz9C3I6MhkriRlGgaSooP3A6BurFIZkT3QGD</eBayAuthToken>
+    </RequesterCredentials>
+    <WarningLevel>High</WarningLevel>
+</AddFixedPriceItemRequest>​
