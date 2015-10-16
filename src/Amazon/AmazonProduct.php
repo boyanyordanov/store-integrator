@@ -5,64 +5,24 @@ namespace StoreIntegrator\Amazon;
 
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
+use StoreIntegrator\AbstractProduct;
+use StoreIntegrator\Product;
 
 /**
  * Class Product
  * @package StoreIntegrator\Amazon
  */
-class Product implements XmlSerializable
+class AmazonProduct extends Product implements XmlSerializable
 {
     /**
      * @var string
      */
-    protected $sku;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $brand;
-    /**
-     * @var string
-     */
-    protected $description;
-    /**
-     * @var number
-     */
-    protected $msrp;
-    /**
-     * @var string
-     */
-    protected $currency;
-    /**
-     * @var string
-     */
-    protected $category;
-    /**
-     * @var string
-     */
     protected $productType;
-    /**
-     * @var number
-     */
-    protected $weight;
 
-    /**
-     * @param $data
-     */
     public function __construct($data)
     {
-        $this->sku = $data['sku'];
-        $this->title = $data['name'];
-        $this->description = $data['description'];
-        $this->brand = $data['vendor'];
-        $this->msrp = $data['price'];
-        $this->currency = $data['currency'];
-        $this->category = $data['category'];
+        parent::__construct($data);
         $this->productType = $data['productType'];
-        $this->weight = $data['weight'];
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace StoreIntegrator\tests\Amazon;
 
 use Sabre\Xml\Writer;
-use StoreIntegrator\Amazon\Product;
+use StoreIntegrator\Amazon\AmazonProduct;
 use StoreIntegrator\Amazon\ProductFeed;
 use StoreIntegrator\tests\TestCase;
 
@@ -18,7 +18,7 @@ class AmazonProductFeedTest extends TestCase
 
     public function testFeedGenerationForComputerCategory()
     {
-        $product = new Product([
+        $product = new AmazonProduct([
             'name' => 'Dell Vostro',
             'description' => 'Somee cool seo description',
             'category' => 'Computers',
@@ -32,6 +32,7 @@ class AmazonProductFeedTest extends TestCase
 
         $feedGenerator = new ProductFeed(new Writer());
 
-        $this->assertValidXML(__DIR__ . '/../xmlStubs/xsd/amzn-envelope.xsd', $feedGenerator->create($product));
+//        $this->assertValidXML(__DIR__ . '/../xmlStubs/xsd/amzn-envelope.xsd', $feedGenerator->create($product));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/../xmlStubs/amzn-computer-product.xml', $feedGenerator->create($product));
     }
 }

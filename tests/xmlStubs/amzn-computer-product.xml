@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+    <Header>
+        <DocumentVersion>1.01</DocumentVersion>
+        <MerchantIdentifier>M_EXAMPLE_123456</MerchantIdentifier>
+    </Header>
+    <MessageType>Product</MessageType>
+    <PurgeAndReplace>false</PurgeAndReplace>
+    <Message>
+        <MessageID>1</MessageID>
+        <OperationType>Update</OperationType>
+        <Product>
+            <SKU>d1234</SKU>
+            <DescriptionData>
+                <Title>Dell Vostro</Title>
+                <Brand>Dell</Brand>
+                <Description>Somee cool seo description</Description>
+                <MSRP currency="USD">2000</MSRP>
+            </DescriptionData>
+            <ProductData>
+                <Computers>
+                    <ProductType>
+                        <NotebookComputer>
+                            <AdditionalDrives>dvd</AdditionalDrives>
+                            <ComputerMemoryType>sodimm</ComputerMemoryType>
+                            <DisplayResolutionMaximum>fullhd   </DisplayResolutionMaximum>
+                        </NotebookComputer>
+                    </ProductType>
+                </Computers>
+            </ProductData>
+        </Product>
+    </Message>
+</AmazonEnvelope>
