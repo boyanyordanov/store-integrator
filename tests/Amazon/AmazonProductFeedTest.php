@@ -25,7 +25,7 @@ class AmazonProductFeedTest extends TestCase
             'productType' => 'NotebookComputer',
             'price' => 2000,
             'currency' => 'USD',
-            'vendor' => 'Dell',
+            'brand' => 'Dell',
             'sku' => 'd1234',
             'weight' => 7000
         ]);

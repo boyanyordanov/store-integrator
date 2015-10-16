@@ -23,6 +23,7 @@ class AmazonProduct extends Product implements XmlSerializable
     {
         parent::__construct($data);
         $this->productType = $data['productType'];
+        $this->msrp = $data['price'];
     }
 
     /**

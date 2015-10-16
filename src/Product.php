@@ -24,7 +24,7 @@ class Product
     /**
      * @var number
      */
-    protected $msrp;
+    protected $price;
     /**
      * @var string
      */
@@ -47,8 +47,8 @@ class Product
         $this->sku = $data['sku'];
         $this->title = $data['name'];
         $this->description = $data['description'];
-        $this->brand = $data['vendor'];
-        $this->msrp = $data['price'];
+        $this->brand = $data['brand'];
+        $this->parice = $data['price'];
         $this->currency = $data['currency'];
         $this->category = $data['category'];
         $this->weight = $data['weight'];
