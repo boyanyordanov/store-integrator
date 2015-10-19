@@ -31,6 +31,10 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      * @var TradingService
      */
     protected $service;
+    /**
+     * @var
+     */
+    protected $userToken;
 
     /**
      * @param TradingService|null $service
@@ -179,9 +183,16 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     protected function addAuthToRequest($request)
     {
         $request->RequesterCredentials = new CustomSecurityHeaderType();
-        // TODO: Add way to add real user token
-        $request->RequesterCredentials->eBayAuthToken = 'some-user-token';
+        $request->RequesterCredentials->eBayAuthToken = $this->userToken;
 
         return $request;
+    }
+
+    /**
+     * @param $token
+     */
+    public function addUserToken($token)
+    {
+        $this->userToken = $token;
     }
 }
