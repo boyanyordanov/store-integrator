@@ -182,18 +182,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
             'JP'
         );
         $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
-        /**
-         * The return policy.
-         * Returns are accepted.
-         * A refund will be given as money back.
-         * The buyer will have 14 days in which to contact the seller after receiving the item.
-         * The buyer will pay the return shipping cost.
-         */
-        $item->ReturnPolicy = new ReturnPolicyType();
-        $item->ReturnPolicy->ReturnsAcceptedOption = 'ReturnsAccepted';
-        $item->ReturnPolicy->RefundOption = 'MoneyBack';
-        $item->ReturnPolicy->ReturnsWithinOption = 'Days_14';
-        $item->ReturnPolicy->ShippingCostPaidByOption = 'Buyer';
+
+        $this->addReturnPolicy($item, $product->getReturnPolicy());
 
         // End hard coded shipping payment and return policy
 
@@ -308,5 +298,34 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     public function getConfig()
     {
         return $this->service->config();
+    }
+
+    /**
+     * @param $item
+     * @param array $overrides
+     */
+    public function addReturnPolicy($item, $overrides = [])
+    {
+        $default = [
+            'ReturnsAccepted' => true,
+            'Refund' => 'MoneyBack',
+            'ReturnsWithin' => 'Days_14',
+            'ShippingCostPaidBy' => 'Buyer'
+        ];
+
+        $policy = array_merge($default, $overrides);
+
+        /**
+         * The return policy.
+         * Returns are accepted.
+         * A refund will be given as money back.
+         * The buyer will have 14 days in which to contact the seller after receiving the item.
+         * The buyer will pay the return shipping cost.
+         */
+         $item->ReturnPolicy = new ReturnPolicyType();
+         $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsAccepted';
+         $item->ReturnPolicy->RefundOption = $policy['Refund'];
+         $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
+         $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
     }
 }

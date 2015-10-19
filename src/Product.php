@@ -48,6 +48,19 @@ class Product
     protected $weight;
 
     /**
+     * @return mixed
+     */
+    public function getReturnPolicy()
+    {
+        return $this->returnPolicy;
+    }
+
+    /**
+     * @var array
+     */
+    protected $returnPolicy = [];
+
+    /**
      * @return string
      */
     public function getSku()
@@ -150,5 +163,9 @@ class Product
         $this->category = $data['category'];
         $this->weight = $data['weight'];
         $this->quantity = intval($data['quantity']);
+
+        if(array_key_exists('ReturnPolicy', $data)) {
+            $this->returnPolicy = $data['ReturnPolicy'];
+        }
     }
 }

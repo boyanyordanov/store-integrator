@@ -112,7 +112,64 @@ class EbayProductIntegratorTest extends TestCase
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/add-product-response.xml');
         $this->attachMockedEbayResponse($mockResponse);
 
-        $product = new Product([
+        $product = $this->sampleProduct();
+
+        $response = $this->productIntegrator->postProduct($product);
+
+        $this->assertContains('AddFixedPriceItemRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
+        $this->assertEquals('AddFixedPriceItem', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+    }
+
+    public function testAddingDefaultReturnPolicy()
+    {
+        $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/add-product-response.xml');
+        $this->attachMockedEbayResponse($mockResponse);
+
+        $product = $this->sampleProduct();
+
+        $response = $this->productIntegrator->postProduct($product);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('ReturnPolicy', $requestBody, 'The request body does not contain the return policy information.');
+        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody, 'The request body does not contain the correct return policy option.');;
+        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody, 'The request body does not contain the correct refund option.');;
+        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody, 'The request body does not contain the correct return limit option.');;
+        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
+    }
+
+    public function testAddingReturnPolicy()
+    {
+        $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/add-product-response.xml');
+        $this->attachMockedEbayResponse($mockResponse);
+
+        $product = $this->sampleProduct([
+            'ReturnPolicy' => [
+                'ReturnsAccepted' => true,
+                'Refund' => 'Exchange',
+                'ReturnsWithin' => 'Days_30',
+                'ShippingCostPaidBy' => 'Store'
+            ]
+        ]);
+
+        $response = $this->productIntegrator->postProduct($product);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('ReturnPolicy', $requestBody, 'The request body does not contain the return policy information.');
+        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody, 'The request body does not contain the correct return policy option.');;
+        $this->assertContains('<RefundOption>Exchange</RefundOption>', $requestBody, 'The request body does not contain the correct refund option.');;
+        $this->assertContains('<ReturnsWithinOption>Days_30</ReturnsWithinOption>', $requestBody, 'The request body does not contain the correct return limit option.');;
+        $this->assertContains('<ShippingCostPaidByOption>Store</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
+    }
+
+    /**
+     * @param array $additionalData
+     * @return Product
+     */
+    public function sampleProduct($additionalData = [])
+    {
+        $product = new Product(array_merge([
             'name' => 'Apple MacBook Pro MB990LL/A 13.3 in. Notebook NEW',
             'description' => 'Brand New Apple MacBook Pro MB990LL/A 13.3 in. Notebook!',
             'sku' => 'a12345',
@@ -122,11 +179,10 @@ class EbayProductIntegratorTest extends TestCase
             'currency' => 'USD',
             'weight' => '2000',
             'quantity' => 150
-        ]);
+        ], $additionalData));
 
-        $response = $this->productIntegrator->postProduct($product);
-
-        $this->assertContains('AddFixedPriceItemRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
-        $this->assertEquals('AddFixedPriceItem', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+        return $product;
     }
+
+
 }
