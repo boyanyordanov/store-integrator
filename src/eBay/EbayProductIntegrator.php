@@ -301,4 +301,12 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     {
         $this->userToken = $token;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig()
+    {
+        return $this->service->config();
+    }
 }

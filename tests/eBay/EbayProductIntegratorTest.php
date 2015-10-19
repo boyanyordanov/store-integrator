@@ -36,6 +36,23 @@ class EbayProductIntegratorTest extends TestCase
         $this->productIntegrator->addUserToken('user-auth-token');
     }
 
+    public function testInitializingWithEnvironmentConfigs()
+    {
+        putenv('EBAY-TRADING-API-VERSION=1234');
+        putenv('EBAY-DEV-ID=dev-id');
+        putenv('EBAY-APP-ID=app-id');
+        putenv('EBAY-CERT-ID=cert-id');
+
+        $integrator = new EbayProductIntegrator();
+
+        $configuration = $integrator->getConfig();
+
+        $this->assertEquals('1234', $configuration['apiVersion'], 'Api version not set correctly.');
+        $this->assertEquals('app-id', $configuration['appId'], 'App ID not set correctly.');
+        $this->assertEquals('dev-id', $configuration['devId'], 'Dev ID not set correctly.');
+        $this->assertEquals('cert-id', $configuration['certId'], 'Cert not set correctly.');
+    }
+    
     /**
      *
      */
