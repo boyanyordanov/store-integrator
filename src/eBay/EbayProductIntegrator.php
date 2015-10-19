@@ -9,6 +9,7 @@ use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
+use DTS\eBaySDK\Trading\Types\CategoryType;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
@@ -87,6 +88,9 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 //        $item->PostalCode = '90210';
 
         $item->Currency = $product->getCurrency();
+
+        $item->PrimaryCategory = new CategoryType();
+        $item->PrimaryCategory->CategoryID = $product->getCategory();
 
         // Condition (should be brand new)
         $item->ConditionID = 1000;
