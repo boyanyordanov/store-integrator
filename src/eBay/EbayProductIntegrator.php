@@ -82,7 +82,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
         $item->SKU = $product->getSku();
-//        $item->Country = 'US';
+        $item->Country = $product->getCountry();
 //        $item->Location = 'Beverly Hills';
 //        $item->PostalCode = '90210';
 

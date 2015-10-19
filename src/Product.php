@@ -7,6 +7,10 @@ namespace StoreIntegrator;
  * Class Product
  * @package StoreIntegrator
  */
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
 class Product
 {
     /**
@@ -118,6 +122,19 @@ class Product
      * @var
      */
     protected $quantity;
+
+    /**
+     * @var string
+     */
+    protected $country = 'USA';
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
 
     /**
      * @param $data
