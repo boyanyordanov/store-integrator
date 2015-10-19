@@ -102,7 +102,8 @@ class EbayProductIntegratorTest extends TestCase
             'brand' => 'Apple',
             'price' => '1000',
             'currency' => 'USD',
-            'weight' => '2000'
+            'weight' => '2000',
+            'quantity' => 150
         ]);
 
         $response = $this->productIntegrator->postProduct($product);

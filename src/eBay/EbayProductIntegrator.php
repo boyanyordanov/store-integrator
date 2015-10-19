@@ -3,8 +3,14 @@
 namespace StoreIntegrator\eBay;
 
 
+use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
+use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
 use DTS\eBaySDK\Trading\Services\TradingService;
+use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
+use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
+use DTS\eBaySDK\Trading\Types\ItemType;
+use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -45,7 +51,43 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function postProduct(Product $product)
     {
-        // TODO: Implement postProduct() method.
+        $request = new AddFixedPriceItemRequestType();
+        $request = $this->addAuthToRequest($request);
+
+        $item = new ItemType;
+
+        $item->ListingType = ListingTypeCodeType::C_FIXED_PRICE_ITEM;
+
+        // Add quantity
+        $item->Quantity = $product->getQuantity();
+
+        // Renew the item every 30 days until the user cancels it
+        $item->ListingDuration = ListingDurationCodeType::C_GTC;
+
+        // Add price
+        $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
+
+        $item->Title = $product->getTitle();
+        $item->Description = $product->getDescription();
+        $item->SKU = $product->getSku();
+//        $item->Country = 'US';
+//        $item->Location = 'Beverly Hills';
+//        $item->PostalCode = '90210';
+
+        $item->Currency = $product->getCurrency();
+
+        // Condition (should be brand new)
+        $item->ConditionID = 1000;
+
+        // TODO: Check data for payments, shipping and return policy
+
+        $request->Item = $item;
+
+        $response = $this->service->addFixedPriceItem($request);
+
+        // TODO: handle errors
+
+        return $response;
     }
 
     /**
@@ -120,5 +162,18 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     public function getCategoriesVersion()
     {
         return $this->categoriesVersion;
+    }
+
+    /**
+     * @param $request
+     * @return mixed $request
+     */
+    protected function addAuthToRequest($request)
+    {
+        $request->RequesterCredentials = new CustomSecurityHeaderType();
+        // TODO: Add way to add real user token
+        $request->RequesterCredentials->eBayAuthToken = 'some-user-token';
+
+        return $request;
     }
 }

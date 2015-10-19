@@ -27,7 +27,8 @@ class AmazonProductFeedTest extends TestCase
             'currency' => 'USD',
             'brand' => 'Dell',
             'sku' => 'd1234',
-            'weight' => 7000
+            'weight' => 7000,
+            'quantity' => 100
         ]);
 
         $feedGenerator = new ProductFeed(new Writer());
