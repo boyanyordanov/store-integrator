@@ -33,6 +33,7 @@ class EbayProductIntegratorTest extends TestCase
         $this->setUpEbayServiceMocks();
 
         $this->productIntegrator = new EbayProductIntegrator($this->tradingService);
+        $this->productIntegrator->addUserToken('user-auth-token');
     }
 
     /**
