@@ -48,17 +48,55 @@ class Product
     protected $weight;
 
     /**
-     * @return mixed
-     */
-    public function getReturnPolicy()
-    {
-        return $this->returnPolicy;
-    }
-
-    /**
      * @var array
      */
     protected $returnPolicy = [];
+
+    /**
+     * @var
+     */
+    protected $quantity;
+
+    /**
+     * @var string
+     */
+    protected $country = 'US';
+
+    /**
+     * @param $data
+     */
+    public function __construct($data)
+    {
+        $this->sku = $data['sku'];
+        $this->title = $data['name'];
+        $this->description = $data['description'];
+        $this->brand = $data['brand'];
+        $this->price = doubleval($data['price']);
+        $this->currency = $data['currency'];
+        $this->category = $data['category'];
+        $this->weight = $data['weight'];
+        $this->quantity = intval($data['quantity']);
+
+        if(array_key_exists('ReturnPolicy', $data)) {
+            $this->returnPolicy = $data['ReturnPolicy'];
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 
     /**
      * @return string
@@ -127,45 +165,8 @@ class Product
     /**
      * @return mixed
      */
-    public function getQuantity()
+    public function getReturnPolicy()
     {
-        return $this->quantity;
-    }
-    /**
-     * @var
-     */
-    protected $quantity;
-
-    /**
-     * @var string
-     */
-    protected $country = 'US';
-
-    /**
-     * @return string
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param $data
-     */
-    public function __construct($data)
-    {
-        $this->sku = $data['sku'];
-        $this->title = $data['name'];
-        $this->description = $data['description'];
-        $this->brand = $data['brand'];
-        $this->price = doubleval($data['price']);
-        $this->currency = $data['currency'];
-        $this->category = $data['category'];
-        $this->weight = $data['weight'];
-        $this->quantity = intval($data['quantity']);
-
-        if(array_key_exists('ReturnPolicy', $data)) {
-            $this->returnPolicy = $data['ReturnPolicy'];
-        }
+        return $this->returnPolicy;
     }
 }
