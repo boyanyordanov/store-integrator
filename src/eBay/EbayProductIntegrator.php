@@ -133,6 +133,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
         $categoriesRequest->DetailLevel = ['ReturnAll'];
 
+        $this->addAuthToRequest($categoriesRequest);
+
         $response = $this->service->getCategories($categoriesRequest);
 
         $result = [];
