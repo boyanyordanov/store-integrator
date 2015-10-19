@@ -44,12 +44,12 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         if(is_null($service)) {
             // TODO: implement configuration from environment variables
             $this->service = new TradingService([
-                'apiVersion' => $_ENV['EBAY-TRADING-API-VERSION'],
+                'apiVersion' => getenv('EBAY-TRADING-API-VERSION'),
                 'sandbox' => true,
                 'siteId' => SiteIds::US,
-                'devId' => $_ENV['EBAY-DEV-ID'],
-                'appId' => $_ENV['EBAY-APP-ID'],
-                'certId' => $_ENV['EBAY-CERT-ID'],
+                'devId' => getenv('EBAY-DEV-ID'),
+                'appId' => getenv('EBAY-APP-ID'),
+                'certId' => getenv('EBAY-CERT-ID'),
             ]);
         } else {
             $this->service = $service;
