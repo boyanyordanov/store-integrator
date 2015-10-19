@@ -11,8 +11,12 @@ use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\CategoryType;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
+use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
+use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
+use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
+use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -84,8 +88,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $item->Description = $product->getDescription();
         $item->SKU = $product->getSku();
         $item->Country = $product->getCountry();
-//        $item->Location = 'Beverly Hills';
-//        $item->PostalCode = '90210';
+        $item->Location = 'Beverly Hills';
+        $item->PostalCode = '90210';
 
         $item->Currency = $product->getCurrency();
 
@@ -96,6 +100,101 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $item->ConditionID = 1000;
 
         // TODO: Check data for payments, shipping and return policy
+
+        // Start hard-coded shipping, payment and retrn policy
+        /**
+         * Buyers can use one of two payment methods when purchasing the item.
+         * Visa / Master Card
+         * PayPal
+         * The item will be dispatched within 1 business days once payment has cleared.
+         * Note that you have to provide the PayPal account that the seller will use.
+         * This is because a seller may have more than one PayPal account.
+         */
+        $item->PaymentMethods = array(
+            'VisaMC',
+            'PayPal'
+        );
+        $item->PayPalEmailAddress = 'example@example.com';
+        $item->DispatchTimeMax = 1;
+        /**
+         * Setting up the shipping details.
+         * We will use a Flat shipping rate for both domestic and international.
+         */
+        $item->ShippingDetails = new ShippingDetailsType();
+        $item->ShippingDetails->ShippingType = Enums\ShippingTypeCodeType::C_FLAT;
+        /**
+         * Create our first domestic shipping option.
+         * Offer the Economy Shipping (1-10 business days) service at $2.00 for the first item.
+         * Additional items will be shipped at $1.00.
+         */
+        $shippingService = new ShippingServiceOptionsType();
+        $shippingService->ShippingServicePriority = 1;
+        $shippingService->ShippingService = 'Other';
+        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 2.00));
+        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 1.00));
+        $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
+        /**
+         * Create our second domestic shipping option.
+         * Offer the USPS Parcel Select (2-9 business days) at $3.00 for the first item.
+         * Additional items will be shipped at $2.00.
+         */
+        $shippingService = new ShippingServiceOptionsType();
+        $shippingService->ShippingServicePriority = 2;
+        $shippingService->ShippingService = 'USPSParcel';
+        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 3.00));
+        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 2.00));
+        $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
+        /**
+         * Create our first international shipping option.
+         * Offer the USPS First Class Mail International service at $4.00 for the first item.
+         * Additional items will be shipped at $3.00.
+         * The item can be shipped Worldwide with this service.
+         */
+        $shippingService = new InternationalShippingServiceOptionsType();
+        $shippingService->ShippingServicePriority = 1;
+        $shippingService->ShippingService = 'USPSFirstClassMailInternational';
+        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 4.00));
+        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 3.00));
+        $shippingService->ShipToLocation = array('WorldWide');
+        $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
+        /**
+         * Create our second international shipping option.
+         * Offer the USPS Priority Mail International (6-10 business days) service at $5.00 for the first item.
+         * Additional items will be shipped at $4.00.
+         * The item will only be shipped to the following locations with this service.
+         * N. and S. America
+         * Canada
+         * Australia
+         * Europe
+         * Japan
+         */
+        $shippingService = new InternationalShippingServiceOptionsType();
+        $shippingService->ShippingServicePriority = 2;
+        $shippingService->ShippingService = 'USPSPriorityMailInternational';
+        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 5.00));
+        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 4.00));
+        $shippingService->ShipToLocation = array(
+            'Americas',
+            'CA',
+            'AU',
+            'Europe',
+            'JP'
+        );
+        $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
+        /**
+         * The return policy.
+         * Returns are accepted.
+         * A refund will be given as money back.
+         * The buyer will have 14 days in which to contact the seller after receiving the item.
+         * The buyer will pay the return shipping cost.
+         */
+        $item->ReturnPolicy = new ReturnPolicyType();
+        $item->ReturnPolicy->ReturnsAcceptedOption = 'ReturnsAccepted';
+        $item->ReturnPolicy->RefundOption = 'MoneyBack';
+        $item->ReturnPolicy->ReturnsWithinOption = 'Days_14';
+        $item->ReturnPolicy->ShippingCostPaidByOption = 'Buyer';
+
+        // End hard coded shipping payment and return policy
 
         $request->Item = $item;
 
