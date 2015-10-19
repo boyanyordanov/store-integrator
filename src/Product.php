@@ -149,6 +149,6 @@ class Product
         $this->currency = $data['currency'];
         $this->category = $data['category'];
         $this->weight = $data['weight'];
-        $this->quantity = $data['quantity'];
+        $this->quantity = intval($data['quantity']);
     }
 }
