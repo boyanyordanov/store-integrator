@@ -6,6 +6,7 @@ namespace StoreIntegrator\eBay;
 use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
+use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
@@ -121,7 +122,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
          * We will use a Flat shipping rate for both domestic and international.
          */
         $item->ShippingDetails = new ShippingDetailsType();
-        $item->ShippingDetails->ShippingType = Enums\ShippingTypeCodeType::C_FLAT;
+        $item->ShippingDetails->ShippingType = ShippingTypeCodeType::C_FLAT;
         /**
          * Create our first domestic shipping option.
          * Offer the Economy Shipping (1-10 business days) service at $2.00 for the first item.
@@ -130,8 +131,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $shippingService = new ShippingServiceOptionsType();
         $shippingService->ShippingServicePriority = 1;
         $shippingService->ShippingService = 'Other';
-        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 2.00));
-        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 1.00));
+        $shippingService->ShippingServiceCost = new AmountType(array('value' => 2.00));
+        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 1.00));
         $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
         /**
          * Create our second domestic shipping option.
@@ -141,8 +142,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $shippingService = new ShippingServiceOptionsType();
         $shippingService->ShippingServicePriority = 2;
         $shippingService->ShippingService = 'USPSParcel';
-        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 3.00));
-        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 2.00));
+        $shippingService->ShippingServiceCost = new AmountType(array('value' => 3.00));
+        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 2.00));
         $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
         /**
          * Create our first international shipping option.
@@ -153,8 +154,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $shippingService = new InternationalShippingServiceOptionsType();
         $shippingService->ShippingServicePriority = 1;
         $shippingService->ShippingService = 'USPSFirstClassMailInternational';
-        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 4.00));
-        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 3.00));
+        $shippingService->ShippingServiceCost = new AmountType(array('value' => 4.00));
+        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 3.00));
         $shippingService->ShipToLocation = array('WorldWide');
         $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
         /**
@@ -171,8 +172,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $shippingService = new InternationalShippingServiceOptionsType();
         $shippingService->ShippingServicePriority = 2;
         $shippingService->ShippingService = 'USPSPriorityMailInternational';
-        $shippingService->ShippingServiceCost = new Types\AmountType(array('value' => 5.00));
-        $shippingService->ShippingServiceAdditionalCost = new Types\AmountType(array('value' => 4.00));
+        $shippingService->ShippingServiceCost = new AmountType(array('value' => 5.00));
+        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 4.00));
         $shippingService->ShipToLocation = array(
             'Americas',
             'CA',
