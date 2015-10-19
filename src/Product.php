@@ -126,7 +126,7 @@ class Product
     /**
      * @var string
      */
-    protected $country = 'USA';
+    protected $country = 'US';
 
     /**
      * @return string
