@@ -25,7 +25,8 @@ class EbayShippingService extends ShippingService
             parent::__construct($data['id'], $data['name'], $data['description'], $additionalParams);
         } else {
             // TODO: Map eBay specific data
-            parent::__construct($data->ShippingServiceID, $data->ShippingService, $data->Description);
+            $additionalParams = $this->constructSpecificDataFromObject($data);
+            parent::__construct($data->ShippingServiceID, $data->ShippingService, $data->Description, $additionalParams);
         }
     }
 
@@ -39,6 +40,15 @@ class EbayShippingService extends ShippingService
         if($data['international']) {
             $result['shipsTo'] = $data['shipsTo'];
         }
+
+        return $result;
+    }
+
+    private function constructSpecificDataFromObject($data)
+    {
+        $result = [
+            'international' => $data->InternationalService
+        ];
 
         return $result;
     }
