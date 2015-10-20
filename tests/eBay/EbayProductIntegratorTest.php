@@ -219,10 +219,10 @@ class EbayProductIntegratorTest extends TestCase
         $requestBody = $this->mockHttpClient->getRequestBody();
 
         $this->assertContains('ShippingDetails', $requestBody, 'No shipping details present.');
-        $this->assertContains('<ShippingServiceOption>', $requestBody, 'No domestic shipping option present.');
-        $this->assertContains('<ShippingService>PostService</ShippingService>', $requestBody, 'PostSercie is missing from the shipping details.');
+        $this->assertContains('ShippingServiceOption', $requestBody, 'No domestic shipping option present.');
+        $this->assertContains('<ShippingService>PostService</ShippingService>', $requestBody, 'PostService is missing from the shipping details.');
         $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">3</ShippingServiceCost>', $requestBody, 'No shipping cost for the domestic option is present.');
-        $this->assertContains('<InternationalShippingServiceOption>', $requestBody, 'No international shipping option present.');
+        $this->assertContains('InternationalShippingServiceOption', $requestBody, 'No international shipping option present.');
         $this->assertContains('<ShippingService>CourierService</ShippingService>', $requestBody, 'CourierService is missing from the shipping details.');
         $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">8.99</ShippingServiceCost>', $requestBody, 'No shipping cost for the international$ option is present.');
     }

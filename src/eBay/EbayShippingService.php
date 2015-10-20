@@ -21,10 +21,25 @@ class EbayShippingService extends ShippingService
     {
         if(is_array($data)) {
             // TODO: Map eBay specific data from array
-            parent::__construct($data['id'], $data['name'], $data['description']);
+            $additionalParams = $this->constructSpecificDataFromArray($data);
+            parent::__construct($data['id'], $data['name'], $data['description'], $additionalParams);
         } else {
             // TODO: Map eBay specific data
             parent::__construct($data->ShippingServiceID, $data->ShippingService, $data->Description);
         }
+    }
+
+    protected function constructSpecificDataFromArray(array $data)
+    {
+        $result = [
+            'cost' => $data['cost'],
+            'international' => $data['international']
+        ];
+
+        if($data['international']) {
+            $result['shipsTo'] = $data['shipsTo'];
+        }
+
+        return $result;
     }
 }

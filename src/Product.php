@@ -11,6 +11,10 @@ namespace StoreIntegrator;
  * Class Product
  * @package StoreIntegrator
  */
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
 class Product
 {
     /**
@@ -63,6 +67,11 @@ class Product
     protected $country = 'US';
 
     /**
+     * @var
+     */
+    protected $shippingOptions = [];
+
+    /**
      * @param $data
      */
     public function __construct($data)
@@ -79,6 +88,10 @@ class Product
 
         if(array_key_exists('ReturnPolicy', $data)) {
             $this->returnPolicy = $data['ReturnPolicy'];
+        }
+
+        if(array_key_exists('shippingOptions', $data)) {
+            $this->shippingOptions = $data['shippingOptions'];
         }
     }
 
@@ -168,5 +181,13 @@ class Product
     public function getReturnPolicy()
     {
         return $this->returnPolicy;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShippingOptions()
+    {
+        return $this->shippingOptions;
     }
 }

@@ -122,71 +122,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $item->PayPalEmailAddress = 'example@example.com';
         $item->DispatchTimeMax = 1;
 
-        /**
-         * Setting up the shipping details.
-         * We will use a Flat shipping rate for both domestic and international.
-         */
-        $item->ShippingDetails = new ShippingDetailsType();
-        $item->ShippingDetails->ShippingType = ShippingTypeCodeType::C_FLAT;
-        /**
-         * Create our first domestic shipping option.
-         * Offer the Economy Shipping (1-10 business days) service at $2.00 for the first item.
-         * Additional items will be shipped at $1.00.
-         */
-        $shippingService = new ShippingServiceOptionsType();
-        $shippingService->ShippingServicePriority = 1;
-        $shippingService->ShippingService = 'Other';
-        $shippingService->ShippingServiceCost = new AmountType(array('value' => 2.00));
-        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 1.00));
-        $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
-        /**
-         * Create our second domestic shipping option.
-         * Offer the USPS Parcel Select (2-9 business days) at $3.00 for the first item.
-         * Additional items will be shipped at $2.00.
-         */
-        $shippingService = new ShippingServiceOptionsType();
-        $shippingService->ShippingServicePriority = 2;
-        $shippingService->ShippingService = 'USPSParcel';
-        $shippingService->ShippingServiceCost = new AmountType(array('value' => 3.00));
-        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 2.00));
-        $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
-        /**
-         * Create our first international shipping option.
-         * Offer the USPS First Class Mail International service at $4.00 for the first item.
-         * Additional items will be shipped at $3.00.
-         * The item can be shipped Worldwide with this service.
-         */
-        $shippingService = new InternationalShippingServiceOptionsType();
-        $shippingService->ShippingServicePriority = 1;
-        $shippingService->ShippingService = 'USPSFirstClassMailInternational';
-        $shippingService->ShippingServiceCost = new AmountType(array('value' => 4.00));
-        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 3.00));
-        $shippingService->ShipToLocation = array('WorldWide');
-        $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
-        /**
-         * Create our second international shipping option.
-         * Offer the USPS Priority Mail International (6-10 business days) service at $5.00 for the first item.
-         * Additional items will be shipped at $4.00.
-         * The item will only be shipped to the following locations with this service.
-         * N. and S. America
-         * Canada
-         * Australia
-         * Europe
-         * Japan
-         */
-        $shippingService = new InternationalShippingServiceOptionsType();
-        $shippingService->ShippingServicePriority = 2;
-        $shippingService->ShippingService = 'USPSPriorityMailInternational';
-        $shippingService->ShippingServiceCost = new AmountType(array('value' => 5.00));
-        $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => 4.00));
-        $shippingService->ShipToLocation = array(
-            'Americas',
-            'CA',
-            'AU',
-            'Europe',
-            'JP'
-        );
-        $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
+        $this->addShippingOptions($item, $product->getShippingOptions());
 
         $this->addReturnPolicy($item, $product->getReturnPolicy());
 
@@ -354,5 +290,39 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         }
 
         return $result;
+    }
+
+    /**
+     * @param $item
+     * @param array $shippingOptions
+     */
+    public function addShippingOptions($item, array $shippingOptions = [])
+    {
+        /**
+         * Setting up the shipping details.
+         * We will use a Flat shipping rate for both domestic and international.
+         */
+        $item->ShippingDetails = new ShippingDetailsType();
+        $item->ShippingDetails->ShippingType = ShippingTypeCodeType::C_FLAT;
+
+        /**
+         * @var EbayShippingService $shippingOption
+         */
+        foreach($shippingOptions as $index => $shippingOption) {
+            if($shippingOption->getInternational()) {
+                $shippingService = new InternationalShippingServiceOptionsType();
+                $shippingService->ShippingServicePriority = $index;
+                $shippingService->ShippingService = $shippingOption->getName();
+                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+                $shippingService->ShipToLocation = $shippingOption->getShipsTo();
+                $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
+            } else {
+                $shippingService = new ShippingServiceOptionsType();
+                $shippingService->ShippingServicePriority = $index;
+                $shippingService->ShippingService = $shippingOption->getName();
+                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+                $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
+            }
+        }
     }
 }

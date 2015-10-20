@@ -20,6 +20,8 @@ class EbayShippingServiceTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'name' => 'Post',
             'description' => 'Not very fast, but reliable',
+            'cost' => 3.99,
+            'international' => false,
             'ShippingMinTime' => 3,
             'ShippingMaxTime' => 10
         ]);
