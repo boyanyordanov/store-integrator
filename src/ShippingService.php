@@ -7,6 +7,8 @@ use StoreIntegrator\Contracts\ShippingServiceInterface;
 
 /**
  * Class ShippingService
+ * Has __call method to allow dynamic getters for custom data
+ * added for different providers.
  * @package StoreIntegrator
  */
 abstract class ShippingService implements ShippingServiceInterface
@@ -76,6 +78,7 @@ abstract class ShippingService implements ShippingServiceInterface
     }
 
     /**
+     * Used to for dynamic getters for properties added per providers.
      * @param $method
      * @param $args
      * @return mixed

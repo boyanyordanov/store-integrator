@@ -4,9 +4,16 @@ namespace StoreIntegrator\tests\eBay;
 
 use StoreIntegrator\eBay\EbayShippingService;
 
+/**
+ * Class EbayShippingServiceTest
+ * @package StoreIntegrator\tests\eBay
+ */
 class EbayShippingServiceTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     *
+     */
     public function testCreatingFromArray()
     {
         $service = new EbayShippingService([

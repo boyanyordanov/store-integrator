@@ -66,6 +66,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Posts a product to eBay.
      *
      * @param Product $product
      * @return mixed

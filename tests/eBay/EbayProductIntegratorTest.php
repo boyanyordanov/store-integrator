@@ -37,6 +37,9 @@ class EbayProductIntegratorTest extends TestCase
         $this->productIntegrator->addUserToken('user-auth-token');
     }
 
+    /**
+     *
+     */
     public function testInitializingWithEnvironmentConfigs()
     {
         putenv('EBAY-TRADING-API-VERSION=1234');
@@ -108,12 +111,15 @@ class EbayProductIntegratorTest extends TestCase
 
         $product = $this->sampleProduct();
 
-        $response = $this->productIntegrator->postProduct($product);
+        $this->productIntegrator->postProduct($product);
 
         $this->assertContains('AddFixedPriceItemRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
         $this->assertEquals('AddFixedPriceItem', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
     }
 
+    /**
+     *
+     */
     public function testAddingDefaultReturnPolicy()
     {
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/add-product-response.xml');
@@ -121,7 +127,7 @@ class EbayProductIntegratorTest extends TestCase
 
         $product = $this->sampleProduct();
 
-        $response = $this->productIntegrator->postProduct($product);
+        $this->productIntegrator->postProduct($product);
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
@@ -132,6 +138,9 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
     }
 
+    /**
+     *
+     */
     public function testAddingReturnPolicy()
     {
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/add-product-response.xml');
@@ -146,7 +155,7 @@ class EbayProductIntegratorTest extends TestCase
             ]
         ]);
 
-        $response = $this->productIntegrator->postProduct($product);
+        $this->productIntegrator->postProduct($product);
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
@@ -157,6 +166,9 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('<ShippingCostPaidByOption>Store</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
     }
 
+    /**
+     *
+     */
     public function testRetrievingAvailableShippingMethods()
     {
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/shipping-methods-response.xml');
@@ -176,9 +188,12 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertEquals('International Priority Shipping', $result[0]->getDescription(), 'The expected number of shipping method was not returned correctly');
     }
 
+    /**
+     *
+     */
     public function testAddingShippingMethods()
     {
-        
+
     }
 
 }
