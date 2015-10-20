@@ -199,6 +199,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
             'Version' => '943'
         ]);
 
+        $this->addAuthToRequest($categoriesRequest);
+
         $response = $this->service->getCategories($categoriesRequest);
 
         $this->categoriesVersion = $response->CategoryVersion;
