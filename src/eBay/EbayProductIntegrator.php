@@ -4,6 +4,7 @@ namespace StoreIntegrator\eBay;
 
 
 use DTS\eBaySDK\Constants\SiteIds;
+use DTS\eBaySDK\Trading\Enums\DetailNameCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
@@ -12,6 +13,7 @@ use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\CategoryType;
 use DTS\eBaySDK\Trading\Types\GetCategoriesRequestType;
+use DTS\eBaySDK\Trading\Types\GeteBayDetailsRequestType;
 use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
@@ -21,6 +23,7 @@ use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
+use StoreIntegrator\eBay\EbayShippingService;
 
 /**
  * Class EbayProductIntegrator
@@ -117,6 +120,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         );
         $item->PayPalEmailAddress = 'example@example.com';
         $item->DispatchTimeMax = 1;
+
         /**
          * Setting up the shipping details.
          * We will use a Flat shipping rate for both domestic and international.
@@ -238,10 +242,11 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
         $categories = $response->toArray()['CategoryArray']['Category'];
 
         foreach($categories as $item) {
-            array_push($result, [
-                'id' => $item['CategoryID'],
-                'name' => $item['CategoryName']
-            ]);
+            $cat = new \stdClass;
+            $cat->id = $item['CategoryID'];
+            $cat->name = $item['CategoryName'];
+
+            array_push($result, $cat);
         }
 
         return $result;
@@ -304,7 +309,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      * @param $item
      * @param array $overrides
      */
-    public function addReturnPolicy($item, $overrides = [])
+    protected function addReturnPolicy($item, $overrides = [])
     {
         $default = [
             'ReturnsAccepted' => true,
@@ -327,5 +332,26 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
          $item->ReturnPolicy->RefundOption = $policy['Refund'];
          $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
          $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+    }
+
+    /**
+     *
+     */
+    public function getAvailableShippingMethods()
+    {
+        $request = new GeteBayDetailsRequestType();
+        $request->DetailName = [DetailNameCodeType::C_SHIPPING_SERVICE_DETAILS];
+
+        $this->addAuthToRequest($request);
+
+        $response = $this->service->geteBayDetails($request);
+
+        $result = [];
+
+        foreach($response->ShippingServiceDetails as $item) {
+            $result[] = new EbayShippingService($item);
+        }
+
+        return $result;
     }
 }

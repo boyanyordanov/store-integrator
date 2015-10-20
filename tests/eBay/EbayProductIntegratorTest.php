@@ -3,6 +3,7 @@
 namespace StoreIntegrator\tests\eBay;
 
 
+use StoreIntegrator\Contracts\ShippingServiceInterface;
 use StoreIntegrator\eBay\EbayProductIntegrator;
 use StoreIntegrator\Product;
 use StoreIntegrator\tests\TestCase;
@@ -74,20 +75,13 @@ class EbayProductIntegratorTest extends TestCase
      */
     public function testGettingCategories()
     {
-        $expectedData = [
-            [
-                'id'    => '20081',
-                'name'  => 'Antiques'
-            ],
-            [
-                'id'    => '37903',
-                'name'  => 'Antiquities'
-            ],
-            [
-                'id'    => '37908',
-                'name'  => 'The Americas'
-            ]
-        ];
+        $expectedData = [new \stdClass(), new \stdClass(), new \stdClass()];
+        $expectedData[0]->id = '20081';
+        $expectedData[0]->name = 'Antiques';
+        $expectedData[1]->id = '37903';
+        $expectedData[1]->name = 'Antiquities';
+        $expectedData[2]->id = '37908';
+        $expectedData[2]->name = 'The Americas';
 
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/categories-all.xml');
         $this->attachMockedEbayResponse($mockResponse);
@@ -98,8 +92,8 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
 
         $this->assertCount(3, $categories, 'The number of categories retrieved is not correct.');
-        $this->assertArrayHasKey('id', $categories[0], 'The category does not have id attribute as expected.');
-        $this->assertArrayHasKey('name', $categories[0], 'The category does not have name attribute as expected.');
+        $this->assertObjectHasAttribute('id', $categories[0], 'The category does not have id attribute as expected.');
+        $this->assertObjectHasAttribute('name', $categories[0], 'The category does not have name attribute as expected.');
 
         $this->assertEquals($expectedData, $categories, 'The result does not match the expected result.');
     }
@@ -163,26 +157,28 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('<ShippingCostPaidByOption>Store</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
     }
 
-    /**
-     * @param array $additionalData
-     * @return Product
-     */
-    public function sampleProduct($additionalData = [])
+    public function testRetrievingAvailableShippingMethods()
     {
-        $product = new Product(array_merge([
-            'name' => 'Apple MacBook Pro MB990LL/A 13.3 in. Notebook NEW',
-            'description' => 'Brand New Apple MacBook Pro MB990LL/A 13.3 in. Notebook!',
-            'sku' => 'a12345',
-            'category' => '111422',
-            'brand' => 'Apple',
-            'price' => '1000',
-            'currency' => 'USD',
-            'weight' => '2000',
-            'quantity' => 150
-        ], $additionalData));
+        $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/shipping-methods-response.xml');
+        $this->attachMockedEbayResponse($mockResponse);
 
-        return $product;
+        $result = $this->productIntegrator->getAvailableShippingMethods();
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('GeteBayDetails', $requestBody, 'The requested operation is not getting details about ebay services.');
+        $this->assertEquals('GeteBayDetails', $this->mockHttpClient->getApiCallName(), 'The requested operation is not getting details about ebay services.');
+        $this->assertContains('<DetailName>ShippingServiceDetails</DetailName>', $requestBody, 'The request does not coantain the correct detail name to get available shipping methods.');
+
+        $this->assertCount(140, $result, 'The expected number of shipping method was not returned correctly');
+        $this->assertInstanceOf(ShippingServiceInterface::class, $result[0], 'The resulting objects are not of the expected type');
+        $this->assertEquals('50100', $result[0]->getId(), 'The expected number of shipping method was not returned correctly');
+        $this->assertEquals('International Priority Shipping', $result[0]->getDescription(), 'The expected number of shipping method was not returned correctly');
     }
 
+    public function testAddingShippingMethods()
+    {
+        
+    }
 
 }

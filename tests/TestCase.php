@@ -12,6 +12,7 @@ use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
 use PHPUnit_Framework_TestCase;
+use StoreIntegrator\Product;
 use StoreIntegrator\tests\eBay\MockHttpClient;
 
 /**
@@ -92,5 +93,26 @@ class TestCase extends PHPUnit_Framework_TestCase
         $mockReponse = new Response(200);
         $mockReponse->setBody(EntityBody::factory(file_get_contents($xmlStubPath)));
         return $mockReponse;
+    }
+
+    /**
+     * @param array $additionalData
+     * @return Product
+     */
+    public function sampleProduct($additionalData = [])
+    {
+        $product = new Product(array_merge([
+            'name' => 'Apple MacBook Pro MB990LL/A 13.3 in. Notebook NEW',
+            'description' => 'Brand New Apple MacBook Pro MB990LL/A 13.3 in. Notebook!',
+            'sku' => 'a12345',
+            'category' => '111422',
+            'brand' => 'Apple',
+            'price' => '1000',
+            'currency' => 'USD',
+            'weight' => '2000',
+            'quantity' => 150
+        ], $additionalData));
+
+        return $product;
     }
 }
