@@ -5,6 +5,7 @@ namespace StoreIntegrator\tests\eBay;
 
 use StoreIntegrator\Contracts\ShippingServiceInterface;
 use StoreIntegrator\eBay\EbayProductIntegrator;
+use StoreIntegrator\eBay\EbayShippingService;
 use StoreIntegrator\Product;
 use StoreIntegrator\tests\TestCase;
 
@@ -193,7 +194,37 @@ class EbayProductIntegratorTest extends TestCase
      */
     public function testAddingShippingMethods()
     {
+        $product = $this->sampleProduct([
+            'shippingOptions' => [
+                new EbayShippingService([
+                    'id' => '123',
+                    'name' => 'PostService',
+                    'description' => '',
+                    'international' => false,
+                    'cost' => 3.00
+                ]),
+                new EbayShippingService([
+                    'id' => '1234',
+                    'name' => 'CourierService',
+                    'description' => '',
+                    'international' => true,
+                    'cost' => 8.99,
+                    'shipsTo' => ['USA', 'UK', "Europe"]
+                ])
+            ]
+        ]);
 
+        $this->productIntegrator->postProduct($product);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('ShippingDetails', $requestBody, 'No shipping details present.');
+        $this->assertContains('<ShippingServiceOption>', $requestBody, 'No domestic shipping option present.');
+        $this->assertContains('<ShippingService>PostService</ShippingService>', $requestBody, 'PostSercie is missing from the shipping details.');
+        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">3</ShippingServiceCost>', $requestBody, 'No shipping cost for the domestic option is present.');
+        $this->assertContains('<InternationalShippingServiceOption>', $requestBody, 'No international shipping option present.');
+        $this->assertContains('<ShippingService>CourierService</ShippingService>', $requestBody, 'CourierService is missing from the shipping details.');
+        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">8.99</ShippingServiceCost>', $requestBody, 'No shipping cost for the international$ option is present.');
     }
 
 }
