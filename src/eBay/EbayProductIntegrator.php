@@ -50,7 +50,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function __construct(TradingService $service = null)
     {
-        if(is_null($service)) {
+        if (is_null($service)) {
             // TODO: implement configuration from environment variables
             $this->service = new TradingService([
                 'apiVersion' => getenv('EBAY-TRADING-API-VERSION'),
@@ -226,7 +226,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     {
         $categoriesRequest = new GetCategoriesRequestType([
             // TODO: get the version from environment
-            'Version'    => '943'
+            'Version' => '943'
         ]);
 
         $categoriesRequest->DetailLevel = ['ReturnAll'];
@@ -241,7 +241,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
         $categories = $response->toArray()['CategoryArray']['Category'];
 
-        foreach($categories as $item) {
+        foreach ($categories as $item) {
             $cat = new \stdClass;
             $cat->id = $item['CategoryID'];
             $cat->name = $item['CategoryName'];
@@ -259,7 +259,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     {
         $categoriesRequest = new GetCategoriesRequestType([
             // TODO: get the version from environment
-            'Version'    => '943'
+            'Version' => '943'
         ]);
 
         $response = $this->service->getCategories($categoriesRequest);
@@ -311,6 +311,13 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     protected function addReturnPolicy($item, $overrides = [])
     {
+        /**
+         * Default return policy.
+         * Returns are accepted.
+         * A refund will be given as money back.
+         * The buyer will have 14 days in which to contact the seller after receiving the item.
+         * The buyer will pay the return shipping cost.
+         */
         $default = [
             'ReturnsAccepted' => true,
             'Refund' => 'MoneyBack',
@@ -320,18 +327,11 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
         $policy = array_merge($default, $overrides);
 
-        /**
-         * The return policy.
-         * Returns are accepted.
-         * A refund will be given as money back.
-         * The buyer will have 14 days in which to contact the seller after receiving the item.
-         * The buyer will pay the return shipping cost.
-         */
-         $item->ReturnPolicy = new ReturnPolicyType();
-         $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsAccepted';
-         $item->ReturnPolicy->RefundOption = $policy['Refund'];
-         $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
-         $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+        $item->ReturnPolicy = new ReturnPolicyType();
+        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsAccepted';
+        $item->ReturnPolicy->RefundOption = $policy['Refund'];
+        $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
+        $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
     }
 
     /**
@@ -348,7 +348,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
         $result = [];
 
-        foreach($response->ShippingServiceDetails as $item) {
+        foreach ($response->ShippingServiceDetails as $item) {
             $result[] = new EbayShippingService($item);
         }
 
