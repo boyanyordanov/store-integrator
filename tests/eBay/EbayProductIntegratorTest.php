@@ -104,10 +104,16 @@ class EbayProductIntegratorTest extends TestCase
         $expectedData = [new \stdClass(), new \stdClass(), new \stdClass()];
         $expectedData[0]->id = '20081';
         $expectedData[0]->name = 'Antiques';
+        $expectedData[0]->level = 1;
+        $expectedData[0]->parentID = '20081';
         $expectedData[1]->id = '37903';
         $expectedData[1]->name = 'Antiquities';
+        $expectedData[1]->level = 2;
+        $expectedData[1]->parentID = '20081';
         $expectedData[2]->id = '37908';
         $expectedData[2]->name = 'The Americas';
+        $expectedData[2]->level = 3;
+        $expectedData[2]->parentID = '37903';
 
         $mockResponse = $this->generateEbaySuccessResponse(__DIR__ . '/xmlStubs/categories-all.xml');
         $this->attachMockedEbayResponse($mockResponse);
@@ -121,8 +127,11 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->assertCount(3, $categories, 'The number of categories retrieved is not correct.');
         $this->assertObjectHasAttribute('id', $categories[0], 'The category does not have id attribute as expected.');
-        $this->assertObjectHasAttribute('name', $categories[0],
-            'The category does not have name attribute as expected.');
+        $this->assertObjectHasAttribute('name', $categories[0], 'The category does not have name attribute as expected.');
+        $this->assertObjectHasAttribute('level', $categories[0], 'The category does not have name attribute as expected.');
+        $this->assertObjectHasAttribute('parentID', $categories[0], 'The category does not have name attribute as expected.');
+        $this->assertEquals(1, $categories[0]->level, 'The category is not on the expected level.');
+        $this->assertEquals(2, $categories[1]->level, 'The category is not on the expected level.');
 
         $this->assertEquals($expectedData, $categories, 'The result does not match the expected result.');
     }
