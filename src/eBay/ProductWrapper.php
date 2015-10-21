@@ -174,6 +174,8 @@ class ProductWrapper extends EbayWrapper
         $request->StartTimeFrom = date_create('2015-10-01');
         $request->StartTimeFrom = date_create();
 
+        $this->addAuthToRequest($request);
+
         $response = $this->service->getSellerList($request);
 
         return $response;
