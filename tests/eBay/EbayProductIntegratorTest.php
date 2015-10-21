@@ -4,8 +4,11 @@ namespace StoreIntegrator\tests\eBay;
 
 
 use StoreIntegrator\Contracts\ShippingServiceInterface;
+use StoreIntegrator\eBay\CategoriesWrapper;
+use StoreIntegrator\eBay\DetailsWrapper;
 use StoreIntegrator\eBay\EbayProductIntegrator;
 use StoreIntegrator\eBay\EbayShippingService;
+use StoreIntegrator\eBay\ProductWrapper;
 use StoreIntegrator\Product;
 use StoreIntegrator\tests\TestCase;
 
@@ -24,6 +27,10 @@ class EbayProductIntegratorTest extends TestCase
      * @var EbayProductIntegrator
      */
     protected $productIntegrator;
+    /**
+     * @var
+     */
+    protected $userToken;
 
     /**
      *
@@ -34,8 +41,16 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->setUpEbayServiceMocks();
 
-        $this->productIntegrator = new EbayProductIntegrator($this->tradingService);
-        $this->productIntegrator->addUserToken('user-auth-token');
+        $this->userToken = 'user-auth-token';
+
+        $productWrapper = new ProductWrapper($this->userToken, $this->tradingService);
+        $categoriesWrapper = new CategoriesWrapper($this->userToken, $this->tradingService);
+        $detailsWrapper = new DetailsWrapper($this->userToken, $this->tradingService);
+
+        $this->productIntegrator = new EbayProductIntegrator(
+            $productWrapper,
+            $categoriesWrapper,
+            $detailsWrapper);
     }
 
     /**
@@ -48,7 +63,11 @@ class EbayProductIntegratorTest extends TestCase
         putenv('EBAY-APP-ID=app-id');
         putenv('EBAY-CERT-ID=cert-id');
 
-        $integrator = new EbayProductIntegrator();
+        $integrator = new EbayProductIntegrator(
+            new ProductWrapper($this->userToken),
+            new CategoriesWrapper($this->userToken),
+            new DetailsWrapper($this->userToken)
+        );
 
         $configuration = $integrator->getConfig();
 
@@ -57,7 +76,7 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertEquals('dev-id', $configuration['devId'], 'Dev ID not set correctly.');
         $this->assertEquals('cert-id', $configuration['certId'], 'Cert not set correctly.');
     }
-    
+
     /**
      *
      */
@@ -68,10 +87,13 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->productIntegrator->updateCategoriesVersion();
 
-        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
-        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(),
+            'The request body does not contain the correct operation.');
+        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(),
+            'The api call is not for the correct operation');
 
-        $this->assertEquals('113', $this->productIntegrator->getCategoriesVersion(), 'Received category version does not match.');
+        $this->assertEquals('113', $this->productIntegrator->getCategoriesVersion(),
+            'Received category version does not match.');
     }
 
     /**
@@ -92,12 +114,15 @@ class EbayProductIntegratorTest extends TestCase
 
         $categories = $this->productIntegrator->getCategories();
 
-        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
-        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+        $this->assertContains('GetCategoriesRequest', $this->mockHttpClient->getRequestBody(),
+            'The request body does not contain the correct operation.');
+        $this->assertEquals('GetCategories', $this->mockHttpClient->getApiCallName(),
+            'The api call is not for the correct operation');
 
         $this->assertCount(3, $categories, 'The number of categories retrieved is not correct.');
         $this->assertObjectHasAttribute('id', $categories[0], 'The category does not have id attribute as expected.');
-        $this->assertObjectHasAttribute('name', $categories[0], 'The category does not have name attribute as expected.');
+        $this->assertObjectHasAttribute('name', $categories[0],
+            'The category does not have name attribute as expected.');
 
         $this->assertEquals($expectedData, $categories, 'The result does not match the expected result.');
     }
@@ -114,8 +139,10 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->productIntegrator->postProduct($product);
 
-        $this->assertContains('AddFixedPriceItemRequest', $this->mockHttpClient->getRequestBody(), 'The request body does not contain the correct operation.');
-        $this->assertEquals('AddFixedPriceItem', $this->mockHttpClient->getApiCallName(), 'The api call is not for the correct operation');
+        $this->assertContains('AddFixedPriceItemRequest', $this->mockHttpClient->getRequestBody(),
+            'The request body does not contain the correct operation.');
+        $this->assertEquals('AddFixedPriceItem', $this->mockHttpClient->getApiCallName(),
+            'The api call is not for the correct operation');
     }
 
     /**
@@ -132,11 +159,16 @@ class EbayProductIntegratorTest extends TestCase
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
-        $this->assertContains('ReturnPolicy', $requestBody, 'The request body does not contain the return policy information.');
-        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody, 'The request body does not contain the correct return policy option.');;
-        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody, 'The request body does not contain the correct refund option.');;
-        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody, 'The request body does not contain the correct return limit option.');;
-        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
+        $this->assertContains('ReturnPolicy', $requestBody,
+            'The request body does not contain the return policy information.');
+        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody,
+            'The request body does not contain the correct return policy option.');;
+        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody,
+            'The request body does not contain the correct refund option.');;
+        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody,
+            'The request body does not contain the correct return limit option.');;
+        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody,
+            'The request body does not contain the correct shipping cost option.');;
     }
 
     /**
@@ -160,11 +192,16 @@ class EbayProductIntegratorTest extends TestCase
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
-        $this->assertContains('ReturnPolicy', $requestBody, 'The request body does not contain the return policy information.');
-        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody, 'The request body does not contain the correct return policy option.');;
-        $this->assertContains('<RefundOption>Exchange</RefundOption>', $requestBody, 'The request body does not contain the correct refund option.');;
-        $this->assertContains('<ReturnsWithinOption>Days_30</ReturnsWithinOption>', $requestBody, 'The request body does not contain the correct return limit option.');;
-        $this->assertContains('<ShippingCostPaidByOption>Store</ShippingCostPaidByOption>', $requestBody, 'The request body does not contain the correct shipping cost option.');;
+        $this->assertContains('ReturnPolicy', $requestBody,
+            'The request body does not contain the return policy information.');
+        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody,
+            'The request body does not contain the correct return policy option.');;
+        $this->assertContains('<RefundOption>Exchange</RefundOption>', $requestBody,
+            'The request body does not contain the correct refund option.');;
+        $this->assertContains('<ReturnsWithinOption>Days_30</ReturnsWithinOption>', $requestBody,
+            'The request body does not contain the correct return limit option.');;
+        $this->assertContains('<ShippingCostPaidByOption>Store</ShippingCostPaidByOption>', $requestBody,
+            'The request body does not contain the correct shipping cost option.');;
     }
 
     /**
@@ -179,14 +216,20 @@ class EbayProductIntegratorTest extends TestCase
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
-        $this->assertContains('GeteBayDetails', $requestBody, 'The requested operation is not getting details about ebay services.');
-        $this->assertEquals('GeteBayDetails', $this->mockHttpClient->getApiCallName(), 'The requested operation is not getting details about ebay services.');
-        $this->assertContains('<DetailName>ShippingServiceDetails</DetailName>', $requestBody, 'The request does not coantain the correct detail name to get available shipping methods.');
+        $this->assertContains('GeteBayDetails', $requestBody,
+            'The requested operation is not getting details about ebay services.');
+        $this->assertEquals('GeteBayDetails', $this->mockHttpClient->getApiCallName(),
+            'The requested operation is not getting details about ebay services.');
+        $this->assertContains('<DetailName>ShippingServiceDetails</DetailName>', $requestBody,
+            'The request does not coantain the correct detail name to get available shipping methods.');
 
         $this->assertCount(140, $result, 'The expected number of shipping method was not returned correctly');
-        $this->assertInstanceOf(ShippingServiceInterface::class, $result[0], 'The resulting objects are not of the expected type');
-        $this->assertEquals('50100', $result[0]->getId(), 'The expected number of shipping method was not returned correctly');
-        $this->assertEquals('International Priority Shipping', $result[0]->getDescription(), 'The expected number of shipping method was not returned correctly');
+        $this->assertInstanceOf(ShippingServiceInterface::class, $result[0],
+            'The resulting objects are not of the expected type');
+        $this->assertEquals('50100', $result[0]->getId(),
+            'The expected number of shipping method was not returned correctly');
+        $this->assertEquals('International Priority Shipping', $result[0]->getDescription(),
+            'The expected number of shipping method was not returned correctly');
     }
 
     /**
@@ -220,11 +263,16 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->assertContains('ShippingDetails', $requestBody, 'No shipping details present.');
         $this->assertContains('ShippingServiceOption', $requestBody, 'No domestic shipping option present.');
-        $this->assertContains('<ShippingService>PostService</ShippingService>', $requestBody, 'PostService is missing from the shipping details.');
-        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">3</ShippingServiceCost>', $requestBody, 'No shipping cost for the domestic option is present.');
-        $this->assertContains('InternationalShippingServiceOption', $requestBody, 'No international shipping option present.');
-        $this->assertContains('<ShippingService>CourierService</ShippingService>', $requestBody, 'CourierService is missing from the shipping details.');
-        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">8.99</ShippingServiceCost>', $requestBody, 'No shipping cost for the international$ option is present.');
+        $this->assertContains('<ShippingService>PostService</ShippingService>', $requestBody,
+            'PostService is missing from the shipping details.');
+        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">3</ShippingServiceCost>',
+            $requestBody, 'No shipping cost for the domestic option is present.');
+        $this->assertContains('InternationalShippingServiceOption', $requestBody,
+            'No international shipping option present.');
+        $this->assertContains('<ShippingService>CourierService</ShippingService>', $requestBody,
+            'CourierService is missing from the shipping details.');
+        $this->assertContains('<ShippingServiceCost xmlns="urn:ebay:apis:eBLBaseComponents">8.99</ShippingServiceCost>',
+            $requestBody, 'No shipping cost for the international$ option is present.');
     }
 
 }
