@@ -80,11 +80,13 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * @param int $page
+     * @param int $perPage
      * @return array
      */
-    public function getProducts()
+    public function getProducts($page = 1, $perPage = 100)
     {
-        // TODO: Implement getProducts() method.
+        return $this->productWrapper->getAll($page, $perPage);
     }
 
     /**

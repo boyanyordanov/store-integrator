@@ -8,15 +8,25 @@ use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
 use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\CategoryType;
+use DTS\eBaySDK\Trading\Types\GetSellerListRequestType;
 use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
+use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use StoreIntegrator\Product;
 
+/**
+ * Class ProductWrapper
+ * @package StoreIntegrator\eBay
+ */
 class ProductWrapper extends EbayWrapper
 {
+    /**
+     * @param Product $product
+     * @return \DTS\eBaySDK\Trading\Types\AddFixedPriceItemResponseType
+     */
     public function post(Product $product)
     {
         $request = new AddFixedPriceItemRequestType();
@@ -144,5 +154,28 @@ class ProductWrapper extends EbayWrapper
                 $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
             }
         }
+    }
+
+    /**
+     * @param int $page
+     * @param int $perPage
+     * @return \DTS\eBaySDK\Trading\Types\GetSellerListResponseType
+     */
+    public function getAll($page = 1, $perPage = 100)
+    {
+        $request = new GetSellerListRequestType();
+
+        $request->DetailLevel = ['ReturnAll'];
+
+        $request->Pagination = new PaginationType();
+        $request->Pagination->EntriesPerPage = $perPage;
+        $request->Pagination->PageNumber = $page;
+
+        $request->StartTimeFrom = date_create('2015-10-01');
+        $request->StartTimeFrom = date_create();
+
+        $response = $this->service->getSellerList($request);
+
+        return $response;
     }
 }
