@@ -106,6 +106,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
             $cat = new \stdClass;
             $cat->id = $item['CategoryID'];
             $cat->name = $item['CategoryName'];
+            $cat->level = $item['CategoryLevel'];
+            $cat->parentID = $item['CategoryParentID'];
 
             array_push($result, $cat);
         }
