@@ -9,7 +9,6 @@ use StoreIntegrator\eBay\DetailsWrapper;
 use StoreIntegrator\eBay\EbayProductIntegrator;
 use StoreIntegrator\eBay\EbayShippingService;
 use StoreIntegrator\eBay\ProductWrapper;
-use StoreIntegrator\Product;
 use StoreIntegrator\tests\TestCase;
 
 // should get categories version

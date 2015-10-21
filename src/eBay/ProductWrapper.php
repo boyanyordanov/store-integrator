@@ -171,6 +171,7 @@ class ProductWrapper extends EbayWrapper
         $request->Pagination->EntriesPerPage = $perPage;
         $request->Pagination->PageNumber = $page;
 
+        // TODO: Don't hard-code those
         $request->StartTimeFrom = date_create('2015-10-01');
         $request->StartTimeTo = date_create();
 
