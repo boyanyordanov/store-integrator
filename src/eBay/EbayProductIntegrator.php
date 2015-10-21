@@ -44,19 +44,6 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function __construct(ProductWrapper $productWrapper, CategoriesWrapper $categoriesWrapper, DetailsWrapper $detailsWrapper)
     {
-//        if (is_null($service)) {
-//            // TODO: implement configuration from environment variables
-//            $this->service = new TradingService([
-//                'apiVersion' => getenv('EBAY-TRADING-API-VERSION'),
-//                'sandbox' => true,
-//                'siteId' => SiteIds::US,
-//                'devId' => getenv('EBAY-DEV-ID'),
-//                'appId' => getenv('EBAY-APP-ID'),
-//                'certId' => getenv('EBAY-CERT-ID'),
-//            ]);
-//        } else {
-//            $this->service = $service;
-//        }
         $this->productWrapper = $productWrapper;
         $this->categoriesWrapper = $categoriesWrapper;
         $this->detailsWrapper = $detailsWrapper;
@@ -81,7 +68,15 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function postProducts(array $products)
     {
-        // TODO: Implement postProducts() method.
+        // Probably just a stub
+        // TODO: Check if one request could be used
+        $responses = [];
+
+        foreach($products as $product) {
+            $responses[] = $this->productWrapper->post($product);
+        }
+
+        return $responses;
     }
 
     /**
