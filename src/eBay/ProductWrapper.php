@@ -172,7 +172,7 @@ class ProductWrapper extends EbayWrapper
         $request->Pagination->PageNumber = $page;
 
         $request->StartTimeFrom = date_create('2015-10-01');
-        $request->StartTimeFrom = date_create();
+        $request->StartTimeTo = date_create();
 
         $this->addAuthToRequest($request);
 
