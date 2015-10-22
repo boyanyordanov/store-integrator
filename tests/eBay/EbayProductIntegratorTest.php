@@ -245,6 +245,9 @@ class EbayProductIntegratorTest extends TestCase
      */
     public function testAddingShippingMethods()
     {
+        $mockResponse = $this->generateEbaySuccessResponse('<xml>Success</xml>');
+        $this->attachMockedEbayResponse($mockResponse);
+
         $product = $this->sampleProduct([
             'shippingOptions' => [
                 new EbayShippingService([
@@ -283,4 +286,22 @@ class EbayProductIntegratorTest extends TestCase
             $requestBody, 'No shipping cost for the international$ option is present.');
     }
 
+    public function testGettingProducts()
+    {
+        $mockResponse = $this->generateEbaySuccessResponse('<xml>Success</xml>');
+        $this->attachMockedEbayResponse($mockResponse);
+
+        $this->productIntegrator->getProducts();
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertEquals('GetSellerList', $this->mockHttpClient->getApiCallName(), 'Incorrect api call hedaer.');
+        $this->assertContains('GetSellerList', $requestBody, 'Incorect api call in the request xml.');
+        $this->assertContains('<DetailLevel>ReturnAll</DetailLevel>', $requestBody, 'The detail level for the request is not set properly.');
+        $this->assertContains('Pagination', $requestBody. 'No pagination data found in the request.');
+        $this->assertContains('<EntriesPerPage>100</EntriesPerPage>', $requestBody. 'Unexpected value for products per page found.');
+        $this->assertContains('<PageNumber>1</PageNumber>', $requestBody. 'Unexpected value for page found.');
+        $this->assertContains('<StartTimeFrom>', $requestBody. 'Missing start time for range.');
+        $this->assertContains('<StartTimeTo>', $requestBody. 'Missing end time for range.');
+    }
 }

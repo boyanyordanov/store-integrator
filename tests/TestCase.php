@@ -26,7 +26,7 @@ class TestCase extends PHPUnit_Framework_TestCase
      */
     protected $tradingService;
     /**
-     * @var MockClient
+     * @var MockHttpClient
      */
     protected $mockHttpClient;
     /**
@@ -85,13 +85,18 @@ class TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $xmlStubPath
+     * @param $xml
      * @return Response
      */
-    public function generateEbaySuccessResponse($xmlStubPath)
+    public function generateEbaySuccessResponse($xml)
     {
         $mockReponse = new Response(200);
-        $mockReponse->setBody(EntityBody::factory(file_get_contents($xmlStubPath)));
+        if(file_exists($xml)) {
+            $mockReponse->setBody(EntityBody::factory(file_get_contents($xml)));
+        } else {
+            $mockReponse->setBody(EntityBody::factory($xml));
+        }
+
         return $mockReponse;
     }
 

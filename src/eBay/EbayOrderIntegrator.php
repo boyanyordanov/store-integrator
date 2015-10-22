@@ -55,6 +55,6 @@ class EbayOrderIntegrator implements OrderIntegratorInterface
      */
     public function fulfilOrder()
     {
-        // TODO: Implement fulfilOrder() method.
+
     }
 }
