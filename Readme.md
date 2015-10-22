@@ -47,4 +47,4 @@ In future this will be hidden from the end user of the package.
 
 ## Contributors
 
-* Boyan Yordanov b.yordanov@cloudcart.com
+* Boyan Yordanov [b.yordanov@cloudcart.com](mailto:b.yordanov@cloudcart.com)
