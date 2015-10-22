@@ -51,10 +51,12 @@ class EbayOrderIntegrator implements OrderIntegratorInterface
     }
 
     /**
+     * @param $orderId
+     * @param $fulfillmentData
      * @return mixed
      */
-    public function fulfilOrder()
+    public function fulfilOrder($orderId, $fulfillmentData)
     {
-
+        return $this->ordersWrapper->fulfill($orderId, $fulfillmentData);
     }
 }

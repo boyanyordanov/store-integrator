@@ -53,9 +53,11 @@ class IntegratorMock implements ProductIntegratorInterface, OrderIntegratorInter
     }
 
     /**
+     * @param $orderId
+     * @param $fulfillmentData
      * @return mixed
      */
-    public function fulfilOrder()
+    public function fulfilOrder($orderId, $fulfillmentData)
     {
         // TODO: Implement fulfilOrder() method.
     }
