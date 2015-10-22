@@ -62,17 +62,20 @@ class OrdersWrapper extends EbayWrapper
 
         $request = new CompleteSaleRequestType();
 
+        $this->addAuthToRequest($request);
+        
         $request->OrderID = $orderID;
         $request->Paid = array_key_exists('paid', $fulfillmentData) ? $fulfillmentData['paid'] : true;
         $request->Shipped = array_key_exists('shipped', $fulfillmentData) ? $fulfillmentData['shipped'] : false;
-        
+
         if(array_key_exists('tracking', $fulfillmentData) && $fulfillmentData['tracking']) {
             $request->Shipment = new ShipmentType();
             $request->Shipment->ShipmentTrackingDetails = [new ShipmentTrackingDetailsType()];
             $request->Shipment->ShipmentTrackingDetails[0]->ShipmentTrackingNumber = $fulfillmentData['trackingNumber'];
         }
 
-       $response = $this->service->completeSale($request);
+
+        $response = $this->service->completeSale($request);
 
         if ($response->Ack === 'Failure') {
             return false;
