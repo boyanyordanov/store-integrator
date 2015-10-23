@@ -8,6 +8,7 @@ use DTS\eBaySDK\Trading\Enums\TradingRoleCodeType;
 use DTS\eBaySDK\Trading\Types\CompleteSaleRequestType;
 use DTS\eBaySDK\Trading\Types\FeedbackInfoType;
 use DTS\eBaySDK\Trading\Types\GetOrdersRequestType;
+use DTS\eBaySDK\Trading\Types\OrderIDArrayType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\ShipmentTrackingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShipmentType;
@@ -55,6 +56,7 @@ class OrdersWrapper extends EbayWrapper
     public function get($orderId)
     {
         $request = new GetOrdersRequestType();
+        $request->OrderIDArray = new OrderIDArrayType();
         $request->OrderIDArray->OrderID = [$orderId];
         $request->DetailLevel = ['ReturnAll'];
 
