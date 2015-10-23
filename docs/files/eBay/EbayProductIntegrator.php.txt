@@ -14,24 +14,30 @@ use StoreIntegrator\Product;
 class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAggregatorInterface
 {
     /**
+     * Version of the categories used.
+     * Has a default value but is update when the category hierarchy is called.
+     *
      * @var string
      */
     protected $categoriesVersion = '113';
 
     /**
-     * @var TradingService
-     */
-    protected $service;
-
-    /**
+     * Instance of the API wrapper for the methods working with products
+     *
      * @var ProductWrapper
      */
     private $productWrapper;
+
     /**
+     * Instance of the API wrapper for the methods working with categories
+     *
      * @var CategoriesWrapper
      */
     private $categoriesWrapper;
+
     /**
+     * Instance of the API wrapper for the methods working with ebay settings and options
+     *
      * @var DetailsWrapper
      */
     private $detailsWrapper;
@@ -40,7 +46,6 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      * @param ProductWrapper $productWrapper
      * @param CategoriesWrapper $categoriesWrapper
      * @param DetailsWrapper $detailsWrapper
-     * @internal param TradingService|null $service
      */
     public function __construct(ProductWrapper $productWrapper, CategoriesWrapper $categoriesWrapper, DetailsWrapper $detailsWrapper)
     {
@@ -63,13 +68,13 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Post multiple products to eBay
+     *
      * @param array $products
      * @return mixed
      */
     public function postProducts(array $products)
     {
-        // Probably just a stub
-        // TODO: Check if one request could be used
         $responses = [];
 
         foreach($products as $product) {
@@ -80,6 +85,9 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Get products for the current user.
+     * Has pagination
+     *
      * @param int $page
      * @param int $perPage
      * @return array
@@ -92,6 +100,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     /**
      * Returns an array of categories to map to the product
      * Each category is an array with id and name
+
      * @return array
      */
     public function getCategories()
@@ -116,6 +125,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Calls the eBay API to get the current version of the category hierarchy
+     *
      * @return array
      */
     public function updateCategoriesVersion()
@@ -128,6 +139,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Getter for the version of the category hierarchy used for the requests.
+     *
      * @return int
      */
     public function getCategoriesVersion()
@@ -136,6 +149,8 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Returns the settigns used to configure the product (and the rest) wrapper
+     *
      * @return mixed
      */
     public function getConfig()
@@ -144,7 +159,9 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * Calls the eBay API and returns a list of all available shipping methods for the selected eBay site.
      *
+     * @return array
      */
     public function getAvailableShippingMethods()
     {

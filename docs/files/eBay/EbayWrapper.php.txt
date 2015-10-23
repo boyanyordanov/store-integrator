@@ -63,4 +63,15 @@ abstract class EbayWrapper
     {
         return $this->service->config();
     }
+
+    /**
+     * @param $element
+     * @param $array
+     * @param $default
+     * @return bool
+     */
+    protected function determineValue($element, $array, $default)
+    {
+        return array_key_exists($element, $array) ? $array[$element] : $default;
+    }
 }

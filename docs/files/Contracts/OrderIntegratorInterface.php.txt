@@ -18,7 +18,9 @@ interface OrderIntegratorInterface {
     public function getOrder($id);
 
     /**
+     * @param $orderId
+     * @param $fulfillmentData
      * @return mixed
      */
-    public function fulfilOrder();
+    public function fulfilOrder($orderId, $fulfillmentData);
 }
