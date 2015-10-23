@@ -27,6 +27,8 @@ class OrdersWrapper extends EbayWrapper
     {
         $request = new GetOrdersRequestType();
 
+        $request->DetailLevel = ['ReturnAll'];
+
         $request->OrderRole = TradingRoleCodeType::C_SELLER;
         $request->OrderStatus = OrderStatusCodeType::C_COMPLETED;
 
