@@ -57,13 +57,14 @@ class OrdersWrapper extends EbayWrapper
          *  'shipped' => true,
          *  'tracking' => true,
          *  'trackingNumber => 'tracking-number-123',
+         *  'trackingCarrier => 'USPS',
          * ]
          */
 
         $request = new CompleteSaleRequestType();
 
         $this->addAuthToRequest($request);
-        
+
         $request->OrderID = $orderID;
         $request->Paid = array_key_exists('paid', $fulfillmentData) ? $fulfillmentData['paid'] : true;
         $request->Shipped = array_key_exists('shipped', $fulfillmentData) ? $fulfillmentData['shipped'] : false;
@@ -72,6 +73,7 @@ class OrdersWrapper extends EbayWrapper
             $request->Shipment = new ShipmentType();
             $request->Shipment->ShipmentTrackingDetails = [new ShipmentTrackingDetailsType()];
             $request->Shipment->ShipmentTrackingDetails[0]->ShipmentTrackingNumber = $fulfillmentData['trackingNumber'];
+            $request->Shipment->ShipmentTrackingDetails[0]->ShippingCarrierUsed = $fulfillmentData['trackingCarrier'];
         }
 
 
