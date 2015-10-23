@@ -49,6 +49,23 @@ class OrdersWrapper extends EbayWrapper
     }
 
     /**
+     * @param $orderId
+     * @return \DTS\eBaySDK\Trading\Types\GetOrdersResponseType
+     */
+    public function get($orderId)
+    {
+        $request = new GetOrdersRequestType();
+        $request->OrderIDArray->OrderID = [$orderId];
+        $request->DetailLevel = ['ReturnAll'];
+
+        $this->addAuthToRequest($request);
+
+        $response = $this->service->getOrders($request);
+
+        return $response;
+    }
+
+    /**
      * @param $orderID
      * @param $fulfillmentData
      * @return bool|\DTS\eBaySDK\Trading\Types\CompleteSaleResponseType

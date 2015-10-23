@@ -42,12 +42,12 @@ class EbayOrderIntegrator implements OrderIntegratorInterface
     }
 
     /**
-     * @param $id
+     * @param $orderId
      * @return mixed
      */
-    public function getOrder($id)
+    public function getOrder($orderId)
     {
-        // TODO: Implement getOrder() method.
+        return $this->ordersWrapper->get($orderId);
     }
 
     /**
