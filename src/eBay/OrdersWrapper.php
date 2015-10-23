@@ -26,7 +26,7 @@ class OrdersWrapper extends EbayWrapper
         $request = new GetOrdersRequestType();
 
         $request->OrderRole = TradingRoleCodeType::C_SELLER;
-        $request->OrderStatus = OrderStatusCodeType::C_ACTIVE;
+        $request->OrderStatus = OrderStatusCodeType::C_IN_PROCESS;
 
         // TODO: Don't hard-code those
         $request->CreateTimeFrom = date_create('2015-10-01');
