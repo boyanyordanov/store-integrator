@@ -89,22 +89,20 @@ class EbayOrderIntegratorTest extends TestCase
         $this->integrator->fulfilOrder('order-1234', [
             'shipped' => true,
             'tracking' => true,
+            'trackingCarrier' => 'USPS',
             'trackingNumber' => 'some-tracking-1234'
         ]);
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
-        $this->assertContains(
-            implode('', [
-                '<Shipment xmlns="urn:ebay:apis:eBLBaseComponents">',
-                '<ShipmentTrackingDetails xmlns="urn:ebay:apis:eBLBaseComponents">',
-                '<ShipmentTrackingNumber>some-tracking-1234</ShipmentTrackingNumber>',
-                '</ShipmentTrackingDetails>',
-                '</Shipment>'
-            ]),
-            $requestBody,
-            'Missing tracking information in the request body XML.');
-
+        $this->assertContains('<Shipment xmlns="urn:ebay:apis:eBLBaseComponents">', $requestBody,
+            'Missing Shipment details in request XML');
+        $this->assertContains('<ShipmentTrackingDetails xmlns="urn:ebay:apis:eBLBaseComponents">', $requestBody,
+            'Missing Tracking details in request XML');
+        $this->assertContains('<ShippingCarrierUsed>USPS</ShippingCarrierUsed>', $requestBody,
+            'Missing shipping carrier in request XML.');
+        $this->assertContains('<ShipmentTrackingNumber>some-tracking-1234</ShipmentTrackingNumber>', $requestBody,
+            'Missing tracking number in request XML');
     }
 
     public function testReturningFalseIfOrderFulfillmentFails()
@@ -123,5 +121,52 @@ class EbayOrderIntegratorTest extends TestCase
         ]);
 
         $this->assertFalse($result);
+    }
+
+    public function testLeavingDefaultFeedback()
+    {
+        $mockRespone = $this->generateEbaySuccessResponse('<xml>Left feedback</xml>');
+        $this->attachMockedEbayResponse($mockRespone);
+
+        $this->integrator->fulfilOrder('order-1234', [
+            'shipped' => true,
+            'tracking' => true,
+            'trackingCarrier' => 'USPS',
+            'trackingNumber' => 'some-tracking-1234',
+            'leaveFeedback' => true,
+            'userID' => 'test_user'
+        ]);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('<FeedbackInfo xmlns="urn:ebay:apis:eBLBaseComponents">', $requestBody,
+            'Missing feedback info cotnainer in request XML');
+        $this->assertContains('<CommentText>Great buyer!</CommentText>', $requestBody,
+            'Missing feedback text in request XML');
+        $this->assertContains('<TargetUser>test_user</TargetUser>', $requestBody,
+            'Missing user id in request XML');
+    }
+
+    public function testLeavingSpecificFeedback()
+    {
+        $mockRespone = $this->generateEbaySuccessResponse('<xml>Left feedback</xml>');
+        $this->attachMockedEbayResponse($mockRespone);
+
+        $this->integrator->fulfilOrder('order-1234', [
+            'shipped' => true,
+            'tracking' => true,
+            'trackingCarrier' => 'USPS',
+            'trackingNumber' => 'some-tracking-1234',
+            'leaveFeedback' => true,
+            'userID' => 'test_user',
+            'feedbackText' => 'Super awesome buyer!'
+        ]);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('<FeedbackInfo xmlns="urn:ebay:apis:eBLBaseComponents">', $requestBody,
+            'Missing feedback info cotnainer in request XML');
+        $this->assertContains('<CommentText>Super awesome buyer!</CommentText>', $requestBody,
+            'Missing feedback text in request XML');
     }
 }

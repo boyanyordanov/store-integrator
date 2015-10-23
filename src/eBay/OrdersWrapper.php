@@ -2,9 +2,11 @@
 
 namespace StoreIntegrator\eBay;
 
+use DTS\eBaySDK\Trading\Enums\CommentTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\OrderStatusCodeType;
 use DTS\eBaySDK\Trading\Enums\TradingRoleCodeType;
 use DTS\eBaySDK\Trading\Types\CompleteSaleRequestType;
+use DTS\eBaySDK\Trading\Types\FeedbackInfoType;
 use DTS\eBaySDK\Trading\Types\GetOrdersRequestType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\ShipmentTrackingDetailsType;
@@ -58,6 +60,9 @@ class OrdersWrapper extends EbayWrapper
          *  'tracking' => true,
          *  'trackingNumber => 'tracking-number-123',
          *  'trackingCarrier => 'USPS',
+         *  'leaveFeedback' => true,
+         *  'feedbackText' => 'Great buyer',
+         *  'userID' => 'testuser_john'
          * ]
          */
 
@@ -72,8 +77,15 @@ class OrdersWrapper extends EbayWrapper
         if(array_key_exists('tracking', $fulfillmentData) && $fulfillmentData['tracking']) {
             $request->Shipment = new ShipmentType();
             $request->Shipment->ShipmentTrackingDetails = [new ShipmentTrackingDetailsType()];
-            $request->Shipment->ShipmentTrackingDetails[0]->ShipmentTrackingNumber = $fulfillmentData['trackingNumber'];
             $request->Shipment->ShipmentTrackingDetails[0]->ShippingCarrierUsed = $fulfillmentData['trackingCarrier'];
+            $request->Shipment->ShipmentTrackingDetails[0]->ShipmentTrackingNumber = $fulfillmentData['trackingNumber'];
+        }
+
+        if(array_key_exists('leaveFeedback', $fulfillmentData) && $fulfillmentData['leaveFeedback']) {
+            $request->FeedbackInfo = new FeedbackInfoType();
+            $request->FeedbackInfo->CommentType = CommentTypeCodeType::C_POSITIVE;
+            $request->FeedbackInfo->CommentText = array_key_exists('feedbackText', $fulfillmentData) ? $fulfillmentData['feedbackText'] : 'Great buyer!';
+            $request->FeedbackInfo->TargetUser = $fulfillmentData['userID'];
         }
 
 
