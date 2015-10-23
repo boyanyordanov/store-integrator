@@ -72,18 +72,20 @@ class OrdersWrapper extends EbayWrapper
 
         $this->addAuthToRequest($request);
 
-        $request->OrderID = $orderID;
-        $request->Paid = array_key_exists('paid', $fulfillmentData) ? $fulfillmentData['paid'] : true;
-        $request->Shipped = array_key_exists('shipped', $fulfillmentData) ? $fulfillmentData['shipped'] : false;
+        $data = $this->formatData($fulfillmentData);
 
-        if(array_key_exists('tracking', $fulfillmentData) && $fulfillmentData['tracking']) {
+        $request->OrderID = $orderID;
+        $request->Paid = $data['paid'];
+        $request->Shipped = $data['shipped'];
+
+        if($data['tracking']) {
             $request->Shipment = new ShipmentType();
             $request->Shipment->ShipmentTrackingDetails = [new ShipmentTrackingDetailsType()];
             $request->Shipment->ShipmentTrackingDetails[0]->ShippingCarrierUsed = $fulfillmentData['trackingCarrier'];
             $request->Shipment->ShipmentTrackingDetails[0]->ShipmentTrackingNumber = $fulfillmentData['trackingNumber'];
         }
 
-        if(array_key_exists('leaveFeedback', $fulfillmentData) && $fulfillmentData['leaveFeedback']) {
+        if($data['leaveFeedback']) {
             $request->FeedbackInfo = new FeedbackInfoType();
             $request->FeedbackInfo->CommentType = CommentTypeCodeType::C_POSITIVE;
             $request->FeedbackInfo->CommentText = array_key_exists('feedbackText', $fulfillmentData) ? $fulfillmentData['feedbackText'] : 'Great buyer!';
@@ -98,5 +100,20 @@ class OrdersWrapper extends EbayWrapper
         }
 
         return $response;
+    }
+
+    /**
+     * @param $fulfillmentData
+     * @return array
+     */
+    private function formatData($fulfillmentData)
+    {
+        $data = [];
+        $data['paid'] = $this->determineValue('paid', $fulfillmentData, true);
+        $data['shipped'] = $this->determineValue('shipped', $fulfillmentData, false);
+        $data['tracking'] = $this->determineValue('tracking', $fulfillmentData, false);
+        $data['leaveFeedback'] = $this->determineValue('leaveFeedback', $fulfillmentData, false);
+
+        return $data;
     }
 }
