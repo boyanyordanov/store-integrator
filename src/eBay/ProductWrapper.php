@@ -49,8 +49,8 @@ class ProductWrapper extends EbayWrapper
         $item->Description = $product->getDescription();
         $item->SKU = $product->getSku();
         $item->Country = $product->getCountry();
-        $item->Location = 'Beverly Hills';
-        $item->PostalCode = '90210';
+        $item->Location = $this->store->getStoreData('location');
+        $item->PostalCode = $this->store->getStoreData('postCode');
 
         $item->Currency = $product->getCurrency();
 
@@ -71,12 +71,9 @@ class ProductWrapper extends EbayWrapper
          * Note that you have to provide the PayPal account that the seller will use.
          * This is because a seller may have more than one PayPal account.
          */
-        $item->PaymentMethods = array(
-            'VisaMC',
-            'PayPal'
-        );
-        $item->PayPalEmailAddress = 'example@example.com';
-        $item->DispatchTimeMax = 1;
+        $item->PaymentMethods = $this->store->getPaymentOptions();
+        $item->PayPalEmailAddress = $this->store->getPaypalEmail();
+        $item->DispatchTimeMax = $this->store->getStoreData('dispatchTime');
 
         $this->addShippingOptions($item, $product->getShippingOptions());
 

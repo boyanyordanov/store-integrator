@@ -13,6 +13,7 @@ use Guzzle\Http\Message\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
 use PHPUnit_Framework_TestCase;
 use StoreIntegrator\Product;
+use StoreIntegrator\Store;
 use StoreIntegrator\tests\eBay\MockHttpClient;
 
 /**
@@ -119,5 +120,15 @@ class TestCase extends PHPUnit_Framework_TestCase
         ], $additionalData));
 
         return $product;
+    }
+
+    /**
+     * @return Store
+     */
+    public function sampleStore()
+    {
+        $store = new Store('test_email@mail.dev', ['location' => 'Varna', 'postCode' => '9000']);
+
+        return $store;
     }
 }

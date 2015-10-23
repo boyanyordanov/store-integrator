@@ -42,9 +42,11 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->userToken = 'user-auth-token';
 
-        $productWrapper = new ProductWrapper($this->userToken, $this->tradingService);
-        $categoriesWrapper = new CategoriesWrapper($this->userToken, $this->tradingService);
-        $detailsWrapper = new DetailsWrapper($this->userToken, $this->tradingService);
+        $store = $this->sampleStore();
+
+        $productWrapper = new ProductWrapper($this->userToken, $store, $this->tradingService);
+        $categoriesWrapper = new CategoriesWrapper($this->userToken, $store, $this->tradingService);
+        $detailsWrapper = new DetailsWrapper($this->userToken, $store, $this->tradingService);
 
         $this->productIntegrator = new EbayProductIntegrator(
             $productWrapper,
@@ -62,10 +64,12 @@ class EbayProductIntegratorTest extends TestCase
         putenv('EBAY-APP-ID=app-id');
         putenv('EBAY-CERT-ID=cert-id');
 
+        $store = $this->sampleStore();
+
         $integrator = new EbayProductIntegrator(
-            new ProductWrapper($this->userToken),
-            new CategoriesWrapper($this->userToken),
-            new DetailsWrapper($this->userToken)
+            new ProductWrapper($this->userToken, $store),
+            new CategoriesWrapper($this->userToken, $store),
+            new DetailsWrapper($this->userToken, $store)
         );
 
         $configuration = $integrator->getConfig();

@@ -29,7 +29,9 @@ class EbayOrderIntegratorTest extends TestCase
 
         $this->userToken = 'user-auth-token';
 
-        $orderssWrapper = new OrdersWrapper($this->userToken, $this->tradingService);
+        $store = $this->sampleStore();
+
+        $orderssWrapper = new OrdersWrapper($this->userToken, $store, $this->tradingService);
 
         $this->integrator = new EbayOrderIntegrator($orderssWrapper);
     }

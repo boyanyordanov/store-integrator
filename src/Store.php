@@ -46,10 +46,13 @@ class Store
      * @var integer
      */
     protected $ebaySiteID;
+
     /**
      * @var array
      */
-    private $storeData;
+    protected $storeData = [
+        'dispatchTime' => 1
+    ];
 
     /**
      * @param $payPalEmail
@@ -63,12 +66,13 @@ class Store
         $this->validateEmail($payPalEmail);
         $this->validateRequiredDataInArray($storeData, [
             'location' => true,
-            'postCode' => true
+            'postCode' => true,
+            'dispatchTime' => false
         ]);
 
         $this->ebaySiteID = $ebaySiteID;
         $this->payPalEmail = $payPalEmail;
-        $this->storeData = $storeData;
+        $this->storeData = array_merge($this->storeData, $storeData);
     }
 
     /**
@@ -168,5 +172,15 @@ class Store
                 throw new ValidationException('Store ' . $key . ' was not provided');
             }
         }
+    }
+
+    /**
+     * @param $element
+     * @return array
+     */
+    public function getStoreData($element)
+    {
+        // throw exception if element is missing
+        return $this->storeData[$element];
     }
 }
