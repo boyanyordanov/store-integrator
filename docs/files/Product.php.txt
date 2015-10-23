@@ -86,6 +86,8 @@ class Product
         $this->weight = $data['weight'];
         $this->quantity = intval($data['quantity']);
 
+        // TODO: Add better validation
+
         if(array_key_exists('ReturnPolicy', $data)) {
             $this->returnPolicy = $data['ReturnPolicy'];
         }
@@ -93,6 +95,8 @@ class Product
         if(array_key_exists('shippingOptions', $data)) {
             $this->shippingOptions = $data['shippingOptions'];
         }
+
+        // TODO: Add pictures from links
     }
 
     /**

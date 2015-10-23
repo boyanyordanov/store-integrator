@@ -75,7 +75,7 @@
 <text text-anchor="middle" x="690.58" y="-711.2" font-family="Courier,monospace" font-size="11.00">EbayShippingService</text>
 </g>
 <!-- \\StoreIntegrator\\ShippingService -->
-<g id="node18" class="node"><title>\\StoreIntegrator\\ShippingService</title>
+<g id="node19" class="node"><title>\\StoreIntegrator\\ShippingService</title>
 <polygon fill="none" stroke="black" points="486.79,-858 368.79,-858 368.79,-822 486.79,-822 486.79,-858"/>
 <text text-anchor="start" x="393.79" y="-843.2" font-family="Courier,monospace" font-size="11.00">«abstract»</text>
 <text text-anchor="start" x="376.79" y="-831.2" font-family="Courier,monospace" font-size="11.00">ShippingService</text>
@@ -117,7 +117,7 @@
 <text text-anchor="middle" x="690.58" y="-603.2" font-family="Courier,monospace" font-size="11.00">DetailsWrapper</text>
 </g>
 <!-- \\StoreIntegrator\\eBay\\DetailsWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper -->
-<g id="edge10" class="edge"><title>\\StoreIntegrator\\eBay\\DetailsWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper</title>
+<g id="edge11" class="edge"><title>\\StoreIntegrator\\eBay\\DetailsWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper</title>
 <path fill="none" stroke="black" d="M634.91,-589.02C590.337,-575.176 527.698,-555.72 483.196,-541.898"/>
 <polygon fill="none" stroke="black" points="484.014,-538.487 473.426,-538.864 481.938,-545.172 484.014,-538.487"/>
 </g>
@@ -127,7 +127,7 @@
 <text text-anchor="middle" x="690.58" y="-765.2" font-family="Courier,monospace" font-size="11.00">EbayOrderIntegrator</text>
 </g>
 <!-- \\StoreIntegrator\\eBay\\EbayOrderIntegrator&#45;&gt;\\StoreIntegrator\\Contracts\\OrderIntegratorInterface -->
-<g id="edge11" class="edge"><title>\\StoreIntegrator\\eBay\\EbayOrderIntegrator&#45;&gt;\\StoreIntegrator\\Contracts\\OrderIntegratorInterface</title>
+<g id="edge12" class="edge"><title>\\StoreIntegrator\\eBay\\EbayOrderIntegrator&#45;&gt;\\StoreIntegrator\\Contracts\\OrderIntegratorInterface</title>
 <path fill="none" stroke="black" stroke-dasharray="1,5" d="M671.283,-786.392C644.904,-811.46 593.414,-855.163 539.58,-872 423.797,-908.212 280.865,-876.929 200.829,-853.031"/>
 <polygon fill="none" stroke="black" points="201.498,-849.576 190.912,-850.011 199.459,-856.273 201.498,-849.576"/>
 </g>
@@ -137,7 +137,7 @@
 <text text-anchor="middle" x="690.58" y="-549.2" font-family="Courier,monospace" font-size="11.00">ProductWrapper</text>
 </g>
 <!-- \\StoreIntegrator\\eBay\\ProductWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper -->
-<g id="edge12" class="edge"><title>\\StoreIntegrator\\eBay\\ProductWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper</title>
+<g id="edge13" class="edge"><title>\\StoreIntegrator\\eBay\\ProductWrapper&#45;&gt;\\StoreIntegrator\\eBay\\EbayWrapper</title>
 <path fill="none" stroke="black" d="M634.91,-546.34C590.43,-541.735 527.961,-535.267 483.477,-530.662"/>
 <polygon fill="none" stroke="black" points="483.733,-527.17 473.426,-529.621 483.012,-534.132 483.733,-527.17"/>
 </g>
@@ -163,22 +163,22 @@
 <text text-anchor="middle" x="690.58" y="-263.2" font-family="Courier,monospace" font-size="11.00">AmazonProduct</text>
 </g>
 <!-- \\StoreIntegrator\\Product -->
-<g id="node17" class="node"><title>\\StoreIntegrator\\Product</title>
+<g id="node18" class="node"><title>\\StoreIntegrator\\Product</title>
 <polygon fill="none" stroke="black" points="459.79,-410 395.79,-410 395.79,-374 459.79,-374 459.79,-410"/>
 <text text-anchor="middle" x="427.79" y="-389.2" font-family="Courier,monospace" font-size="11.00">Product</text>
 </g>
 <!-- \\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\StoreIntegrator\\Product -->
-<g id="edge8" class="edge"><title>\\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\StoreIntegrator\\Product</title>
+<g id="edge9" class="edge"><title>\\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\StoreIntegrator\\Product</title>
 <path fill="none" stroke="black" d="M638.192,-279.214C628.439,-282.875 618.624,-287.422 610.08,-293 571.228,-318.367 580.013,-347.238 539.58,-370 518.485,-381.876 491.972,-387.414 470.172,-389.965"/>
 <polygon fill="none" stroke="black" points="469.809,-386.484 460.209,-390.966 470.509,-393.449 469.809,-386.484"/>
 </g>
 <!-- \\Sabre\\Xml\\XmlSerializable -->
-<g id="node20" class="node"><title>\\Sabre\\Xml\\XmlSerializable</title>
+<g id="node21" class="node"><title>\\Sabre\\Xml\\XmlSerializable</title>
 <ellipse fill="none" stroke="black" cx="427.79" cy="-72" rx="111.581" ry="18"/>
 <text text-anchor="middle" x="427.79" y="-68.3" font-family="Times,serif" font-size="14.00" fill="gray">\Sabre\Xml\XmlSerializable</text>
 </g>
 <!-- \\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\Sabre\\Xml\\XmlSerializable -->
-<g id="edge9" class="edge"><title>\\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\Sabre\\Xml\\XmlSerializable</title>
+<g id="edge10" class="edge"><title>\\StoreIntegrator\\Amazon\\AmazonProduct&#45;&gt;\\Sabre\\Xml\\XmlSerializable</title>
 <path fill="none" stroke="black" stroke-dasharray="1,5" d="M638.2,-249.854C628.548,-245.928 618.768,-241.304 610.08,-236 545.588,-196.628 483.117,-132.7 451.047,-97.4129"/>
 <polygon fill="none" stroke="black" points="453.596,-95.0129 444.305,-89.9211 448.393,-99.6956 453.596,-95.0129"/>
 </g>
@@ -188,24 +188,24 @@
 <text text-anchor="middle" x="690.58" y="-183.2" font-family="Courier,monospace" font-size="11.00">ValidationException</text>
 </g>
 <!-- \\Exception -->
-<g id="node21" class="node"><title>\\Exception</title>
+<g id="node20" class="node"><title>\\Exception</title>
 <ellipse fill="none" stroke="black" cx="427.79" cy="-18" rx="48.9926" ry="18"/>
 <text text-anchor="middle" x="427.79" y="-14.3" font-family="Times,serif" font-size="14.00" fill="gray">\Exception</text>
 </g>
 <!-- \\StoreIntegrator\\Exceptions\\ValidationException&#45;&gt;\\Exception -->
-<g id="edge13" class="edge"><title>\\StoreIntegrator\\Exceptions\\ValidationException&#45;&gt;\\Exception</title>
+<g id="edge8" class="edge"><title>\\StoreIntegrator\\Exceptions\\ValidationException&#45;&gt;\\Exception</title>
 <path fill="none" stroke="black" d="M618.013,-169.257C615.242,-167.662 612.583,-165.914 610.08,-164 561.252,-126.652 588.98,-81.5884 539.58,-45 524.072,-33.5137 504.31,-26.8601 485.783,-23.0243"/>
 <polygon fill="none" stroke="black" points="486.413,-19.5815 475.945,-21.2174 485.148,-26.4663 486.413,-19.5815"/>
+</g>
+<!-- \\StoreIntegrator\\Store -->
+<g id="node17" class="node"><title>\\StoreIntegrator\\Store</title>
+<polygon fill="none" stroke="black" points="717.58,-150 663.58,-150 663.58,-114 717.58,-114 717.58,-150"/>
+<text text-anchor="middle" x="690.58" y="-129.2" font-family="Courier,monospace" font-size="11.00">Store</text>
 </g>
 <!-- \\StoreIntegrator\\ShippingService&#45;&gt;\\StoreIntegrator\\Contracts\\ShippingServiceInterface -->
 <g id="edge6" class="edge"><title>\\StoreIntegrator\\ShippingService&#45;&gt;\\StoreIntegrator\\Contracts\\ShippingServiceInterface</title>
 <path fill="none" stroke="black" stroke-dasharray="1,5" d="M368.657,-828.754C351.665,-825.387 333.073,-821.624 316,-818 286.916,-811.827 255.222,-804.77 226.794,-798.318"/>
 <polygon fill="none" stroke="black" points="227.411,-794.87 216.884,-796.064 225.859,-801.695 227.411,-794.87"/>
-</g>
-<!-- \\StoreIntegrator\\Store -->
-<g id="node19" class="node"><title>\\StoreIntegrator\\Store</title>
-<polygon fill="none" stroke="black" points="717.58,-150 663.58,-150 663.58,-114 717.58,-114 717.58,-150"/>
-<text text-anchor="middle" x="690.58" y="-129.2" font-family="Courier,monospace" font-size="11.00">Store</text>
 </g>
 </g>
 </svg>

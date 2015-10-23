@@ -6,6 +6,7 @@ namespace StoreIntegrator\eBay;
 use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
+use StoreIntegrator\Store;
 
 /**
  * Class EbayWrapper
@@ -18,19 +19,24 @@ abstract class EbayWrapper
      * @var TradingService
      */
     protected $service;
+    /**
+     * @var Store
+     */
+    protected $store;
 
     /**
      * @param $userToken
+     * @param Store $store
      * @param TradingService|null $service
      */
-    public function __construct($userToken, TradingService $service = null)
+    public function __construct($userToken, Store $store, TradingService $service = null)
     {
         if (is_null($service)) {
             // TODO: implement configuration from environment variables
             $this->service = new TradingService([
                 'apiVersion' => getenv('EBAY-TRADING-API-VERSION'),
                 'sandbox' => true,
-                'siteId' => SiteIds::US,
+                'siteId' => $store->getEbaySiteID(),
                 'devId' => getenv('EBAY-DEV-ID'),
                 'appId' => getenv('EBAY-APP-ID'),
                 'certId' => getenv('EBAY-CERT-ID'),
@@ -40,6 +46,7 @@ abstract class EbayWrapper
         }
 
         $this->userToken = $userToken;
+        $this->store = $store;
     }
 
     /**
