@@ -308,4 +308,27 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('<StartTimeFrom>', $requestBody. 'Missing start time for range.');
         $this->assertContains('<StartTimeTo>', $requestBody. 'Missing end time for range.');
     }
+
+    public function testAddingPictures()
+    {
+        $mockResponse = $this->generateEbaySuccessResponse('<xml>Success</xml>');
+        $this->attachMockedEbayResponse($mockResponse);
+
+        $product = $this->sampleProduct([
+           'pictures'=> [
+               'http://some-url.dev/picture1.jpg',
+               'http://some-url.dev/picture2.jpg',
+               'http://some-url.dev/picture3.jpg'
+           ]
+        ]);
+
+        $this->productIntegrator->postProduct($product);
+
+        $requestBody = $this->mockHttpClient->getRequestBody();
+
+        $this->assertContains('PictureDetails', $requestBody, 'Missing picture details object.');
+        $this->assertContains('<PictureURL>http://some-url.dev/picture1.jpg</PictureURL>', $requestBody, 'No element for picture 1.');
+        $this->assertContains('<PictureURL>http://some-url.dev/picture2.jpg</PictureURL>', $requestBody, 'No element for picture 2.');
+        $this->assertContains('<PictureURL>http://some-url.dev/picture3.jpg</PictureURL>', $requestBody, 'No element for picture 3.');
+    }
 }

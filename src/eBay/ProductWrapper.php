@@ -2,6 +2,9 @@
 
 namespace StoreIntegrator\eBay;
 
+use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
+use DTS\eBaySDK\Trading\Types\NameValueListType;
+use DTS\eBaySDK\Trading\Enums\GalleryTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
@@ -12,6 +15,7 @@ use DTS\eBaySDK\Trading\Types\GetSellerListRequestType;
 use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
+use DTS\eBaySDK\Trading\Types\PictureDetailsType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
@@ -60,26 +64,26 @@ class ProductWrapper extends EbayWrapper
         // Condition (should be brand new)
         $item->ConditionID = 1000;
 
-        // TODO: Check data for payments, shipping and return policy
+        $item->ItemSpecifics = new NameValueListArrayType();
 
-        // Start hard-coded shipping, payment and retrn policy
-        /**
-         * Buyers can use one of two payment methods when purchasing the item.
-         * Visa / Master Card
-         * PayPal
-         * The item will be dispatched within 1 business days once payment has cleared.
-         * Note that you have to provide the PayPal account that the seller will use.
-         * This is because a seller may have more than one PayPal account.
-         */
+        $brand = new NameValueListType();
+        $brand->Name = 'Brand';
+        $brand->Value[] = $product->getBrand();
+
+        $item->ItemSpecifics->NameValueList[] = $brand;
+
+        // Add pictures
+        $this->addPictures($item, $product);
+
+        // Add payement
         $item->PaymentMethods = $this->store->getPaymentOptions();
         $item->PayPalEmailAddress = $this->store->getPaypalEmail();
         $item->DispatchTimeMax = $this->store->getStoreData('dispatchTime');
 
+        // Add shipping options and return policy
         $this->addShippingOptions($item, $product->getShippingOptions());
 
         $this->addReturnPolicy($item, $product->getReturnPolicy());
-
-        // End hard coded shipping payment and return policy
 
         $request->Item = $item;
 
@@ -177,5 +181,24 @@ class ProductWrapper extends EbayWrapper
         $response = $this->service->getSellerList($request);
 
         return $response;
+    }
+
+    /**
+     * @param $item
+     * @param $product
+     */
+    public function addPictures($item, $product)
+    {
+        $result = [];
+
+        foreach($product->getPictures() as $pictureUrl) {
+            $result[] = $pictureUrl;
+        }
+
+        if(count($result) > 0) {
+            $item->PictureDetails = new PictureDetailsType();
+            $item->PictureDetails->GalleryType = GalleryTypeCodeType::C_GALLERY;
+            $item->PictureDetails->PictureURL = $result;
+        }
     }
 }

@@ -15,6 +15,10 @@ namespace StoreIntegrator;
  * Class Product
  * @package StoreIntegrator
  */
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
 class Product
 {
     /**
@@ -67,9 +71,14 @@ class Product
     protected $country = 'US';
 
     /**
-     * @var
+     * @var array
      */
     protected $shippingOptions = [];
+
+    /**
+     * @var array
+     */
+    protected $pictures = [];
 
     /**
      * @param $data
@@ -94,6 +103,10 @@ class Product
 
         if(array_key_exists('shippingOptions', $data)) {
             $this->shippingOptions = $data['shippingOptions'];
+        }
+
+        if(array_key_exists('pictures', $data)) {
+            $this->pictures = $data['pictures'];
         }
 
         // TODO: Add pictures from links
@@ -193,5 +206,13 @@ class Product
     public function getShippingOptions()
     {
         return $this->shippingOptions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
     }
 }
