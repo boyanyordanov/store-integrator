@@ -52,9 +52,13 @@ class ProductWrapper extends EbayWrapper
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
         $item->SKU = $product->getSku();
-        $item->Country = $product->getCountry();
+
+        $item->Country = $this->store->getStoreData('country');
         $item->Location = $this->store->getStoreData('location');
-        $item->PostalCode = $this->store->getStoreData('postCode');
+
+        if($this->store->hasStoreData('postCode')) {
+            $item->PostalCode = $this->store->getStoreData('postCode');
+        }
 
         $item->Currency = $product->getCurrency();
 

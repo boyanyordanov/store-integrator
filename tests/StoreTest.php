@@ -10,6 +10,7 @@ class StoreTest extends TestCase
     {
         $store = new Store('testEmail@mail.dev', [
             'location' => 'Varna',
+            'country' => 'Bulgaria',
             'postCode' => '9000'
         ]);
 
@@ -27,6 +28,7 @@ class StoreTest extends TestCase
     {
         new Store('invalid-email', [
             'location' => 'Varna',
+            'country' => 'Bulgaria',
             'postCode' => '9000'
         ]);
     }
@@ -48,6 +50,7 @@ class StoreTest extends TestCase
     {
         $store = new Store('testEmail@mail.dev', [
             'location' => 'Varna',
+            'country' => 'Bulgaria',
             'postCode' => '9000'
         ]);
 
@@ -58,6 +61,7 @@ class StoreTest extends TestCase
     {
         $store = new Store('testEmail@mail.dev', [
             'location' => 'Varna',
+            'country' => 'Bulgaria',
             'postCode' => '9000'
         ]);
 
@@ -77,7 +81,7 @@ class StoreTest extends TestCase
 
     /**
      * @expectedException \StoreIntegrator\Exceptions\ValidationException
-     * @expectedExceptionMessage Store postCode was not provided
+     * @expectedExceptionMessage Store country was not provided
      */
     public function testPostCodeStoreDataValidation()
     {

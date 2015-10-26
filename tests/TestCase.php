@@ -127,7 +127,7 @@ class TestCase extends PHPUnit_Framework_TestCase
      */
     public function sampleStore()
     {
-        $store = new Store('test_email@mail.dev', ['location' => 'Varna', 'postCode' => '9000']);
+        $store = new Store('test_email@mail.dev', ['location' => 'Varna', 'country' => 'Bulgaria', 'postCode' => '9000']);
 
         return $store;
     }

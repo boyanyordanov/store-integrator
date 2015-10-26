@@ -66,11 +66,6 @@ class Product
     protected $quantity;
 
     /**
-     * @var string
-     */
-    protected $country = 'US';
-
-    /**
      * @var array
      */
     protected $shippingOptions = [];
@@ -112,13 +107,6 @@ class Product
         // TODO: Add pictures from links
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
 
     /**
      * @return mixed
