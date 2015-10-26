@@ -2,6 +2,8 @@
 
 namespace StoreIntegrator\eBay;
 
+use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
+use DTS\eBaySDK\Trading\Types\MeasureType;
 use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
 use DTS\eBaySDK\Trading\Types\NameValueListType;
 use DTS\eBaySDK\Trading\Enums\GalleryTypeCodeType;
@@ -17,6 +19,7 @@ use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\PictureDetailsType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
+use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use StoreIntegrator\Product;
@@ -75,6 +78,15 @@ class ProductWrapper extends EbayWrapper
         $brand->Value[] = $product->getBrand();
 
         $item->ItemSpecifics->NameValueList[] = $brand;
+
+        $item->ShippingPackageDetails = new ShipPackageDetailsType();
+        $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_METRIC;
+
+        $weightKg = intval(floor($product->getWeight() / 1000));
+        $weightGr = $product->getWeight() % 1000;
+
+        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['value' => $weightKg]);
+        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['value' => $weightGr]);
 
         // Add pictures
         $this->addPictures($item, $product);
