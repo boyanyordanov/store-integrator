@@ -19,6 +19,12 @@ namespace StoreIntegrator;
  * Class Product
  * @package StoreIntegrator
  */
+use StoreIntegrator\Exceptions\ValidationException;
+
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
 class Product
 {
     /**
@@ -76,6 +82,16 @@ class Product
     protected $pictures = [];
 
     /**
+     * @var array
+     */
+    protected $variationTypes = [];
+
+    /**
+     * @var array
+     */
+    protected $variationOptions = [];
+
+    /**
      * @param $data
      */
     public function __construct($data)
@@ -104,7 +120,9 @@ class Product
             $this->pictures = $data['pictures'];
         }
 
-        // TODO: Add pictures from links
+        if(array_key_exists('variations')) {
+            $this->mapVariations($data['variations']);
+        }
     }
 
 
@@ -202,5 +220,52 @@ class Product
     public function getPictures()
     {
         return $this->pictures;
+    }
+
+    /**
+     * @param $variations
+     * @throws ValidationException
+     */
+    private function mapVariations($variations)
+    {
+        foreach($variations['types'] as $type) {
+            if(!array_key_exists('name'. $type) || array_key_exists('values', $type)) {
+                throw new ValidationException('A name and values for the variation type must be provided.');
+            }
+
+            $this->variationTypes[] = $type;
+        }
+
+        if(array_key_exists('options', $variations)) {
+            throw new ValidationException('At least on variation option should be provided');
+        }
+
+        // TODO: consider to validate the data for each validation
+
+        $this->variationOptions = $variations['options'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariationTypes()
+    {
+        return $this->variationTypes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariationOptions()
+    {
+        return $this->variationOptions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasVariations()
+    {
+        return count($this->variationTypes) > 0;
     }
 }

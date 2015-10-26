@@ -22,6 +22,8 @@ use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
+use DTS\eBaySDK\Trading\Types\VariationsType;
+use DTS\eBaySDK\Trading\Types\VariationType;
 use StoreIntegrator\Product;
 
 /**
@@ -54,7 +56,12 @@ class ProductWrapper extends EbayWrapper
 
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
-        $item->SKU = $product->getSku();
+
+        if($product->hasVariations()) {
+            $this->addVariationsData($item, $product);
+        } else {
+            $item->SKU = $product->getSku();
+        }
 
         $item->Country = $this->store->getStoreData('country');
         $item->Location = $this->store->getStoreData('location');
@@ -71,6 +78,7 @@ class ProductWrapper extends EbayWrapper
         // Condition (should be brand new)
         $item->ConditionID = 1000;
 
+        // Add brand information as item specific information
         $item->ItemSpecifics = new NameValueListArrayType();
 
         $brand = new NameValueListType();
@@ -79,6 +87,7 @@ class ProductWrapper extends EbayWrapper
 
         $item->ItemSpecifics->NameValueList[] = $brand;
 
+        // Add details for the shipping
         $item->ShippingPackageDetails = new ShipPackageDetailsType();
         $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_METRIC;
 
@@ -215,6 +224,56 @@ class ProductWrapper extends EbayWrapper
             $item->PictureDetails = new PictureDetailsType();
             $item->PictureDetails->GalleryType = GalleryTypeCodeType::C_GALLERY;
             $item->PictureDetails->PictureURL = $result;
+        }
+    }
+
+    /**
+     * @param $item
+     * @param $product
+     */
+    protected function addVariationsData($item, $product)
+    {
+        /**
+         * Before we specify the variations we need to inform eBay all the possible
+         * names and values that the listing could use over its life time.
+         */
+        $item->Variations = new VariationsType();
+
+        $variationSet = new NameValueListArrayType();
+
+        foreach($product->getVariationTypes() as $type) {
+            $nameValue = new NameValueListType();
+            $nameValue->Name = $type['name'];
+            $nameValue->Value = $type['values'];
+            $variationSet->NameValueList[] = $nameValue;
+
+        }
+
+        $item->Variations->VariationSpecificsSet = $variationSet;
+
+        /**
+         * Add each specific combination
+         */
+        foreach($product->getVariationOptions() as $option) {
+            $variation = new VariationType();
+            $variation->SKU = $option['sku'];
+            $variation->Quantity = $option['quantity'];
+
+            if(array_key_exists('price', $option)) {
+                $variation->StartPrice = new AmountType(array('value' => $option['price']));
+            }
+
+            $variationSpecifics = new NameValueListArrayType();
+
+            foreach($option['properties'] as $property) {
+                $nameValue = new NameValueListType();
+                $nameValue->Name = $property['name'];
+                $nameValue->Value = $property['value'];
+                $variationSpecifics->NameValueList[] = $nameValue;
+            }
+
+            $variation->VariationSpecifics[] = $variationSpecifics;
+            $item->Variations->Variation[] = $variation;
         }
     }
 }
