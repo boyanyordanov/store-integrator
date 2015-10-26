@@ -32,7 +32,6 @@ abstract class EbayWrapper
     public function __construct($userToken, Store $store, TradingService $service = null)
     {
         if (is_null($service)) {
-            // TODO: implement configuration from environment variables
             $this->service = new TradingService([
                 'apiVersion' => getenv('EBAY-TRADING-API-VERSION'),
                 'sandbox' => true,
