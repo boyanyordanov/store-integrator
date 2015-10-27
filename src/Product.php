@@ -229,7 +229,7 @@ class Product
     private function mapVariations($variations)
     {
         foreach($variations['types'] as $type) {
-            if(!array_key_exists('name'. $type) || array_key_exists('values', $type)) {
+            if(!array_key_exists('name', $type) || array_key_exists('values', $type)) {
                 throw new ValidationException('A name and values for the variation type must be provided.');
             }
 
