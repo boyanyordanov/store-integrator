@@ -18,10 +18,12 @@ use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\PictureDetailsType;
+use DTS\eBaySDK\Trading\Types\PicturesType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
+use DTS\eBaySDK\Trading\Types\VariationSpecificPictureSetType;
 use DTS\eBaySDK\Trading\Types\VariationsType;
 use DTS\eBaySDK\Trading\Types\VariationType;
 use StoreIntegrator\Product;
@@ -94,8 +96,8 @@ class ProductWrapper extends EbayWrapper
         $weightKg = intval(floor($product->getWeight() / 1000));
         $weightGr = $product->getWeight() % 1000;
 
-        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['value' => $weightKg]);
-        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['value' => $weightGr]);
+        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'kg', 'value' => $weightKg]);
+        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'gr', 'value' => $weightGr]);
 
         // Add pictures
         $this->addPictures($item, $product);
@@ -127,25 +129,23 @@ class ProductWrapper extends EbayWrapper
     {
         /**
          * Default return policy.
-         * Returns are accepted.
-         * A refund will be given as money back.
-         * The buyer will have 14 days in which to contact the seller after receiving the item.
-         * The buyer will pay the return shipping cost.
+         * Not accepted
          */
         $default = [
-            'ReturnsAccepted' => true,
-            'Refund' => 'MoneyBack',
-            'ReturnsWithin' => 'Days_14',
-            'ShippingCostPaidBy' => 'Buyer'
+            'ReturnsAccepted' => false,
         ];
 
         $policy = array_merge($default, $overrides);
 
         $item->ReturnPolicy = new ReturnPolicyType();
-        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsAccepted';
-        $item->ReturnPolicy->RefundOption = $policy['Refund'];
-        $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
-        $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+
+        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsNotAccepted';
+
+        if($policy['ReturnsAccepted']) {
+            $item->ReturnPolicy->RefundOption = $policy['Refund'];
+            $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
+            $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+        }
     }
 
     /**
@@ -270,6 +270,24 @@ class ProductWrapper extends EbayWrapper
                 $nameValue->Name = $property['name'];
                 $nameValue->Value = [$property['value']];
                 $variationSpecifics->NameValueList[] = $nameValue;
+
+                if(array_key_exists('pictures', $option)) {
+                    $pictures = new PicturesType();
+
+                    $pictureSet = new VariationSpecificPictureSetType();
+
+                    $pictures->VariationSpecificName = $property['name'];
+                    $pictureSet->VariationSpecificValue = $property['value'];
+
+                    $pictureSet = new VariationSpecificPictureSetType();
+
+                    foreach($option['pictures'] as $picture) {
+                        $pictureSet->PictureURL[] = $picture;
+                    }
+
+                    $pictures->VariationSpecificPictureSet[] = $pictureSet;
+                    $item->Variations->Pictures[] = $pictures;
+                }
             }
 
             $variation->VariationSpecifics[] = $variationSpecifics;
