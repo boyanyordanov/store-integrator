@@ -236,8 +236,8 @@ class Product
             $this->variationTypes[] = $type;
         }
 
-        if(array_key_exists('options', $variations)) {
-            throw new ValidationException('At least on variation option should be provided');
+        if(!array_key_exists('options', $variations)) {
+            throw new ValidationException('At least one variation option should be provided');
         }
 
         // TODO: consider to validate the data for each validation
