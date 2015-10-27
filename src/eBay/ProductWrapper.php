@@ -260,7 +260,7 @@ class ProductWrapper extends EbayWrapper
             $variation->Quantity = $option['quantity'];
 
             if(array_key_exists('price', $option)) {
-                $variation->StartPrice = new AmountType(array('value' => $option['price']));
+                $variation->StartPrice = new AmountType(array('value' => doubleval($option['price'])));
             }
 
             $variationSpecifics = new NameValueListArrayType();
