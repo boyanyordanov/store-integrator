@@ -268,7 +268,7 @@ class ProductWrapper extends EbayWrapper
             foreach($option['properties'] as $property) {
                 $nameValue = new NameValueListType();
                 $nameValue->Name = $property['name'];
-                $nameValue->Value = $property['value'];
+                $nameValue->Value = [$property['value']];
                 $variationSpecifics->NameValueList[] = $nameValue;
             }
 
