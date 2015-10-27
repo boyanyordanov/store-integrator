@@ -25,6 +25,7 @@ use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\VariationsType;
 use DTS\eBaySDK\Trading\Types\VariationType;
+use StoreIntegrator\Exceptions\EbayErrorException;
 use StoreIntegrator\Product;
 
 /**
@@ -112,7 +113,9 @@ class ProductWrapper extends EbayWrapper
 
         $response = $this->service->addFixedPriceItem($request);
 
-        // TODO: handle errors
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
 
         return $response;
     }
@@ -133,13 +136,16 @@ class ProductWrapper extends EbayWrapper
         $request->Pagination->EntriesPerPage = $perPage;
         $request->Pagination->PageNumber = $page;
 
-        // TODO: Don't hard-code those
         $request->StartTimeFrom = $startDate;
         $request->StartTimeTo = new DateTime();
 
         $this->addAuthToRequest($request);
 
         $response = $this->service->getSellerList($request);
+
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
 
         return $response;
     }
@@ -273,4 +279,6 @@ class ProductWrapper extends EbayWrapper
             $item->Variations->Variation[] = $variation;
         }
     }
+
+
 }

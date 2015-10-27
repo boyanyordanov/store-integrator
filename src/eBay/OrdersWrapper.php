@@ -35,7 +35,6 @@ class OrdersWrapper extends EbayWrapper
         $request->OrderRole = TradingRoleCodeType::C_SELLER;
         $request->OrderStatus = OrderStatusCodeType::C_COMPLETED;
 
-        // TODO: Don't hard-code those
         $request->CreateTimeFrom = $startDate;
         $request->CreateTimeTo = new DateTime();
 
@@ -46,6 +45,10 @@ class OrdersWrapper extends EbayWrapper
         $this->addAuthToRequest($request);
 
         $response = $this->service->getOrders($request);
+
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
 
         // TODO: Don't return raw response
         return $response;
@@ -65,6 +68,10 @@ class OrdersWrapper extends EbayWrapper
         $this->addAuthToRequest($request);
 
         $response = $this->service->getOrders($request);
+
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
 
         return $response;
     }
@@ -117,7 +124,7 @@ class OrdersWrapper extends EbayWrapper
         $response = $this->service->completeSale($request);
 
         if ($response->Ack === 'Failure') {
-            return false;
+            $this->handleError($response);
         }
 
         return $response;

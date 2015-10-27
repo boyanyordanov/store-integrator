@@ -111,24 +111,6 @@ class EbayOrderIntegratorTest extends TestCase
             'Missing tracking number in request XML');
     }
 
-    public function testReturningFalseIfOrderFulfillmentFails()
-    {
-        $mockRespone = $this->generateEbaySuccessResponse(implode('',[
-            '<?xml version="1.0" encoding="UTF-8"?>',
-            '<CompleteSaleResponse xmlns="urn:ebay:apis:eBLBaseComponents">',
-            '<Ack>Failure</Ack>',
-            '</CompleteSaleResponse>'
-        ]));
-
-        $this->attachMockedEbayResponse($mockRespone);
-
-        $result = $this->integrator->fulfilOrder('order-1234', [
-            'paid' => false
-        ]);
-
-        $this->assertFalse($result);
-    }
-
     public function testLeavingDefaultFeedback()
     {
         $mockRespone = $this->generateEbaySuccessResponse('<xml>Left feedback</xml>');

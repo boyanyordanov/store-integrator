@@ -6,6 +6,7 @@ namespace StoreIntegrator\eBay;
 use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
+use StoreIntegrator\Exceptions\EbayErrorException;
 use StoreIntegrator\Store;
 
 /**
@@ -79,5 +80,18 @@ abstract class EbayWrapper
     protected function determineValue($element, $array, $default)
     {
         return array_key_exists($element, $array) ? $array[$element] : $default;
+    }
+
+    /**
+     * @param $response
+     * @throws EbayErrorException
+     */
+    protected function handleError($response)
+    {
+        foreach ($response->Errors as $error) {
+            if ($error->SeverityCode == 'Error') {
+                throw new EbayErrorException($error->LongMessage, $error->ErrorCode);
+            }
+        }
     }
 }
