@@ -120,7 +120,7 @@ class Product
             $this->pictures = $data['pictures'];
         }
 
-        if(array_key_exists('variations')) {
+        if(array_key_exists('variations', $data)) {
             $this->mapVariations($data['variations']);
         }
     }
