@@ -96,15 +96,23 @@ class Product
      */
     public function __construct($data)
     {
-        $this->sku = $data['sku'];
+
+        if(array_key_exists('variations', $data)) {
+            $this->mapVariations($data['variations']);
+        }
+
+        if(!$this->hasVariations()) {
+            $this->sku = $data['sku'];
+            $this->price = doubleval($data['price']);
+            $this->quantity = intval($data['quantity']);
+        }
+
         $this->title = $data['name'];
         $this->description = $data['description'];
         $this->brand = $data['brand'];
-        $this->price = doubleval($data['price']);
         $this->currency = $data['currency'];
         $this->category = $data['category'];
         $this->weight = $data['weight'];
-        $this->quantity = intval($data['quantity']);
 
         // TODO: Add better validation
 
@@ -118,10 +126,6 @@ class Product
 
         if(array_key_exists('pictures', $data)) {
             $this->pictures = $data['pictures'];
-        }
-
-        if(array_key_exists('variations', $data)) {
-            $this->mapVariations($data['variations']);
         }
     }
 

@@ -44,6 +44,9 @@ In future this will be hidden from the end user of the package.
         // Do stuff with the product
     }
 ```
+## Limitations
+
+- eBay does not allow variation images for multiple properties. Currently accepts only images on product (parent for variations) level
 
 ## Contributors
 

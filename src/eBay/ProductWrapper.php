@@ -47,14 +47,8 @@ class ProductWrapper extends EbayWrapper
 
         $item->ListingType = ListingTypeCodeType::C_FIXED_PRICE_ITEM;
 
-        // Add quantity
-        $item->Quantity = $product->getQuantity();
-
         // Renew the item every 30 days until the user cancels it
         $item->ListingDuration = ListingDurationCodeType::C_GTC;
-
-        // Add price
-        $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
 
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
@@ -63,6 +57,8 @@ class ProductWrapper extends EbayWrapper
             $this->addVariationsData($item, $product);
         } else {
             $item->SKU = $product->getSku();
+            $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
+            $item->Quantity = $product->getQuantity();
         }
 
         $item->Country = $this->store->getStoreData('country');
@@ -270,24 +266,6 @@ class ProductWrapper extends EbayWrapper
                 $nameValue->Name = $property['name'];
                 $nameValue->Value = [$property['value']];
                 $variationSpecifics->NameValueList[] = $nameValue;
-
-                if(array_key_exists('pictures', $option)) {
-                    $pictures = new PicturesType();
-
-                    $pictureSet = new VariationSpecificPictureSetType();
-
-                    $pictures->VariationSpecificName = $property['name'];
-                    $pictureSet->VariationSpecificValue = $property['value'];
-
-                    $pictureSet = new VariationSpecificPictureSetType();
-
-                    foreach($option['pictures'] as $picture) {
-                        $pictureSet->PictureURL[] = $picture;
-                    }
-
-                    $pictures->VariationSpecificPictureSet[] = $pictureSet;
-                    $item->Variations->Pictures[] = $pictures;
-                }
             }
 
             $variation->VariationSpecifics[] = $variationSpecifics;

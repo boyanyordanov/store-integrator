@@ -173,14 +173,14 @@ class EbayProductIntegratorTest extends TestCase
 
         $this->assertContains('ReturnPolicy', $requestBody,
             'The request body does not contain the return policy information.');
-        $this->assertContains('<ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>', $requestBody,
+        $this->assertContains('<ReturnsAcceptedOption>ReturnsNotAccepted</ReturnsAcceptedOption>', $requestBody,
             'The request body does not contain the correct return policy option.');;
-        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody,
-            'The request body does not contain the correct refund option.');;
-        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody,
-            'The request body does not contain the correct return limit option.');;
-        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody,
-            'The request body does not contain the correct shipping cost option.');;
+//        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody,
+//            'The request body does not contain the correct refund option.');;
+//        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody,
+//            'The request body does not contain the correct return limit option.');;
+//        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody,
+//            'The request body does not contain the correct shipping cost option.');;
     }
 
     /**
