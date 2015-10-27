@@ -50,6 +50,8 @@ class ProductWrapper extends EbayWrapper
         // Renew the item every 30 days until the user cancels it
         $item->ListingDuration = ListingDurationCodeType::C_GTC;
 
+        $item->InventoryTrackingMethod = 'SKU';
+        
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
 
