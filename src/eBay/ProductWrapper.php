@@ -18,12 +18,10 @@ use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
 use DTS\eBaySDK\Trading\Types\PictureDetailsType;
-use DTS\eBaySDK\Trading\Types\PicturesType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
-use DTS\eBaySDK\Trading\Types\VariationSpecificPictureSetType;
 use DTS\eBaySDK\Trading\Types\VariationsType;
 use DTS\eBaySDK\Trading\Types\VariationType;
 use StoreIntegrator\Product;
@@ -86,6 +84,7 @@ class ProductWrapper extends EbayWrapper
         $item->ItemSpecifics->NameValueList[] = $brand;
 
         // Add details for the shipping
+        // NOTE: doesn't seem to work
         $item->ShippingPackageDetails = new ShipPackageDetailsType();
         $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_METRIC;
 
