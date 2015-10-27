@@ -3,6 +3,7 @@
 namespace StoreIntegrator\tests\eBay;
 
 
+use DateTime;
 use StoreIntegrator\Contracts\ShippingServiceInterface;
 use StoreIntegrator\eBay\CategoriesWrapper;
 use StoreIntegrator\eBay\DetailsWrapper;
@@ -174,13 +175,7 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('ReturnPolicy', $requestBody,
             'The request body does not contain the return policy information.');
         $this->assertContains('<ReturnsAcceptedOption>ReturnsNotAccepted</ReturnsAcceptedOption>', $requestBody,
-            'The request body does not contain the correct return policy option.');;
-//        $this->assertContains('<RefundOption>MoneyBack</RefundOption>', $requestBody,
-//            'The request body does not contain the correct refund option.');;
-//        $this->assertContains('<ReturnsWithinOption>Days_14</ReturnsWithinOption>', $requestBody,
-//            'The request body does not contain the correct return limit option.');;
-//        $this->assertContains('<ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>', $requestBody,
-//            'The request body does not contain the correct shipping cost option.');;
+            'The request body does not contain the correct return policy option.');
     }
 
     /**
@@ -295,7 +290,8 @@ class EbayProductIntegratorTest extends TestCase
         $mockResponse = $this->generateEbaySuccessResponse('<xml>Success</xml>');
         $this->attachMockedEbayResponse($mockResponse);
 
-        $this->productIntegrator->getProducts();
+        $startDate = new DateTime('-1 week');
+        $this->productIntegrator->getProducts($startDate);
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
@@ -305,8 +301,8 @@ class EbayProductIntegratorTest extends TestCase
         $this->assertContains('Pagination', $requestBody. 'No pagination data found in the request.');
         $this->assertContains('<EntriesPerPage>100</EntriesPerPage>', $requestBody. 'Unexpected value for products per page found.');
         $this->assertContains('<PageNumber>1</PageNumber>', $requestBody. 'Unexpected value for page found.');
-        $this->assertContains('<StartTimeFrom>', $requestBody. 'Missing start time for range.');
-        $this->assertContains('<StartTimeTo>', $requestBody. 'Missing end time for range.');
+        $this->assertContains('<StartTimeFrom>' . $startDate->format('Y-m-d\TH:i:s.000\Z') . '</StartTimeFrom>', $requestBody. 'Missing start time for range.');
+        $this->assertContains('<StartTimeTo>' . (new DateTime())->format('Y-m-d\TH:i:s.000\Z') . '</StartTimeTo>', $requestBody. 'Missing end time for range.');
     }
 
     public function testAddingPictures()

@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\eBay;
 
+use DateTime;
 use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
 use DTS\eBaySDK\Trading\Types\MeasureType;
 use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
@@ -117,6 +118,33 @@ class ProductWrapper extends EbayWrapper
     }
 
     /**
+     * @param DateTime $startDate
+     * @param int $page
+     * @param int $perPage
+     * @return \DTS\eBaySDK\Trading\Types\GetSellerListResponseType
+     */
+    public function getAll(DateTime $startDate, $page = 1, $perPage = 100)
+    {
+        $request = new GetSellerListRequestType();
+
+        $request->DetailLevel = ['ReturnAll'];
+
+        $request->Pagination = new PaginationType();
+        $request->Pagination->EntriesPerPage = $perPage;
+        $request->Pagination->PageNumber = $page;
+
+        // TODO: Don't hard-code those
+        $request->StartTimeFrom = $startDate;
+        $request->StartTimeTo = new DateTime();
+
+        $this->addAuthToRequest($request);
+
+        $response = $this->service->getSellerList($request);
+
+        return $response;
+    }
+
+    /**
      * @param $item
      * @param array $overrides
      */
@@ -175,32 +203,6 @@ class ProductWrapper extends EbayWrapper
                 $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
             }
         }
-    }
-
-    /**
-     * @param int $page
-     * @param int $perPage
-     * @return \DTS\eBaySDK\Trading\Types\GetSellerListResponseType
-     */
-    public function getAll($page = 1, $perPage = 100)
-    {
-        $request = new GetSellerListRequestType();
-
-        $request->DetailLevel = ['ReturnAll'];
-
-        $request->Pagination = new PaginationType();
-        $request->Pagination->EntriesPerPage = $perPage;
-        $request->Pagination->PageNumber = $page;
-
-        // TODO: Don't hard-code those
-        $request->StartTimeFrom = date_create('2015-10-01');
-        $request->StartTimeTo = date_create();
-
-        $this->addAuthToRequest($request);
-
-        $response = $this->service->getSellerList($request);
-
-        return $response;
     }
 
     /**

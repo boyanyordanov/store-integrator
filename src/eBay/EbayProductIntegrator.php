@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\eBay;
 
+use DateTime;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
@@ -88,13 +89,14 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      * Get products for the current user.
      * Has pagination
      *
+     * @param DateTime $startDate
      * @param int $page
      * @param int $perPage
      * @return array
      */
-    public function getProducts($page = 1, $perPage = 100)
+    public function getProducts(DateTime $startDate, $page = 1, $perPage = 100)
     {
-        return $this->productWrapper->getAll($page, $perPage);
+        return $this->productWrapper->getAll($startDate, $page, $perPage);
     }
 
     /**

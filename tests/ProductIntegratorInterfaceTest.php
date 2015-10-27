@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\tests;
 
+use DateTime;
 use StoreIntegrator\Contracts\OrderIntegratorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
 use StoreIntegrator\Product;
@@ -28,17 +29,19 @@ class IntegratorMock implements ProductIntegratorInterface, OrderIntegratorInter
     }
 
     /**
+     * @param DateTime $startDate
      * @return array
      */
-    public function getProducts()
+    public function getProducts(DateTime $startDate)
     {
         // TODO: Implement getProducts() method.
     }
 
     /**
+     * @param DateTime $startDate
      * @return mixed
      */
-    public function getOrders()
+    public function getOrders(DateTIme $startDate)
     {
         // TODO: Implement getOrders() method.
     }

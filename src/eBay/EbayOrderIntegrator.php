@@ -9,6 +9,7 @@
 namespace StoreIntegrator\eBay;
 
 
+use DateTime;
 use StoreIntegrator\Contracts\OrderIntegratorInterface;
 
 /**
@@ -32,13 +33,14 @@ class EbayOrderIntegrator implements OrderIntegratorInterface
     }
 
     /**
+     * @param DateTime $startDate
      * @param int $page
      * @param int $perPage
      * @return mixed
      */
-    public function getOrders($page = 1, $perPage = 10)
+    public function getOrders(DateTime $startDate, $page = 1, $perPage = 10)
     {
-        return $this->ordersWrapper->getAll($page, $perPage);
+        return $this->ordersWrapper->getAll($startDate, $page, $perPage);
     }
 
     /**

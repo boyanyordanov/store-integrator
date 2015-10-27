@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\tests\eBay;
 
+use DateTime;
 use StoreIntegrator\eBay\EbayOrderIntegrator;
 use StoreIntegrator\eBay\OrdersWrapper;
 use StoreIntegrator\tests\TestCase;
@@ -41,12 +42,15 @@ class EbayOrderIntegratorTest extends TestCase
         $mockRespone = $this->generateEbaySuccessResponse('<xml>Got Orders</xml>');
         $this->attachMockedEbayResponse($mockRespone);
 
-        $this->integrator->getOrders();
+        $startDate = new DateTime('-1 week');
+        $this->integrator->getOrders($startDate);
 
         $requestBody = $this->mockHttpClient->getRequestBody();
 
         $this->assertEquals('GetOrders', $this->mockHttpClient->getApiCallName(), 'Unexpected API call name.');
         $this->assertContains('GetOrders', $requestBody, 'API call element not found in request');
+        $this->assertContains('<CreateTimeFrom>' . $startDate->format('Y-m-d\TH:i:s.000\Z') . '</CreateTimeFrom>', $requestBody, 'No StartDate found in the request');
+        $this->assertContains('<CreateTimeTo>' . (new DateTime())->format('Y-m-d\TH:i:s.000\Z') . '</CreateTimeTo>', $requestBody, 'Incorrect EndDate found in the request');
     }
 
     public function testMarkingOrdersAsPaid()
