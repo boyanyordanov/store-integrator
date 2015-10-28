@@ -42,17 +42,23 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      * @var DetailsWrapper
      */
     private $detailsWrapper;
+    /**
+     * @var ProductUpdateWrapper
+     */
+    private $productUpdateWrapper;
 
     /**
      * @param ProductWrapper $productWrapper
+     * @param ProductUpdateWrapper $productUpdateWrapper
      * @param CategoriesWrapper $categoriesWrapper
      * @param DetailsWrapper $detailsWrapper
      */
-    public function __construct(ProductWrapper $productWrapper, CategoriesWrapper $categoriesWrapper, DetailsWrapper $detailsWrapper)
+    public function __construct(ProductWrapper $productWrapper, ProductUpdateWrapper $productUpdateWrapper, CategoriesWrapper $categoriesWrapper, DetailsWrapper $detailsWrapper)
     {
         $this->productWrapper = $productWrapper;
         $this->categoriesWrapper = $categoriesWrapper;
         $this->detailsWrapper = $detailsWrapper;
+        $this->productUpdateWrapper = $productUpdateWrapper;
     }
 
     /**
@@ -97,6 +103,14 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     public function getProducts(DateTime $startDate, $page = 1, $perPage = 100)
     {
         return $this->productWrapper->getAll($startDate, $page, $perPage);
+    }
+
+    /**
+     * @param $sku
+     */
+    public function deleteProduct($sku)
+    {
+        return $this->productUpdateWrapper->deleteProduct($sku);
     }
 
     /**

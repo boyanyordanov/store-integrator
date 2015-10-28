@@ -9,6 +9,7 @@ use StoreIntegrator\eBay\CategoriesWrapper;
 use StoreIntegrator\eBay\DetailsWrapper;
 use StoreIntegrator\eBay\EbayProductIntegrator;
 use StoreIntegrator\eBay\EbayShippingService;
+use StoreIntegrator\eBay\ProductUpdateWrapper;
 use StoreIntegrator\eBay\ProductWrapper;
 use StoreIntegrator\tests\TestCase;
 
@@ -46,11 +47,13 @@ class EbayProductIntegratorTest extends TestCase
         $store = $this->sampleStore();
 
         $productWrapper = new ProductWrapper($this->userToken, $store, $this->tradingService);
+        $productUpdateWrapper = new ProductUpdateWrapper($this->userToken, $store, $this->tradingService);
         $categoriesWrapper = new CategoriesWrapper($this->userToken, $store, $this->tradingService);
         $detailsWrapper = new DetailsWrapper($this->userToken, $store, $this->tradingService);
 
         $this->productIntegrator = new EbayProductIntegrator(
             $productWrapper,
+            $productUpdateWrapper,
             $categoriesWrapper,
             $detailsWrapper);
     }
@@ -69,6 +72,7 @@ class EbayProductIntegratorTest extends TestCase
 
         $integrator = new EbayProductIntegrator(
             new ProductWrapper($this->userToken, $store),
+            new ProductUpdateWrapper($this->userToken, $store),
             new CategoriesWrapper($this->userToken, $store),
             new DetailsWrapper($this->userToken, $store)
         );
