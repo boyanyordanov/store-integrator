@@ -51,7 +51,8 @@ class Store
      * @var array
      */
     protected $storeData = [
-        'dispatchTime' => 1
+        'dispatchTime' => 1,
+        'country' => 'US'
     ];
 
     /**
@@ -66,7 +67,8 @@ class Store
         $this->validateEmail($payPalEmail);
         $this->validateRequiredDataInArray($storeData, [
             'location' => true,
-            'postCode' => true,
+            'country' => true,
+            'postCode' => false,
             'dispatchTime' => false
         ]);
 
@@ -182,5 +184,14 @@ class Store
     {
         // throw exception if element is missing
         return $this->storeData[$element];
+    }
+
+    /**
+     * @param $element
+     * @return bool
+     */
+    public function hasStoreData($element)
+    {
+        return array_key_exists($element, $this->storeData);
     }
 }

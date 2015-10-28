@@ -2,14 +2,17 @@
 
 namespace StoreIntegrator\Contracts;
 
+use DateTime;
+
 /**
  * Interface OrderIntegrator
  */
 interface OrderIntegratorInterface {
     /**
-     * @return mixed
+     * @param DateTime $startDate
+     * @return array
      */
-    public function getOrders();
+    public function getOrders(DateTime $startDate);
 
     /**
      * @param $id

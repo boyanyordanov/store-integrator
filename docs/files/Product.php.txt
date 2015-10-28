@@ -15,6 +15,16 @@ namespace StoreIntegrator;
  * Class Product
  * @package StoreIntegrator
  */
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
+use StoreIntegrator\Exceptions\ValidationException;
+
+/**
+ * Class Product
+ * @package StoreIntegrator
+ */
 class Product
 {
     /**
@@ -62,29 +72,48 @@ class Product
     protected $quantity;
 
     /**
-     * @var string
-     */
-    protected $country = 'US';
-
-    /**
-     * @var
+     * @var array
      */
     protected $shippingOptions = [];
+
+    /**
+     * @var array
+     */
+    protected $pictures = [];
+
+    /**
+     * @var array
+     */
+    protected $variationTypes = [];
+
+    /**
+     * @var array
+     */
+    protected $variationOptions = [];
 
     /**
      * @param $data
      */
     public function __construct($data)
     {
+
+        if(array_key_exists('variations', $data)) {
+            $this->mapVariations($data['variations']);
+        }
+
         $this->sku = $data['sku'];
+
+        if(!$this->hasVariations()) {
+            $this->price = doubleval($data['price']);
+            $this->quantity = intval($data['quantity']);
+        }
+
         $this->title = $data['name'];
         $this->description = $data['description'];
         $this->brand = $data['brand'];
-        $this->price = doubleval($data['price']);
         $this->currency = $data['currency'];
         $this->category = $data['category'];
         $this->weight = $data['weight'];
-        $this->quantity = intval($data['quantity']);
 
         // TODO: Add better validation
 
@@ -96,16 +125,11 @@ class Product
             $this->shippingOptions = $data['shippingOptions'];
         }
 
-        // TODO: Add pictures from links
+        if(array_key_exists('pictures', $data)) {
+            $this->pictures = $data['pictures'];
+        }
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
 
     /**
      * @return mixed
@@ -193,5 +217,60 @@ class Product
     public function getShippingOptions()
     {
         return $this->shippingOptions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @param $variations
+     * @throws ValidationException
+     */
+    private function mapVariations($variations)
+    {
+        foreach($variations['types'] as $type) {
+            if(!array_key_exists('name', $type) || !array_key_exists('values', $type)) {
+                throw new ValidationException('A name and values for the variation type must be provided.');
+            }
+
+            $this->variationTypes[] = $type;
+        }
+
+        if(!array_key_exists('options', $variations)) {
+            throw new ValidationException('At least one variation option should be provided');
+        }
+
+        // TODO: consider to validate the data for each validation
+
+        $this->variationOptions = $variations['options'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariationTypes()
+    {
+        return $this->variationTypes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVariationOptions()
+    {
+        return $this->variationOptions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasVariations()
+    {
+        return count($this->variationTypes) > 0;
     }
 }

@@ -67,12 +67,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">117</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">135</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">12</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">7</span>
                                 </a>
                             </li>
                             <li>
@@ -116,6 +116,8 @@
                                                                                                     <li><a href="#eBay/ProductWrapper.php"><i class="icon-file"></i> eBay/ProductWrapper.php</a></li>
                                                                                                     <li><a href="#eBay/EbayWrapper.php"><i class="icon-file"></i> eBay/EbayWrapper.php</a></li>
                                                                                                     <li><a href="#Contracts/ProductIntegratorInterface.php"><i class="icon-file"></i> Contracts/ProductIntegratorInterface.php</a></li>
+                                                                                                    <li><a href="#eBay/ProductUpdateWrapper.php"><i class="icon-file"></i> eBay/ProductUpdateWrapper.php</a></li>
+                                                                                                    <li><a href="#Exceptions/EbayErrorException.php"><i class="icon-file"></i> Exceptions/EbayErrorException.php</a></li>
                                                                     </ul>
         </div>
 
@@ -150,17 +152,17 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>12</td>
+                                        <td>15</td>
                                         <td>No summary for method getOrders()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>18</td>
+                                        <td>21</td>
                                         <td>No summary for method getOrder()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>25</td>
+                                        <td>28</td>
                                         <td>No summary for method fulfilOrder()</td>
                                     </tr>
                                                             </tbody>
@@ -198,7 +200,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             eBay/EbayProductIntegrator.php
-                            <small style="float: right;padding-right: 10px;">2</small>
+                            <small style="float: right;padding-right: 10px;">4</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -217,8 +219,18 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>50</td>
+                                        <td>56</td>
                                         <td>No summary for method __construct()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>112</td>
+                                        <td>No summary for method deleteProduct()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>48</td>
+                                        <td>No summary for property $productUpdateWrapper</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -370,22 +382,22 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>27</td>
+                                        <td>29</td>
                                         <td>No summary for method getAll()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>56</td>
+                                        <td>61</td>
                                         <td>No summary for method get()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>75</td>
+                                        <td>84</td>
                                         <td>No summary for method fulfill()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>128</td>
+                                        <td>137</td>
                                         <td>No summary for method formatData()</td>
                                     </tr>
                                                             </tbody>
@@ -443,7 +455,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             Store.php
-                            <small style="float: right;padding-right: 10px;">9</small>
+                            <small style="float: right;padding-right: 10px;">10</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -462,33 +474,38 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>63</td>
+                                        <td>64</td>
                                         <td>No summary for method __construct()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>116</td>
+                                        <td>118</td>
                                         <td>No summary for method getPaymentOptions()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>126</td>
+                                        <td>128</td>
                                         <td>No summary for method validateEmail()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>138</td>
+                                        <td>140</td>
                                         <td>No summary for method validateEbaySiteID()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>168</td>
+                                        <td>170</td>
                                         <td>No summary for method validateRequiredDataInArray()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>181</td>
+                                        <td>183</td>
                                         <td>No summary for method getStoreData()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>193</td>
+                                        <td>No summary for method hasStoreData()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
@@ -509,7 +526,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             Product.php
-                            <small style="float: right;padding-right: 10px;">26</small>
+                            <small style="float: right;padding-right: 10px;">32</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -528,128 +545,158 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>77</td>
+                                        <td>97</td>
                                         <td>No summary for method __construct()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>105</td>
-                                        <td>No summary for method getCountry()</td>
-                                    </tr>
-                                                                    <tr>
-                                        <td>error</td>
-                                        <td>113</td>
+                                        <td>137</td>
                                         <td>No summary for method getQuantity()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>121</td>
+                                        <td>145</td>
                                         <td>No summary for method getSku()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>129</td>
+                                        <td>153</td>
                                         <td>No summary for method getTitle()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>137</td>
+                                        <td>161</td>
                                         <td>No summary for method getBrand()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>145</td>
+                                        <td>169</td>
                                         <td>No summary for method getDescription()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>153</td>
+                                        <td>177</td>
                                         <td>No summary for method getPrice()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>161</td>
+                                        <td>185</td>
                                         <td>No summary for method getCurrency()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>169</td>
+                                        <td>193</td>
                                         <td>No summary for method getCategory()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>177</td>
+                                        <td>201</td>
                                         <td>No summary for method getWeight()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>185</td>
+                                        <td>209</td>
                                         <td>No summary for method getReturnPolicy()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>193</td>
+                                        <td>217</td>
                                         <td>No summary for method getShippingOptions()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>23</td>
+                                        <td>225</td>
+                                        <td>No summary for method getPictures()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>234</td>
+                                        <td>No summary for method mapVariations()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>256</td>
+                                        <td>No summary for method getVariationTypes()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>264</td>
+                                        <td>No summary for method getVariationOptions()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>272</td>
+                                        <td>No summary for method hasVariations()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>33</td>
                                         <td>No summary for property $sku</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>27</td>
+                                        <td>37</td>
                                         <td>No summary for property $title</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>31</td>
+                                        <td>41</td>
                                         <td>No summary for property $brand</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>35</td>
+                                        <td>45</td>
                                         <td>No summary for property $description</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>39</td>
+                                        <td>49</td>
                                         <td>No summary for property $price</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>43</td>
+                                        <td>53</td>
                                         <td>No summary for property $currency</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>47</td>
+                                        <td>57</td>
                                         <td>No summary for property $category</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>52</td>
+                                        <td>62</td>
                                         <td>No summary for property $weight</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>57</td>
+                                        <td>67</td>
                                         <td>No summary for property $returnPolicy</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>62</td>
+                                        <td>72</td>
                                         <td>No summary for property $quantity</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>67</td>
-                                        <td>No summary for property $country</td>
+                                        <td>77</td>
+                                        <td>No summary for property $shippingOptions</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>72</td>
-                                        <td>No summary for property $shippingOptions</td>
+                                        <td>82</td>
+                                        <td>No summary for property $pictures</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>87</td>
+                                        <td>No summary for property $variationTypes</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>92</td>
+                                        <td>No summary for property $variationOptions</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -935,27 +982,27 @@
                                 <tbody>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>29</td>
+                                        <td>30</td>
                                         <td>No summary for method __construct()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>39</td>
+                                        <td>41</td>
                                         <td>No summary for method getOrders()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>48</td>
+                                        <td>50</td>
                                         <td>No summary for method getOrder()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>58</td>
+                                        <td>60</td>
                                         <td>No summary for method fulfilOrder()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>24</td>
+                                        <td>25</td>
                                         <td>No summary for property $ordersWrapper</td>
                                     </tr>
                                                             </tbody>
@@ -967,7 +1014,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             eBay/ProductWrapper.php
-                            <small style="float: right;padding-right: 10px;">5</small>
+                            <small style="float: right;padding-right: 10px;">7</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -986,23 +1033,33 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>30</td>
+                                        <td>41</td>
                                         <td>No summary for method post()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>97</td>
+                                        <td>134</td>
+                                        <td>No summary for method getAll()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>162</td>
                                         <td>No summary for method addReturnPolicy()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>126</td>
+                                        <td>189</td>
                                         <td>No summary for method addShippingOptions()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>161</td>
-                                        <td>No summary for method getAll()</td>
+                                        <td>223</td>
+                                        <td>No summary for method addPictures()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>242</td>
+                                        <td>No summary for method addVariationsData()</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -1013,7 +1070,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             eBay/EbayWrapper.php
-                            <small style="float: right;padding-right: 10px;">8</small>
+                            <small style="float: right;padding-right: 10px;">9</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -1032,7 +1089,7 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>32</td>
+                                        <td>33</td>
                                         <td>No summary for method __construct()</td>
                                     </tr>
                                                                     <tr>
@@ -1052,12 +1109,17 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>21</td>
+                                        <td>89</td>
+                                        <td>No summary for method handleError()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>22</td>
                                         <td>No summary for property $service</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>25</td>
+                                        <td>26</td>
                                         <td>No summary for property $store</td>
                                     </tr>
                                                                     <tr>
@@ -1093,18 +1155,90 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>16</td>
+                                        <td>17</td>
                                         <td>No summary for method postProduct()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>22</td>
+                                        <td>23</td>
                                         <td>No summary for method postProducts()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>27</td>
+                                        <td>29</td>
                                         <td>No summary for method getProducts()</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="eBay/ProductUpdateWrapper.php" id="eBay/ProductUpdateWrapper.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            eBay/ProductUpdateWrapper.php
+                            <small style="float: right;padding-right: 10px;">4</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>8</td>
+                                        <td>No summary for class \StoreIntegrator\eBay\ProductUpdateWrapper</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>10</td>
+                                        <td>Argument $sku is missing from the Docblock of deleteProduct</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>10</td>
+                                        <td>No summary for method deleteProduct()</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="Exceptions/EbayErrorException.php" id="Exceptions/EbayErrorException.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            Exceptions/EbayErrorException.php
+                            <small style="float: right;padding-right: 10px;">2</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>6</td>
+                                        <td>No summary for class \StoreIntegrator\Exceptions\EbayErrorException</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -1150,7 +1284,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on October 23rd, 2015 at 18:01.
+                    on October 28th, 2015 at 14:58.
                 </section>
             </section>
         </section>

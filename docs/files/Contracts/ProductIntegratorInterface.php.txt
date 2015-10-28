@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\Contracts;
 
+use DateTime;
 use StoreIntegrator\Product;
 
 /**
@@ -22,7 +23,8 @@ interface ProductIntegratorInterface {
     public function postProducts(array $products);
 
     /**
+     * @param DateTime $startDate
      * @return array
      */
-    public function getProducts();
+    public function getProducts(DateTime $startDate);
 }

@@ -2,6 +2,12 @@
 
 namespace StoreIntegrator\eBay;
 
+use DateTime;
+use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
+use DTS\eBaySDK\Trading\Types\MeasureType;
+use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
+use DTS\eBaySDK\Trading\Types\NameValueListType;
+use DTS\eBaySDK\Trading\Enums\GalleryTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
@@ -12,9 +18,14 @@ use DTS\eBaySDK\Trading\Types\GetSellerListRequestType;
 use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
+use DTS\eBaySDK\Trading\Types\PictureDetailsType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
+use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
+use DTS\eBaySDK\Trading\Types\VariationsType;
+use DTS\eBaySDK\Trading\Types\VariationType;
+use StoreIntegrator\Exceptions\EbayErrorException;
 use StoreIntegrator\Product;
 
 /**
@@ -36,56 +47,110 @@ class ProductWrapper extends EbayWrapper
 
         $item->ListingType = ListingTypeCodeType::C_FIXED_PRICE_ITEM;
 
-        // Add quantity
-        $item->Quantity = $product->getQuantity();
-
         // Renew the item every 30 days until the user cancels it
         $item->ListingDuration = ListingDurationCodeType::C_GTC;
 
-        // Add price
-        $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
-
+        $item->InventoryTrackingMethod = 'SKU';
+        
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
+
+        // Mandatory when InvntoryTrackingMethod is set to SKU
         $item->SKU = $product->getSku();
-        $item->Country = $product->getCountry();
+
+        if($product->hasVariations()) {
+            $this->addVariationsData($item, $product);
+        } else {
+            $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
+            $item->Quantity = $product->getQuantity();
+        }
+
+        $item->Country = $this->store->getStoreData('country');
         $item->Location = $this->store->getStoreData('location');
-        $item->PostalCode = $this->store->getStoreData('postCode');
+
+        if($this->store->hasStoreData('postCode')) {
+            $item->PostalCode = $this->store->getStoreData('postCode');
+        }
 
         $item->Currency = $product->getCurrency();
 
         $item->PrimaryCategory = new CategoryType();
         $item->PrimaryCategory->CategoryID = $product->getCategory();
+        $item->CategoryMappingAllowed = true;
 
         // Condition (should be brand new)
         $item->ConditionID = 1000;
 
-        // TODO: Check data for payments, shipping and return policy
+        // Add brand information as item specific information
+        $item->ItemSpecifics = new NameValueListArrayType();
 
-        // Start hard-coded shipping, payment and retrn policy
-        /**
-         * Buyers can use one of two payment methods when purchasing the item.
-         * Visa / Master Card
-         * PayPal
-         * The item will be dispatched within 1 business days once payment has cleared.
-         * Note that you have to provide the PayPal account that the seller will use.
-         * This is because a seller may have more than one PayPal account.
-         */
+        $brand = new NameValueListType();
+        $brand->Name = 'Brand';
+        $brand->Value[] = $product->getBrand();
+
+        $item->ItemSpecifics->NameValueList[] = $brand;
+
+        // Add details for the shipping
+        // NOTE: doesn't seem to work
+        $item->ShippingPackageDetails = new ShipPackageDetailsType();
+        $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_METRIC;
+
+        $weightKg = intval(floor($product->getWeight() / 1000));
+        $weightGr = $product->getWeight() % 1000;
+
+        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'kg', 'value' => $weightKg]);
+        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'gr', 'value' => $weightGr]);
+
+        // Add pictures
+        $this->addPictures($item, $product);
+
+        // Add payement
         $item->PaymentMethods = $this->store->getPaymentOptions();
         $item->PayPalEmailAddress = $this->store->getPaypalEmail();
         $item->DispatchTimeMax = $this->store->getStoreData('dispatchTime');
 
+        // Add shipping options and return policy
         $this->addShippingOptions($item, $product->getShippingOptions());
 
         $this->addReturnPolicy($item, $product->getReturnPolicy());
-
-        // End hard coded shipping payment and return policy
 
         $request->Item = $item;
 
         $response = $this->service->addFixedPriceItem($request);
 
-        // TODO: handle errors
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param DateTime $startDate
+     * @param int $page
+     * @param int $perPage
+     * @return \DTS\eBaySDK\Trading\Types\GetSellerListResponseType
+     */
+    public function getAll(DateTime $startDate, $page = 1, $perPage = 100)
+    {
+        $request = new GetSellerListRequestType();
+
+        $request->DetailLevel = ['ReturnAll'];
+
+        $request->Pagination = new PaginationType();
+        $request->Pagination->EntriesPerPage = $perPage;
+        $request->Pagination->PageNumber = $page;
+
+        $request->StartTimeFrom = $startDate;
+        $request->StartTimeTo = new DateTime();
+
+        $this->addAuthToRequest($request);
+
+        $response = $this->service->getSellerList($request);
+
+        if($response->Ack == 'Failure') {
+            $this->handleError($response);
+        }
 
         return $response;
     }
@@ -98,25 +163,23 @@ class ProductWrapper extends EbayWrapper
     {
         /**
          * Default return policy.
-         * Returns are accepted.
-         * A refund will be given as money back.
-         * The buyer will have 14 days in which to contact the seller after receiving the item.
-         * The buyer will pay the return shipping cost.
+         * Not accepted
          */
         $default = [
-            'ReturnsAccepted' => true,
-            'Refund' => 'MoneyBack',
-            'ReturnsWithin' => 'Days_14',
-            'ShippingCostPaidBy' => 'Buyer'
+            'ReturnsAccepted' => false,
         ];
 
         $policy = array_merge($default, $overrides);
 
         $item->ReturnPolicy = new ReturnPolicyType();
-        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsAccepted';
-        $item->ReturnPolicy->RefundOption = $policy['Refund'];
-        $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
-        $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+
+        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsNotAccepted';
+
+        if($policy['ReturnsAccepted']) {
+            $item->ReturnPolicy->RefundOption = $policy['Refund'];
+            $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
+            $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+        }
     }
 
     /**
@@ -154,28 +217,73 @@ class ProductWrapper extends EbayWrapper
     }
 
     /**
-     * @param int $page
-     * @param int $perPage
-     * @return \DTS\eBaySDK\Trading\Types\GetSellerListResponseType
+     * @param $item
+     * @param $product
      */
-    public function getAll($page = 1, $perPage = 100)
+    public function addPictures($item, $product)
     {
-        $request = new GetSellerListRequestType();
+        $result = [];
 
-        $request->DetailLevel = ['ReturnAll'];
+        foreach($product->getPictures() as $pictureUrl) {
+            $result[] = $pictureUrl;
+        }
 
-        $request->Pagination = new PaginationType();
-        $request->Pagination->EntriesPerPage = $perPage;
-        $request->Pagination->PageNumber = $page;
-
-        // TODO: Don't hard-code those
-        $request->StartTimeFrom = date_create('2015-10-01');
-        $request->StartTimeTo = date_create();
-
-        $this->addAuthToRequest($request);
-
-        $response = $this->service->getSellerList($request);
-
-        return $response;
+        if(count($result) > 0) {
+            $item->PictureDetails = new PictureDetailsType();
+            $item->PictureDetails->GalleryType = GalleryTypeCodeType::C_GALLERY;
+            $item->PictureDetails->PictureURL = $result;
+        }
     }
+
+    /**
+     * @param $item
+     * @param $product
+     */
+    protected function addVariationsData($item, $product)
+    {
+        /**
+         * Before we specify the variations we need to inform eBay all the possible
+         * names and values that the listing could use over its life time.
+         */
+        $item->Variations = new VariationsType();
+
+        $variationSet = new NameValueListArrayType();
+
+        foreach($product->getVariationTypes() as $type) {
+            $nameValue = new NameValueListType();
+            $nameValue->Name = $type['name'];
+            $nameValue->Value = $type['values'];
+            $variationSet->NameValueList[] = $nameValue;
+
+        }
+
+        $item->Variations->VariationSpecificsSet = $variationSet;
+
+        /**
+         * Add each specific combination
+         */
+        foreach($product->getVariationOptions() as $option) {
+            $variation = new VariationType();
+            $variation->SKU = $option['sku'];
+            $variation->Quantity = $option['quantity'];
+
+            if(array_key_exists('price', $option)) {
+                $variation->StartPrice = new AmountType(array('value' => doubleval($option['price'])));
+            }
+
+            $variationSpecifics = new NameValueListArrayType();
+
+            foreach($option['properties'] as $property) {
+                $nameValue = new NameValueListType();
+                $nameValue->Name = $property['name'];
+                $nameValue->Value = [$property['value']];
+                $variationSpecifics->NameValueList[] = $nameValue;
+            }
+
+            $variation->VariationSpecifics[] = $variationSpecifics;
+            $item->Variations->Variation[] = $variation;
+        }
+    }
+
+
 }
