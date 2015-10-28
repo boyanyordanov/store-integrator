@@ -107,6 +107,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
     /**
      * @param $sku
+     * @return \DTS\eBaySDK\Trading\Types\EndFixedPriceItemResponseType
      */
     public function deleteProduct($sku)
     {
