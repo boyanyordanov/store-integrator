@@ -10,6 +10,7 @@ class ProductUpdateWrapper extends EbayWrapper
     {
         $request = new EndFixedPriceItemRequestType();
         $request->SKU = $sku;
+        $request->EndingReason = 'Seller decided to end the item.';
 
         $this->addAuthToRequest($request);
 
