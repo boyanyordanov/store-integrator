@@ -76,6 +76,7 @@ class ProductWrapper extends EbayWrapper
 
         $item->PrimaryCategory = new CategoryType();
         $item->PrimaryCategory->CategoryID = $product->getCategory();
+        $item->CategoryMappingAllowed = true;
 
         // Condition (should be brand new)
         $item->ConditionID = 1000;
