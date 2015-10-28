@@ -55,10 +55,12 @@ class ProductWrapper extends EbayWrapper
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
 
+        // Mandatory when InvntoryTrackingMethod is set to SKU
+        $item->SKU = $product->getSku();
+
         if($product->hasVariations()) {
             $this->addVariationsData($item, $product);
         } else {
-            $item->SKU = $product->getSku();
             $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
             $item->Quantity = $product->getQuantity();
         }

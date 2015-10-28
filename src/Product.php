@@ -101,8 +101,9 @@ class Product
             $this->mapVariations($data['variations']);
         }
 
+        $this->sku = $data['sku'];
+
         if(!$this->hasVariations()) {
-            $this->sku = $data['sku'];
             $this->price = doubleval($data['price']);
             $this->quantity = intval($data['quantity']);
         }
