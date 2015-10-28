@@ -11,6 +11,8 @@ class ProductUpdateWrapper extends EbayWrapper
         $request = new EndFixedPriceItemRequestType();
         $request->SKU = $sku;
 
+        $this->addAuthToRequest($request);
+
         $response = $this->service->endFixedPriceItem($request);
 
         if($response->Ack == 'Failure') {
