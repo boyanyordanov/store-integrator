@@ -2,6 +2,7 @@
 
 namespace StoreIntegrator\eBay;
 
+use DTS\eBaySDK\Trading\Enums\EndReasonCodeType;
 use DTS\eBaySDK\Trading\Types\EndFixedPriceItemRequestType;
 
 class ProductUpdateWrapper extends EbayWrapper
@@ -10,7 +11,7 @@ class ProductUpdateWrapper extends EbayWrapper
     {
         $request = new EndFixedPriceItemRequestType();
         $request->SKU = $sku;
-        $request->EndingReason = 'Seller decided to end the item.';
+        $request->EndingReason = EndReasonCodeType::C_NOT_AVAILABLE;
 
         $this->addAuthToRequest($request);
 
