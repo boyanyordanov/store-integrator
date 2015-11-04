@@ -3,6 +3,7 @@
 namespace StoreIntegrator\eBay;
 
 use DTS\eBaySDK\Trading\Services\TradingService;
+use StoreIntegrator\Contracts\IntegratorFactoryInterface;
 use StoreIntegrator\eBay\Wrappers\AuthWrapper;
 use StoreIntegrator\eBay\Wrappers\CategoriesWrapper;
 use StoreIntegrator\eBay\Wrappers\DetailsWrapper;
@@ -31,6 +32,11 @@ class EbayProvider extends Provider
     protected $store;
 
     /**
+     * @var IntegratorFactoryInterface
+     */
+    public $factory;
+
+    /**
      * @param array $ebayConfig
      */
     public function __construct($ebayConfig)
@@ -51,6 +57,8 @@ class EbayProvider extends Provider
         $this->products = new EbayProductIntegrator($productWrapper, $productUpdateWrapper, $categoriesWrapper, $detailsWrapper);
         $this->categories = $this->products;
         $this->orders = new EbayOrderIntegrator($orderWrapper);
+
+        $this->factory = new EbayFactory();
 
         $this->auth = $authWrapper;
     }
