@@ -51,7 +51,7 @@ class EbayProvider extends Provider
         $this->products = new EbayProductIntegrator($productWrapper, $productUpdateWrapper, $categoriesWrapper, $detailsWrapper);
         $this->categories = $this->products;
         $this->orders = new EbayOrderIntegrator($orderWrapper);
-        
+
         $this->auth = $authWrapper;
     }
 
