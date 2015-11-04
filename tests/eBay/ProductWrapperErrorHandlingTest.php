@@ -3,7 +3,7 @@
 namespace StoreIntegrator\tests\eBay;
 
 use DateTime;
-use StoreIntegrator\eBay\ProductWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductWrapper;
 use StoreIntegrator\tests\TestCase;
 
 /**

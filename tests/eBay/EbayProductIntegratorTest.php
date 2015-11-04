@@ -5,12 +5,12 @@ namespace StoreIntegrator\tests\eBay;
 
 use DateTime;
 use StoreIntegrator\Contracts\ShippingServiceInterface;
-use StoreIntegrator\eBay\CategoriesWrapper;
-use StoreIntegrator\eBay\DetailsWrapper;
+use StoreIntegrator\eBay\Wrappers\CategoriesWrapper;
+use StoreIntegrator\eBay\Wrappers\DetailsWrapper;
 use StoreIntegrator\eBay\EbayProductIntegrator;
 use StoreIntegrator\eBay\EbayShippingService;
-use StoreIntegrator\eBay\ProductUpdateWrapper;
-use StoreIntegrator\eBay\ProductWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductUpdateWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductWrapper;
 use StoreIntegrator\tests\TestCase;
 
 // should get categories version

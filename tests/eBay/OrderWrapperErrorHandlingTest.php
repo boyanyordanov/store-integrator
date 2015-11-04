@@ -4,7 +4,7 @@ namespace StoreIntegrator\tests\eBay;
 
 
 use DateTime;
-use StoreIntegrator\eBay\OrdersWrapper;
+use StoreIntegrator\eBay\Wrappers\OrdersWrapper;
 use StoreIntegrator\tests\TestCase;
 
 class OrderWrapperErrorHandlingTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace StoreIntegrator\tests\eBay;
 
-use StoreIntegrator\eBay\ProductUpdateWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductUpdateWrapper;
 use StoreIntegrator\tests\TestCase;
 
 class ProductUpdateWrapperTest extends TestCase

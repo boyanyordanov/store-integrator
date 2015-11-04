@@ -4,6 +4,7 @@ namespace StoreIntegrator\eBay\Wrappers;
 
 use DTS\eBaySDK\Trading\Enums\DetailNameCodeType;
 use DTS\eBaySDK\Trading\Types\GeteBayDetailsRequestType;
+use StoreIntegrator\eBay\EbayShippingService;
 
 /**
  * Class DetailsWrapper
