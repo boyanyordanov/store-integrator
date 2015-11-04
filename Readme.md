@@ -105,6 +105,8 @@ Flow;
 - Defining interfaces for the data objects to use them as bridge between the domain model of the application and the integrator for ease of use.
 - Pretty much everything for Amazon
 
+- Add token expiration logic [docs](http://developer.ebay.com/devzone/guides/ebayfeatures/Basics/Tokens-About.html)
+
 ## Contributors
 
 * Boyan Yordanov [b.yordanov@cloudcart.com](mailto:b.yordanov@cloudcart.com)
