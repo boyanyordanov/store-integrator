@@ -22,4 +22,10 @@ interface IntegratorFactoryInterface
      * @return ShippingService
      */
     public function makeShippingService($data);
+
+    /**
+     * @param array $data
+     * @return Store
+     */
+    public function makeStore($data);
 }
