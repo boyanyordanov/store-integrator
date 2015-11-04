@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreIntegrator\eBay;
+namespace StoreIntegrator\eBay\Wrappers;
 
 use DateTime;
 use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
@@ -25,7 +25,6 @@ use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
 use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\VariationsType;
 use DTS\eBaySDK\Trading\Types\VariationType;
-use StoreIntegrator\Exceptions\EbayErrorException;
 use StoreIntegrator\Product;
 
 /**

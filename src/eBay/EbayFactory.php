@@ -5,7 +5,12 @@ namespace StoreIntegrator\eBay;
 use StoreIntegrator\Contracts\IntegratorFactoryInterface;
 use StoreIntegrator\Product;
 use StoreIntegrator\ShippingService;
+use StoreIntegrator\Store;
 
+/**
+ * Class EbayFactory
+ * @package StoreIntegrator\eBay
+ */
 class EbayFactory implements IntegratorFactoryInterface
 {
 

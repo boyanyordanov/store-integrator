@@ -5,6 +5,7 @@ namespace StoreIntegrator\eBay\Wrappers;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use StoreIntegrator\Exceptions\EbayErrorException;
+use StoreIntegrator\Exceptions\MissingTokenException;
 use StoreIntegrator\Store;
 
 /**
@@ -50,7 +51,9 @@ abstract class EbayWrapper
             $this->service = $service;
         }
 
-        $this->userToken = $userToken;
+        if(!is_null($userToken)) {
+            $this->userToken = $userToken;
+        }
 
         if(getenv('EBAY-RUNAME')) {
             $this->ruName = getenv('EBAY-RUNAME');
@@ -86,6 +89,10 @@ abstract class EbayWrapper
      */
     protected function addAuthToRequest($request)
     {
+        if(!isset($this->userToken)) {
+            throw new MissingTokenException('This request requires user authorization. A user token must be added first.');
+        }
+
         $request->RequesterCredentials = new CustomSecurityHeaderType();
         $request->RequesterCredentials->eBayAuthToken = $this->userToken;
 
