@@ -32,6 +32,19 @@ to compose the main Integrator class.
 In future this will be hidden from the end user of the package.
 
 ```
+    $integrator = new StoreIntegrator\Factory([
+        'ebay' => [
+            'userToken' => 'token'
+        ]
+    ]);
+    
+    $integrator->provider('ebay')->getProducts();
+    
+    $integrator->provider('ebay')->makeShippingService($data = []);
+    $integrator->provider('ebay')->makeProduct($data = []);
+    $integrator->provider('ebay')->makeProduct($data = []);
+    
+    // Old
     $productWrapper = new ProductWrapper($token);
     $categoriesWrapper = new CategoriesWrapper($token);
     $detailsWrapper = new DetailsWrapper($token);

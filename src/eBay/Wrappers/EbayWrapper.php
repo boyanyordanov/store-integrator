@@ -1,9 +1,7 @@
 <?php
 
-namespace StoreIntegrator\eBay;
+namespace StoreIntegrator\eBay\Wrappers;
 
-
-use DTS\eBaySDK\Constants\SiteIds;
 use DTS\eBaySDK\Trading\Services\TradingService;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
 use StoreIntegrator\Exceptions\EbayErrorException;

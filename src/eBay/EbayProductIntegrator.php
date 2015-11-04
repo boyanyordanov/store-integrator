@@ -3,9 +3,12 @@
 namespace StoreIntegrator\eBay;
 
 use DateTime;
-use DTS\eBaySDK\Trading\Services\TradingService;
 use StoreIntegrator\Contracts\CategoriesAggregatorInterface;
 use StoreIntegrator\Contracts\ProductIntegratorInterface;
+use StoreIntegrator\eBay\Wrappers\CategoriesWrapper;
+use StoreIntegrator\eBay\Wrappers\DetailsWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductUpdateWrapper;
+use StoreIntegrator\eBay\Wrappers\ProductWrapper;
 use StoreIntegrator\Product;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreIntegrator\eBay;
+namespace StoreIntegrator\eBay\Wrappers;
 
 use DTS\eBaySDK\Trading\Enums\EndReasonCodeType;
 use DTS\eBaySDK\Trading\Types\EndFixedPriceItemRequestType;

@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreIntegrator\eBay;
+namespace StoreIntegrator\eBay\Wrappers;
 
 use DateTime;
 use DTS\eBaySDK\Trading\Enums\CommentTypeCodeType;

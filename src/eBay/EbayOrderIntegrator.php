@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: boyan
- * Date: 21.10.15
- * Time: 15:55
- */
 
 namespace StoreIntegrator\eBay;
 
-
 use DateTime;
 use StoreIntegrator\Contracts\OrderIntegratorInterface;
+use StoreIntegrator\eBay\Wrappers\OrdersWrapper;
 
 /**
  * Class EbayOrderIntegrator
