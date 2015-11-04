@@ -35,36 +35,71 @@ In future this will be hidden from the end user of the package.
     $integrator = new StoreIntegrator\Factory([
         'ebay' => [
             'userToken' => 'token'
+            // more data needed 
         ]
     ]);
     
-    $integrator->provider('ebay')->getProducts();
+    $integrator->provider('ebay')->products->getProducts();
     
-    $integrator->provider('ebay')->makeShippingService($data = []);
-    $integrator->provider('ebay')->makeProduct($data = []);
-    $integrator->provider('ebay')->makeProduct($data = []);
-    
-    // Old
-    $productWrapper = new ProductWrapper($token);
-    $categoriesWrapper = new CategoriesWrapper($token);
-    $detailsWrapper = new DetailsWrapper($token);
-    
-    $integrator = new EbayProductIntegrator($productWrapper, $categoriesWrapper, $detailsWrapper);
-    
-    $products = $integrator->getProducts();
-    
-    foreach($products as $product) {
-        // Do stuff with the product
-    }
+    $integrator->provider('ebay')->factory->makeShippingService($data = []);
+    $integrator->provider('ebay')->factory->makeProduct($data = []);
+    $integrator->provider('ebay')->factory->makeProduct($data = []);
+   
 ```
+
+Added methdos to get user tokens with a few requirements to the application using the package.
+
+Flow;
+
+1 . Get an instance of the eBay provider
+
+```
+    $integrator = new StoreIntegrator\Factory();
+    
+    $ebay = $integrator->provider('ebay', [ ... ]);
+    
+```
+
+2 . Set the RuName of the app (special identificator from eBay for the application)
+
+```
+    $ebay->auth->setRuName($ruName);
+```
+
+3 . Get a special session id from eBay and store it somewhere (e.g. in the session)
+
+```
+    $sessionId = $ebay->auth->getSessionID();
+    
+    // save the session id
+```
+
+4 . Build a special eBay url to show the user a dialog, where they can agree
+
+```
+    $url = $ebay->auth->buildRedirectUrl($sessionId);
+```
+
+5 . Redirect the user to the built url (or leave it as link on a page somewhere)
+
+6 . If the user agrees eBay redirects them to a predefined url in the application (https is mandatory) (same happens when they do not agree, but for another url)
+
+7 . When the redirect from eBay is received, get the token and save it for future use
+
+```
+    $token = $ebay->auth->getToken($sessionId);
+    
+    // Save the token
+```
+
+
 ## Limitations
 
 - eBay does not allow variation images for multiple properties. Currently accepts only images on product (parent for variations) level
-- Users need to supply a user token for their account
 
 ## TODO
 
-- Factories to simplify initialization
+- Factories to simplify initialization (almost done)
 - Editing an item on eBay (it's better done with multiple requests [docs](http://developer.ebay.com/DevZone/XML/docs/Reference/ebay/ReviseFixedPriceItem.html#ReviseFixedPriceItem))
 - Some methods return the raw responses from eBay (would bebetter with custom data objects)
 - Defining interfaces for the data objects to use them as bridge between the domain model of the application and the integrator for ease of use.

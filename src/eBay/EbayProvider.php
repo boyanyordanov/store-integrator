@@ -62,10 +62,12 @@ class EbayProvider extends Provider
      */
     private function buildWrapper($wrapper, $ebayConfig)
     {
+        $token = isset($ebayConfig['userToken']) ? $ebayConfig['userToken'] : null;
+
         if(isset($this->service)) {
-            return new $wrapper($ebayConfig['userToken'], $this->store, $this->service);
+            return new $wrapper($token, $this->store, $this->service);
         }
 
-        return new $wrapper($ebayConfig['userToken'], $this->store);
+        return new $wrapper($token, $this->store);
     }
 }
