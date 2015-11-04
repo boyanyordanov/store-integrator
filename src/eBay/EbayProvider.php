@@ -39,7 +39,7 @@ class EbayProvider extends Provider
             $this->service = new TradingService($ebayConfig['serviceConfigs']);
         }
 
-        $this->store = new Store($ebayConfig['storeData']);
+        $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
 
         $productWrapper = $this->buildWrapper(ProductWrapper::class, $ebayConfig);
         $orderWrapper = $this->buildWrapper(OrdersWrapper::class, $ebayConfig);
