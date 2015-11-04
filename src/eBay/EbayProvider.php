@@ -35,7 +35,7 @@ class EbayProvider extends Provider
      */
     public function __construct($ebayConfig)
     {
-        if (!isset($ebayConfig['serviceConfigs'])) {
+        if (isset($ebayConfig['serviceConfigs'])) {
             $this->service = new TradingService($ebayConfig['serviceConfigs']);
         }
 
