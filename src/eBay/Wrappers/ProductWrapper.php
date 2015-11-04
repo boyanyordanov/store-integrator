@@ -1,6 +1,6 @@
 <?php
 
-namespace StoreIntegrator\eBay\Wrappers;
+namespace StoreIntegrator\eBay;
 
 use DateTime;
 use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;

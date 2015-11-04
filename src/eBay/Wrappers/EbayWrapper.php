@@ -13,15 +13,22 @@ use StoreIntegrator\Store;
  */
 abstract class EbayWrapper
 {
-
     /**
      * @var TradingService
      */
     protected $service;
+
     /**
      * @var Store
      */
     protected $store;
+
+    /**
+     * Special ebay identification string for the application
+     *
+     * @var string
+     */
+    protected $ruName;
 
     /**
      * @param $userToken
@@ -44,6 +51,11 @@ abstract class EbayWrapper
         }
 
         $this->userToken = $userToken;
+
+        if(getenv('EBAY-RUNAME')) {
+            $this->ruName = getenv('EBAY-RUNAME');
+        }
+
         $this->store = $store;
     }
 
@@ -51,6 +63,22 @@ abstract class EbayWrapper
      * @var
      */
     protected $userToken;
+
+    /**
+     * @return string
+     */
+    public function getRuName()
+    {
+        return $this->ruName;
+    }
+
+    /**
+     * @param string $ruName
+     */
+    public function setRuName($ruName)
+    {
+        $this->ruName = $ruName;
+    }
 
     /**
      * @param $request
@@ -64,6 +92,9 @@ abstract class EbayWrapper
         return $request;
     }
 
+    /**
+     * @return mixed
+     */
     public function getConfig()
     {
         return $this->service->config();
