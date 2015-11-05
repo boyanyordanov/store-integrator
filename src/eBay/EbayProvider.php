@@ -41,11 +41,11 @@ class EbayProvider extends Provider
      */
     public function __construct($ebayConfig)
     {
+        $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
+
         if (isset($ebayConfig['serviceConfigs'])) {
             $this->service = $this->createService($ebayConfig['serviceConfigs']);
         }
-
-        $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
 
         $productWrapper = $this->buildWrapper(ProductWrapper::class, $ebayConfig);
         $orderWrapper = $this->buildWrapper(OrdersWrapper::class, $ebayConfig);
