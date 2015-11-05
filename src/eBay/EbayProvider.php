@@ -42,7 +42,7 @@ class EbayProvider extends Provider
     public function __construct($ebayConfig)
     {
         if (isset($ebayConfig['serviceConfigs'])) {
-            $this->service = new TradingService($ebayConfig['serviceConfigs']);
+            $this->service = $this->createService($ebayConfig['serviceConfigs']);
         }
 
         $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
@@ -78,5 +78,18 @@ class EbayProvider extends Provider
         }
 
         return new $wrapper($token, $this->store);
+    }
+
+    /**
+     * @param $serviceConfigs
+     * @return TradingService
+     */
+    private function createService($serviceConfigs)
+    {
+        if(!isset($serviceConfigs['siteId'])) {
+            $serviceConfigs['siteId'] = $this->store->getEbaySiteID();
+        }
+
+        return new TradingService($serviceConfigs['serviceConfigs']);
     }
 }
