@@ -101,11 +101,11 @@ Flow;
 
 - Factories to simplify initialization (almost done)
 - Editing an item on eBay (it's better done with multiple requests [docs](http://developer.ebay.com/DevZone/XML/docs/Reference/ebay/ReviseFixedPriceItem.html#ReviseFixedPriceItem))
-- Some methods return the raw responses from eBay (would bebetter with custom data objects)
+- Some methods return the raw responses from eBay (would be better with custom data objects)
 - Defining interfaces for the data objects to use them as bridge between the domain model of the application and the integrator for ease of use.
 - Pretty much everything for Amazon
 
-- Add token expiration logic [docs](http://developer.ebay.com/devzone/guides/ebayfeatures/Basics/Tokens-About.html)
+- Add token expiration logic [docs] (http://developer.ebay.com/devzone/guides/ebayfeatures/Basics/Tokens-About.html)
 
 ## Contributors
 
