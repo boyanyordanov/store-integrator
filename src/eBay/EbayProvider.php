@@ -54,9 +54,10 @@ class EbayProvider extends Provider
         $productUpdateWrapper = $this->buildWrapper(ProductUpdateWrapper::class, $ebayConfig);
         $authWrapper = $this->buildWrapper(AuthWrapper::class, $ebayConfig);
 
-        $this->products = new EbayProductIntegrator($productWrapper, $productUpdateWrapper, $categoriesWrapper, $detailsWrapper);
-        $this->categories = $this->products;
-        $this->orders = new EbayOrderIntegrator($orderWrapper);
+        $products = new EbayProductIntegrator($productWrapper, $productUpdateWrapper, $categoriesWrapper, $detailsWrapper);
+        $orders = new EbayOrderIntegrator($orderWrapper);
+
+        parent::__construct($products, $orders, $products);
 
         $this->factory = new EbayFactory();
 
