@@ -13,6 +13,7 @@ use StoreIntegrator\eBay\Wrappers\ProductUpdateWrapper;
 use StoreIntegrator\eBay\Wrappers\ProductWrapper;
 use StoreIntegrator\Provider;
 use StoreIntegrator\Store;
+use StoreIntegrator\tests\eBay\SiteIdCodes;
 
 /**
  * Class EbayProvider
@@ -91,5 +92,16 @@ class EbayProvider extends Provider
         }
 
         return new TradingService($serviceConfigs['serviceConfigs']);
+    }
+
+    public function getSiteIds()
+    {
+        // TODO: return string values for the countries
+        // to be used in dropdown to select the eBay site.
+        $reflection = new \ReflectionClass(SiteIdCodes::class);
+
+        $constants = array_values($reflection->getConstants());
+
+        return $constants;
     }
 }

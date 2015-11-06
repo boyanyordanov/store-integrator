@@ -61,8 +61,9 @@ class Store
      * @param int $ebaySiteID
      * @throws ValidationException
      */
-    public function __construct($payPalEmail, $storeData = [], $ebaySiteID = SiteIdCodes::US)
+    public function __construct($payPalEmail, $storeData = [], $ebaySiteID = 'US')
     {
+        // TODO: Init site id with string and get the constant ths way
         $this->validateEbaySiteID($ebaySiteID);
         $this->validateEmail($payPalEmail);
         $this->validateRequiredDataInArray($storeData, [
