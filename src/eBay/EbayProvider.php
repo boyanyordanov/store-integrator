@@ -95,7 +95,7 @@ class EbayProvider extends Provider
             $serviceConfigs['siteId'] = $this->store->getEbaySiteID();
         }
 
-        return new TradingService($serviceConfigs['serviceConfigs']);
+        return new TradingService($serviceConfigs);
     }
 
     /**
