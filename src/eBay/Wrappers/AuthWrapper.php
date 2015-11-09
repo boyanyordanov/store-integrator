@@ -12,6 +12,15 @@ use DTS\eBaySDK\Trading\Types\GetSessionIDRequestType;
 class AuthWrapper extends EbayWrapper
 {
     /**
+     * @var
+     */
+    protected $token;
+    /**
+     * @var
+     */
+    protected $expirationTime;
+
+    /**
      * @return string
      * @throws \StoreIntegrator\Exceptions\EbayErrorException
      */
@@ -31,10 +40,11 @@ class AuthWrapper extends EbayWrapper
     }
 
     /**
-     * @param string $sessionId
-     * @return string
+     * @param $sessionId
+     * @return $this
+     * @throws \StoreIntegrator\Exceptions\EbayErrorException
      */
-    public function getUserToken($sessionId)
+    public function fetchToken($sessionId)
     {
         $request = new FetchTokenRequestType();
 
@@ -46,9 +56,44 @@ class AuthWrapper extends EbayWrapper
             $this->handleError($response);
         }
 
-        return $response->eBayAuthToken;
+        $this->token = $response->eBayAuthToken;
+        $this->expirationTime = $response->HardExpirationTime;
+
+        return $this;
     }
 
+    /**
+     * @param string $sessionId
+     * @return string
+     */
+    public function getUserToken($sessionId = null)
+    {
+
+        if(!is_null($sessionId) || !$this->token) {
+            $this->fetchToken($sessionId);
+        }
+
+        return $this->token;
+    }
+
+    /**
+     * @param string $sessionId
+     * @return string
+     */
+    public function getTokenExpiration($sessionId = null)
+    {
+
+        if(!is_null($sessionId) || !$this->token) {
+            $this->fetchToken($sessionId);
+        }
+
+        return $this->expirationTime;
+    }
+
+    /**
+     * @param $sessionId
+     * @return string
+     */
     public function buildRedirectUrl($sessionId)
     {
         $inSandbox = $this->getConfig()['sandbox'];
