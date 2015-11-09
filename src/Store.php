@@ -63,7 +63,6 @@ class Store
      */
     public function __construct($payPalEmail, $storeData = [], $ebaySiteID = 'US')
     {
-        // TODO: Init site id with string and get the constant ths way
         $this->validateEbaySiteID($ebaySiteID);
         $this->validateEmail($payPalEmail);
         $this->validateRequiredDataInArray($storeData, [
@@ -101,7 +100,9 @@ class Store
      */
     public function getEbaySiteID()
     {
-        return $this->ebaySiteID;
+        $siteString = $this->ebaySiteID;
+        $reflection = new \ReflectionClass(SiteIdCodes::class);
+        return $reflection->getConstant($siteString);
     }
 
     /**
@@ -142,10 +143,10 @@ class Store
     {
         $reflection = new \ReflectionClass(SiteIdCodes::class);
 
-        $constants = array_values($reflection->getConstants());
+        $constants = array_keys($reflection->getConstants());
 
         if(!in_array($siteID, $constants)) {
-            throw new ValidationException('The provided eBay site code is invalid.');
+            throw new ValidationException('The provided eBay site key is invalid.');
         }
     }
 

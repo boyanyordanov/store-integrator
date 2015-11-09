@@ -42,7 +42,11 @@ class EbayProvider extends Provider
      */
     public function __construct($ebayConfig)
     {
-        $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
+        if(isset($ebayConfig['store']['ebaySite'])) {
+            $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data'], $ebayConfig['store']['ebaySite']);
+        } else {
+            $this->store = new Store($ebayConfig['store']['email'], $ebayConfig['store']['data']);
+        }
 
         if (isset($ebayConfig['serviceConfigs'])) {
             $this->service = $this->createService($ebayConfig['serviceConfigs']);
@@ -94,13 +98,16 @@ class EbayProvider extends Provider
         return new TradingService($serviceConfigs['serviceConfigs']);
     }
 
+    /**
+     * @return array
+     */
     public function getSiteIds()
     {
         // TODO: return string values for the countries
         // to be used in dropdown to select the eBay site.
         $reflection = new \ReflectionClass(SiteIdCodes::class);
 
-        $constants = array_values($reflection->getConstants());
+        $constants = array_keys($reflection->getConstants());
 
         return $constants;
     }

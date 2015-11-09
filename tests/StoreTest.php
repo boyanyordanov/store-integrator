@@ -35,7 +35,7 @@ class StoreTest extends TestCase
 
     /**
      * @expectedException \StoreIntegrator\Exceptions\ValidationException
-     * @expectedExceptionMessage The provided eBay site code is invalid.
+     * @expectedExceptionMessage The provided eBay site key is invalid.
      */
     public function testEbaySiteIDValidation()
     {
