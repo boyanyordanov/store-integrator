@@ -126,7 +126,7 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
      */
     public function getCategories($parentId = null)
     {
-        $categories = $this->categoriesWrapper->get();
+        $categories = $this->categoriesWrapper->get($parentId);
 
         $this->categoriesVersion = $this->categoriesWrapper->getVersion();
 
