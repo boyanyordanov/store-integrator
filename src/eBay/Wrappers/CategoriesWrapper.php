@@ -17,16 +17,26 @@ class CategoriesWrapper extends EbayWrapper
     protected $version;
 
     /**
+     * @param null $parentId
      * @return mixed
+     * @throws \StoreIntegrator\Exceptions\MissingTokenException
      */
-    public function get()
+    public function get($parentId = null)
     {
         $categoriesRequest = new GetCategoriesRequestType([
             // TODO: get the version from environment
-            'Version' => '943'
+//            'Version' => '943'
         ]);
 
         $categoriesRequest->DetailLevel = ['ReturnAll'];
+
+        if(is_null($parentId)) {
+            $categoriesRequest->LevelLimit = 1;
+        } else {
+            $categoriesRequest->CategoryParent = [$parentId];
+//            $categoriesRequest->ViewAllNodes = false;
+        }
+
 
         $this->addAuthToRequest($categoriesRequest);
 
@@ -39,6 +49,10 @@ class CategoriesWrapper extends EbayWrapper
         return $categories;
     }
 
+    /**
+     * @return array
+     * @throws \StoreIntegrator\Exceptions\MissingTokenException
+     */
     public function update()
     {
         $categoriesRequest = new GetCategoriesRequestType([

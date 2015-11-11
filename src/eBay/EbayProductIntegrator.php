@@ -120,10 +120,11 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     /**
      * Returns an array of categories to map to the product
      * Each category is an array with id and name
-
+     *
+     * @param string|null $parentId
      * @return array
      */
-    public function getCategories()
+    public function getCategories($parentId = null)
     {
         $categories = $this->categoriesWrapper->get();
 
@@ -143,11 +144,20 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
             }
             $cat->level = $item['CategoryLevel'];
             $cat->parentID = $item['CategoryParentID'][0];
+            $cat->isLeaf = array_key_exists('LeafCategory', $item) ? $item['LeafCategory'] : false;
 
             $result[$cat->id] = $cat;
         }
 
         return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTopLevelCategories()
+    {
+        return $this->getTopLevelCategories();
     }
 
     /**
