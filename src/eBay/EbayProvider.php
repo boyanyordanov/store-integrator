@@ -64,6 +64,8 @@ class EbayProvider extends Provider
 
         parent::__construct($products, $orders, $products);
 
+        $this->details = $detailsWrapper;
+
         $this->factory = new EbayFactory();
 
         $this->auth = $authWrapper;
