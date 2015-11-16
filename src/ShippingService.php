@@ -92,5 +92,7 @@ abstract class ShippingService implements ShippingServiceInterface
         if(property_exists($this, $propName)) {
             return $this->$propName;
         }
+
+        return null;
     }
 }

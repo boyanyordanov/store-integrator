@@ -34,6 +34,7 @@ class EbayShippingService extends ShippingService
     {
         $result = [
             'cost' => $data['cost'],
+            'additionalCost' => $data['additionalCost'],
             'international' => $data['international']
         ];
 

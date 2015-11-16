@@ -92,13 +92,14 @@ class ProductWrapper extends EbayWrapper
         // Add details for the shipping
         // NOTE: doesn't seem to work
         $item->ShippingPackageDetails = new ShipPackageDetailsType();
-        $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_METRIC;
+        $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_ENGLISH;
 
-        $weightKg = intval(floor($product->getWeight() / 1000));
-        $weightGr = $product->getWeight() % 1000;
+        $totalOz = $product->getWeight() * 0.035274;
+        $weightMajor = intval(floor($totalOz/16));
+        $weightMinor = intval(floor($totalOz - ($weightMajor * 16)));
 
-        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'kg', 'value' => $weightKg]);
-        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'gr', 'value' => $weightGr]);
+        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'lbs', 'value' => $weightMajor]);
+        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'oz', 'value' => $weightMinor]);
 
         // Add pictures
         $this->addPictures($item, $product);
@@ -203,6 +204,9 @@ class ProductWrapper extends EbayWrapper
                 $shippingService->ShippingServicePriority = $index;
                 $shippingService->ShippingService = $shippingOption->getName();
                 $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+                if($shippingOption->getAdditionalCost()) {
+                    $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => $shippingOption->getAdditionalCost()));
+                }
                 $shippingService->ShipToLocation = $shippingOption->getShipsTo();
                 $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
             } else {
