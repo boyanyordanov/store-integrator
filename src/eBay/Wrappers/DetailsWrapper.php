@@ -23,7 +23,9 @@ class DetailsWrapper extends EbayWrapper
         $result = [];
 
         foreach ($response->ShippingServiceDetails as $item) {
-            $result[] = new EbayShippingService($item);
+            if($item->ValidForSellingFlow && strtolower($item->ServiceType[0]) == 'flat') {
+                $result[] = new EbayShippingService($item);
+            }
         }
 
         return $result;
