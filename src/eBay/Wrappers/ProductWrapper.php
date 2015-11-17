@@ -83,11 +83,13 @@ class ProductWrapper extends EbayWrapper
         // Add brand information as item specific information
         $item->ItemSpecifics = new NameValueListArrayType();
 
-        $brand = new NameValueListType();
-        $brand->Name = 'Brand';
-        $brand->Value[] = $product->getBrand();
+        if($product->getBrand()) {
+            $brand = new NameValueListType();
+            $brand->Name = 'Brand';
+            $brand->Value[] = $product->getBrand();
 
-        $item->ItemSpecifics->NameValueList[] = $brand;
+            $item->ItemSpecifics->NameValueList[] = $brand;
+        }
 
         // Add details for the shipping
         // NOTE: doesn't seem to work

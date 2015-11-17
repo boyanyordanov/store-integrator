@@ -110,12 +110,15 @@ class Product
 
         $this->title = $data['name'];
         $this->description = $data['description'];
-        $this->brand = $data['brand'];
         $this->currency = $data['currency'];
         $this->category = $data['category'];
         $this->weight = $data['weight'];
 
         // TODO: Add better validation
+
+        if(array_key_exists('brand', $data)) {
+            $this->brand = $data['brand'];
+        }
 
         if(array_key_exists('ReturnPolicy', $data)) {
             $this->returnPolicy = $data['ReturnPolicy'];
