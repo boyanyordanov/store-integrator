@@ -51,11 +51,12 @@ class ProductWrapper extends EbayWrapper
         $item->ListingDuration = ListingDurationCodeType::C_GTC;
 
         $item->InventoryTrackingMethod = 'SKU';
-        
+
         $item->Title = $product->getTitle();
         $item->Description = $product->getDescription();
 
         // Mandatory when InvntoryTrackingMethod is set to SKU
+
         $item->SKU = $product->getSku();
 
         $item->HitCounter = HitCounterCodeType::C_HIDDEN_STYLE;
@@ -86,6 +87,7 @@ class ProductWrapper extends EbayWrapper
         // Add brand information as item specific information
         $item->ItemSpecifics = new NameValueListArrayType();
 
+
         if($product->getBrand()) {
             $brand = new NameValueListType();
             $brand->Name = 'Brand';
@@ -94,17 +96,20 @@ class ProductWrapper extends EbayWrapper
             $item->ItemSpecifics->NameValueList[] = $brand;
         }
 
-        // Add details for the shipping
-        // NOTE: doesn't seem to work
-        $item->ShippingPackageDetails = new ShipPackageDetailsType();
-        $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_ENGLISH;
 
-        $totalOz = $product->getWeight() * 0.035274;
-        $weightMajor = intval(floor($totalOz/16));
-        $weightMinor = intval(floor($totalOz - ($weightMajor * 16)));
+        if($product->getWeight()) {
+            // Add details for the shipping
+            // NOTE: doesn't seem to work
+            $item->ShippingPackageDetails = new ShipPackageDetailsType();
+            $item->ShippingPackageDetails->MeasurementUnit = MeasurementSystemCodeType::C_ENGLISH;
 
-        $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'lbs', 'value' => $weightMajor]);
-        $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'oz', 'value' => $weightMinor]);
+            $totalOz = $product->getWeight() * 0.035274;
+            $weightMajor = intval(floor($totalOz / 16));
+            $weightMinor = intval(floor($totalOz - ($weightMajor * 16)));
+
+            $item->ShippingPackageDetails->WeightMajor = new MeasureType(['unit' => 'lbs', 'value' => $weightMajor]);
+            $item->ShippingPackageDetails->WeightMinor = new MeasureType(['unit' => 'oz', 'value' => $weightMinor]);
+        }
 
         // Add pictures
         $this->addPictures($item, $product);

@@ -112,7 +112,10 @@ class Product
         $this->description = $data['description'];
         $this->currency = $data['currency'];
         $this->category = $data['category'];
-        $this->weight = $data['weight'];
+
+        if(array_key_exists('weight', $data)) {
+            $this->weight = $data['weight'];
+        }
 
         // TODO: Add better validation
 
