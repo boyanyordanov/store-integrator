@@ -3,6 +3,7 @@
 namespace StoreIntegrator\eBay\Wrappers;
 
 use DateTime;
+use DTS\eBaySDK\MerchantData\Enums\HitCounterCodeType;
 use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
 use DTS\eBaySDK\Trading\Types\MeasureType;
 use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
@@ -56,6 +57,8 @@ class ProductWrapper extends EbayWrapper
 
         // Mandatory when InvntoryTrackingMethod is set to SKU
         $item->SKU = $product->getSku();
+
+        $item->HitCounter = HitCounterCodeType::C_HIDDEN_STYLE;
 
         if($product->hasVariations()) {
             $this->addVariationsData($item, $product);
@@ -138,6 +141,7 @@ class ProductWrapper extends EbayWrapper
         $request = new GetSellerListRequestType();
 
         $request->DetailLevel = ['ReturnAll'];
+        $request->GranularityLevel = ['Fine'];
 
         $request->Pagination = new PaginationType();
         $request->Pagination->EntriesPerPage = $perPage;
