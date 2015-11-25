@@ -90,8 +90,16 @@ class ProductUpdateWrapper extends EbayWrapper
         }
 
         if($product->hasVariations()) {
-            $this->updateVariationsData($eBayProduct, $item, $product);
+            if(!$eBayProduct->Variations || !$eBayProduct->Variations->Variation) {
+                $this->changeProductType($product);
+            } else {
+                $this->updateVariationsData($eBayProduct, $item, $product);
+            }
         } else {
+            if($eBayProduct->Variations && $eBayProduct->Variations->Variation) {
+                $this->changeProductType($product);
+            }
+
             if($eBayProduct->StartPrice->value != $product->getPrice()) {
                 $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
             }
@@ -278,5 +286,15 @@ class ProductUpdateWrapper extends EbayWrapper
         }
     }
 
+    /**
+     * @param $product
+     */
+    private function changeProductType($product)
+    {
+        $productWrapper = new ProductWrapper($this->userToken, $this->store, $this->service);
+
+        $this->deleteProduct($product->getSku());
+        $productWrapper->post($product);
+    }
 
 }
