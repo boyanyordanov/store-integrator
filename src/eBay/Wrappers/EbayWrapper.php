@@ -144,6 +144,11 @@ abstract class EbayWrapper
                 $shippingService->ShippingServicePriority = $index;
                 $shippingService->ShippingService = $shippingOption->getName();
                 $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+
+                if ($shippingOption->getAdditionalCost()) {
+                    $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => $shippingOption->getAdditionalCost()));
+                }
+
                 $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
             }
         }
