@@ -166,88 +166,6 @@ class ProductWrapper extends EbayWrapper
         return $response;
     }
 
-    /**
-     * @param $item
-     * @param array $overrides
-     */
-    protected function addReturnPolicy($item, $overrides = [])
-    {
-        /**
-         * Default return policy.
-         * Not accepted
-         */
-        $default = [
-            'ReturnsAccepted' => false,
-        ];
-
-        $policy = array_merge($default, $overrides);
-
-        $item->ReturnPolicy = new ReturnPolicyType();
-
-        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsNotAccepted';
-
-        if($policy['ReturnsAccepted']) {
-            $item->ReturnPolicy->RefundOption = $policy['Refund'];
-            $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
-            $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
-        }
-    }
-
-    /**
-     * @param $item
-     * @param array $shippingOptions
-     */
-    public function addShippingOptions($item, array $shippingOptions = [])
-    {
-        /**
-         * Setting up the shipping details.
-         * We will use a Flat shipping rate for both domestic and international.
-         */
-        $item->ShippingDetails = new ShippingDetailsType();
-        $item->ShippingDetails->ShippingType = ShippingTypeCodeType::C_FLAT;
-
-        /**
-         * @var EbayShippingService $shippingOption
-         */
-        foreach($shippingOptions as $index => $shippingOption) {
-            if($shippingOption->getInternational()) {
-                $shippingService = new InternationalShippingServiceOptionsType();
-                $shippingService->ShippingServicePriority = $index;
-                $shippingService->ShippingService = $shippingOption->getName();
-                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
-                if($shippingOption->getAdditionalCost()) {
-                    $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => $shippingOption->getAdditionalCost()));
-                }
-                $shippingService->ShipToLocation = $shippingOption->getShipsTo();
-                $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
-            } else {
-                $shippingService = new ShippingServiceOptionsType();
-                $shippingService->ShippingServicePriority = $index;
-                $shippingService->ShippingService = $shippingOption->getName();
-                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
-                $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
-            }
-        }
-    }
-
-    /**
-     * @param $item
-     * @param $product
-     */
-    public function addPictures($item, $product)
-    {
-        $result = [];
-
-        foreach($product->getPictures() as $pictureUrl) {
-            $result[] = $pictureUrl;
-        }
-
-        if(count($result) > 0) {
-            $item->PictureDetails = new PictureDetailsType();
-            $item->PictureDetails->GalleryType = GalleryTypeCodeType::C_GALLERY;
-            $item->PictureDetails->PictureURL = $result;
-        }
-    }
 
     /**
      * @param $item
@@ -299,5 +217,30 @@ class ProductWrapper extends EbayWrapper
         }
     }
 
+    /**
+     * @param $item
+     * @param array $overrides
+     */
+    protected function addReturnPolicy($item, $overrides = [])
+    {
+        /**
+         * Default return policy.
+         * Not accepted
+         */
+        $default = [
+            'ReturnsAccepted' => false,
+        ];
 
+        $policy = array_merge($default, $overrides);
+
+        $item->ReturnPolicy = new ReturnPolicyType();
+
+        $item->ReturnPolicy->ReturnsAcceptedOption = $policy['ReturnsAccepted'] ? 'ReturnsAccepted' : 'ReturnsNotAccepted';
+
+        if ($policy['ReturnsAccepted']) {
+            $item->ReturnPolicy->RefundOption = $policy['Refund'];
+            $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
+            $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
+        }
+    }
 }

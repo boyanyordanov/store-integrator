@@ -118,6 +118,16 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
     }
 
     /**
+     * @param $sku
+     * @param $data
+     * @return \DTS\eBaySDK\Trading\Types\ReviseFixedPriceItemResponseType
+     */
+    public function updateProduct($sku, $data)
+    {
+        return $this->productUpdateWrapper->updateProduct($sku, $data);
+    }
+
+    /**
      * Returns an array of categories to map to the product
      * Each category is an array with id and name
      *

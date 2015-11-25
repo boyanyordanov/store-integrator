@@ -2,10 +2,20 @@
 
 namespace StoreIntegrator\eBay\Wrappers;
 
+use DTS\eBaySDK\Trading\Enums\GalleryTypeCodeType;
+use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
 use DTS\eBaySDK\Trading\Services\TradingService;
+use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\CustomSecurityHeaderType;
+use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
+use DTS\eBaySDK\Trading\Types\PictureDetailsType;
+use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
+use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
+use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
+use StoreIntegrator\eBay\EbayShippingService;
 use StoreIntegrator\Exceptions\EbayErrorException;
 use StoreIntegrator\Exceptions\MissingTokenException;
+use StoreIntegrator\Product;
 use StoreIntegrator\Store;
 
 /**
@@ -81,6 +91,62 @@ abstract class EbayWrapper
     public function setRuName($ruName)
     {
         $this->ruName = $ruName;
+    }
+
+    /**
+     * @param $item
+     * @param $product
+     */
+    public function addPictures($item, Product $product)
+    {
+        $result = [];
+
+        foreach ($product->getPictures() as $pictureUrl) {
+            $result[] = $pictureUrl;
+        }
+
+        if (count($result) > 0) {
+            $item->PictureDetails = new PictureDetailsType();
+            $item->PictureDetails->GalleryType = GalleryTypeCodeType::C_GALLERY;
+            $item->PictureDetails->PictureURL = $result;
+        }
+    }
+
+    /**
+     * @param $item
+     * @param array $shippingOptions
+     */
+    public function addShippingOptions($item, array $shippingOptions = [])
+    {
+        /**
+         * Setting up the shipping details.
+         * We will use a Flat shipping rate for both domestic and international.
+         */
+        $item->ShippingDetails = new ShippingDetailsType();
+        $item->ShippingDetails->ShippingType = ShippingTypeCodeType::C_FLAT;
+
+        /**
+         * @var EbayShippingService $shippingOption
+         */
+        foreach ($shippingOptions as $index => $shippingOption) {
+            if ($shippingOption->getInternational()) {
+                $shippingService = new InternationalShippingServiceOptionsType();
+                $shippingService->ShippingServicePriority = $index;
+                $shippingService->ShippingService = $shippingOption->getName();
+                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+                if ($shippingOption->getAdditionalCost()) {
+                    $shippingService->ShippingServiceAdditionalCost = new AmountType(array('value' => $shippingOption->getAdditionalCost()));
+                }
+                $shippingService->ShipToLocation = $shippingOption->getShipsTo();
+                $item->ShippingDetails->InternationalShippingServiceOption[] = $shippingService;
+            } else {
+                $shippingService = new ShippingServiceOptionsType();
+                $shippingService->ShippingServicePriority = $index;
+                $shippingService->ShippingService = $shippingOption->getName();
+                $shippingService->ShippingServiceCost = new AmountType(array('value' => $shippingOption->getCost()));
+                $item->ShippingDetails->ShippingServiceOptions[] = $shippingService;
+            }
+        }
     }
 
     /**
