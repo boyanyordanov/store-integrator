@@ -92,7 +92,7 @@ class ProductUpdateWrapper extends EbayWrapper
         if($product->hasVariations()) {
             $this->updateVariationsData($eBayProduct, $item, $product);
         } else {
-            if($eBayProduct->StartPrice != $product->getPrice()) {
+            if($eBayProduct->StartPrice->value != $product->getPrice()) {
                 $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
             }
             if($eBayProduct->Quantity != $product->getQuantity()) {
@@ -192,7 +192,7 @@ class ProductUpdateWrapper extends EbayWrapper
             return;
         }
 
-        if(!$eBayProduct->Variation) {
+        if(!$eBayProduct->Variations->Variation) {
             return;
         }
 
@@ -214,11 +214,16 @@ class ProductUpdateWrapper extends EbayWrapper
         $newVariations = [];
         $forUpdate =[];
 
-        foreach($product->getVariationTypes() as $option) {
+        foreach($product->getVariationOptions() as $option) {
             $found = false;
             foreach($eBayProduct->Variations->Variation as $ebayVariation) {
                 if($ebayVariation->SKU === $option['sku']) {
                     $ebayVariation->Quantity = $option['quantity'];
+
+                    if(array_key_exists('price', $option) && $ebayVariation->StartPrice->value != $option['price']) {
+                        $ebayVariation->StartPrice = new AmountType(array('value' => doubleval($option['price'])));
+                    }
+
                     $foundVariations[] = $ebayVariation;
                     $found = true;
                     break;
@@ -234,7 +239,7 @@ class ProductUpdateWrapper extends EbayWrapper
             $item->Variations->Variation[] = $variation;
         }
 
-        foreach($product->getVariationOptions() as $option) {
+        foreach($newVariations as $option) {
             $variation = new VariationType();
             $variation->SKU = $option['sku'];
             $variation->Quantity = $option['quantity'];
