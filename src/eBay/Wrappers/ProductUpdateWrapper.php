@@ -214,6 +214,7 @@ class ProductUpdateWrapper extends EbayWrapper
         $newVariations = [];
         $forUpdate =[];
 
+        // Find variations that are to be updated and separate the new ones
         foreach($product->getVariationOptions() as $option) {
             $found = false;
             foreach($eBayProduct->Variations->Variation as $ebayVariation) {
@@ -235,10 +236,12 @@ class ProductUpdateWrapper extends EbayWrapper
             }
         }
 
+        // Attach the updated variations
         foreach($foundVariations as $variation) {
             $item->Variations->Variation[] = $variation;
         }
 
+        // Attach the new variations
         foreach($newVariations as $option) {
             $variation = new VariationType();
             $variation->SKU = $option['sku'];
@@ -259,6 +262,19 @@ class ProductUpdateWrapper extends EbayWrapper
 
             $variation->VariationSpecifics[] = $variationSpecifics;
             $item->Variations->Variation[] = $variation;
+        }
+
+        // remove missing variations
+        foreach($eBayProduct->Variations->Variation as $ebayVariation) {
+            if(!in_array($ebayVariation, $foundVariations)) {
+                if($ebayVariation->SellingStatus->QuantitySold > 0) {
+                    $ebayVariation->Quantity = 0;
+                } else {
+                    $ebayVariation->Delete = true;
+                }
+
+                $item->Variations->Variation[] = $ebayVariation;
+            }
         }
     }
 
