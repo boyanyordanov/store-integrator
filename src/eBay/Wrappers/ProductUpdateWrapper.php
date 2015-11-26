@@ -90,7 +90,7 @@ class ProductUpdateWrapper extends EbayWrapper
         }
 
         if($product->hasVariations()) {
-            if(!$eBayProduct->Variations || !$eBayProduct->Variations->Variation) {
+            if(!$eBayProduct->Variations || !$eBayProduct->Variations->Variation || $this->hasVariationSales($eBayProduct)) {
                 $this->changeProductType($product);
             } else {
                 $this->updateVariationsData($eBayProduct, $item, $product);
@@ -295,6 +295,25 @@ class ProductUpdateWrapper extends EbayWrapper
 
         $this->deleteProduct($product->getSku());
         $productWrapper->post($product);
+    }
+
+    /**
+     * @param $eBayProduct
+     * @return bool
+     */
+    private function hasVariationSales($eBayProduct)
+    {
+        if(!$eBayProduct->Variations || !$eBayProduct->Variations->Variation){
+            return false;
+        }
+
+        foreach($eBayProduct->Variations->Variation as $variation) {
+            if($variation->SellingStatus->QuantitySold > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
