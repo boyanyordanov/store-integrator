@@ -5,8 +5,7 @@
     "require": {
         "cpigroup/php-amazon-mws": "^1.1",
         "sabre/xml": "~1.2.0",
-        "dts/ebay-sdk-php": "^0.3.0",
-        "facebook/php-sdk-v4" : "~5.0"
+        "dts/ebay-sdk-php": "^0.3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0",
