@@ -32,7 +32,7 @@ class EbayOrderIntegrator implements OrderIntegratorInterface
      * @param int $perPage
      * @return mixed
      */
-    public function getOrders(DateTime $startDate, $page = 1, $perPage = 10)
+    public function getOrders(DateTime $startDate, $page = 1, $perPage = 100)
     {
         return $this->ordersWrapper->getAll($startDate, $page, $perPage);
     }

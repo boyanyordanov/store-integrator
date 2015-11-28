@@ -26,7 +26,7 @@ class OrdersWrapper extends EbayWrapper
      * @param int $perPage
      * @return \DTS\eBaySDK\Trading\Types\GetOrdersResponseType
      */
-    public function getAll(DateTime $startDate, $page = 1, $perPage = 10)
+    public function getAll(DateTime $startDate, $page = 1, $perPage = 100)
     {
         $request = new GetOrdersRequestType();
 
