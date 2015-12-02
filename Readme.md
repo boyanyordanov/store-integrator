@@ -1,12 +1,12 @@
-# CloudCart Store Integrator Package
+# Store Integrator Package
 
 ## Goals
 
-- Allow seamless integrations between CloudCart's services and other popular platforms.
+- Allow seamless integrations with popular selling/shopping platforms.
 
 ## Current Support
 
-- Ebay mostly (not production ready)
+- Ebay (product publishing and rtrieveing, order retrieving and handling)
 - Amazon (initial level)
 
 ## Configuration 
@@ -99,14 +99,11 @@ Flow;
 
 ## TODO
 
-- Factories to simplify initialization (almost done)
-- Editing an item on eBay (it's better done with multiple requests [docs](http://developer.ebay.com/DevZone/XML/docs/Reference/ebay/ReviseFixedPriceItem.html#ReviseFixedPriceItem))
 - Some methods return the raw responses from eBay (would be better with custom data objects)
 - Defining interfaces for the data objects to use them as bridge between the domain model of the application and the integrator for ease of use.
 - Pretty much everything for Amazon
-
 - Add token expiration logic [docs] (http://developer.ebay.com/devzone/guides/ebayfeatures/Basics/Tokens-About.html)
 
 ## Contributors
 
-* Boyan Yordanov [b.yordanov@cloudcart.com](mailto:b.yordanov@cloudcart.com)
+* Boyan Yordanov [boyan.yordanov.dev@gmail.com](mailto:boyan.yordanov.dev@gmail.com)
