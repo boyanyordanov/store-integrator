@@ -1,6 +1,6 @@
 {
-    "name": "cloudcart/store-integrator",
-    "description": "Integrates different shopping platforms with CloudCart",
+    "name": "netoholic/store-integrator",
+    "description": "Can be used to publish products and retrieve and handle orders from different shopping platforms.",
     "type": "library",
     "require": {
         "cpigroup/php-amazon-mws": "^1.1",
@@ -20,7 +20,7 @@
     "authors": [
         {
             "name": "Boyan Yordanov",
-            "email": "b.yordanov@cloudcart.com"
+            "email": "boyan.yordanov.dev@gmail.com"
         }
     ],
     "minimum-stability": "stable"
