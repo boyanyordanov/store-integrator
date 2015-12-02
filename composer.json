@@ -2,6 +2,7 @@
     "name": "netoholic/store-integrator",
     "description": "Can be used to publish products and retrieve and handle orders from different shopping platforms.",
     "type": "library",
+    "license": "MIT",
     "require": {
         "cpigroup/php-amazon-mws": "^1.1",
         "sabre/xml": "~1.2.0",
