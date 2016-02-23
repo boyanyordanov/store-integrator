@@ -5,27 +5,23 @@ namespace StoreIntegrator\eBay\Wrappers;
 use DateTime;
 use DTS\eBaySDK\MerchantData\Enums\HitCounterCodeType;
 use DTS\eBaySDK\Trading\Enums\MeasurementSystemCodeType;
+use DTS\eBaySDK\Trading\Enums\PictureUploadPolicyCodeType;
 use DTS\eBaySDK\Trading\Types\MeasureType;
 use DTS\eBaySDK\Trading\Types\NameValueListArrayType;
 use DTS\eBaySDK\Trading\Types\NameValueListType;
-use DTS\eBaySDK\Trading\Enums\GalleryTypeCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingDurationCodeType;
 use DTS\eBaySDK\Trading\Enums\ListingTypeCodeType;
-use DTS\eBaySDK\Trading\Enums\ShippingTypeCodeType;
 use DTS\eBaySDK\Trading\Types\AddFixedPriceItemRequestType;
 use DTS\eBaySDK\Trading\Types\AmountType;
 use DTS\eBaySDK\Trading\Types\CategoryType;
 use DTS\eBaySDK\Trading\Types\GetSellerListRequestType;
-use DTS\eBaySDK\Trading\Types\InternationalShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\ItemType;
 use DTS\eBaySDK\Trading\Types\PaginationType;
-use DTS\eBaySDK\Trading\Types\PictureDetailsType;
 use DTS\eBaySDK\Trading\Types\ReturnPolicyType;
 use DTS\eBaySDK\Trading\Types\ShipPackageDetailsType;
-use DTS\eBaySDK\Trading\Types\ShippingDetailsType;
-use DTS\eBaySDK\Trading\Types\ShippingServiceOptionsType;
 use DTS\eBaySDK\Trading\Types\VariationsType;
 use DTS\eBaySDK\Trading\Types\VariationType;
+use DTS\eBaySDK\Trading\Types\UploadSiteHostedPicturesRequestType;
 use StoreIntegrator\Product;
 
 /**
@@ -61,7 +57,7 @@ class ProductWrapper extends EbayWrapper
 
         $item->HitCounter = HitCounterCodeType::C_HIDDEN_STYLE;
 
-        if($product->hasVariations()) {
+        if ($product->hasVariations()) {
             $this->addVariationsData($item, $product);
         } else {
             $item->StartPrice = new AmountType(['value' => $product->getPrice()]);
@@ -71,7 +67,7 @@ class ProductWrapper extends EbayWrapper
         $item->Country = $this->store->getStoreData('country');
         $item->Location = $this->store->getStoreData('location');
 
-        if($this->store->hasStoreData('postCode')) {
+        if ($this->store->hasStoreData('postCode')) {
             $item->PostalCode = $this->store->getStoreData('postCode');
         }
 
@@ -88,7 +84,7 @@ class ProductWrapper extends EbayWrapper
         $item->ItemSpecifics = new NameValueListArrayType();
 
 
-        if($product->getBrand()) {
+        if ($product->getBrand()) {
             $brand = new NameValueListType();
             $brand->Name = 'Brand';
             $brand->Value[] = $product->getBrand();
@@ -97,7 +93,7 @@ class ProductWrapper extends EbayWrapper
         }
 
 
-        if($product->getWeight()) {
+        if ($product->getWeight()) {
             // Add details for the shipping
             // NOTE: doesn't seem to work
             $item->ShippingPackageDetails = new ShipPackageDetailsType();
@@ -128,7 +124,7 @@ class ProductWrapper extends EbayWrapper
 
         $response = $this->service->addFixedPriceItem($request);
 
-        if($response->Ack == 'Failure') {
+        if ($response->Ack == 'Failure') {
             $this->handleError($response);
         }
 
@@ -159,7 +155,7 @@ class ProductWrapper extends EbayWrapper
 
         $response = $this->service->getSellerList($request);
 
-        if($response->Ack == 'Failure') {
+        if ($response->Ack == 'Failure') {
             $this->handleError($response);
         }
 
@@ -181,7 +177,7 @@ class ProductWrapper extends EbayWrapper
 
         $variationSet = new NameValueListArrayType();
 
-        foreach($product->getVariationTypes() as $type) {
+        foreach ($product->getVariationTypes() as $type) {
             $nameValue = new NameValueListType();
             $nameValue->Name = $type['name'];
             $nameValue->Value = $type['values'];
@@ -194,18 +190,18 @@ class ProductWrapper extends EbayWrapper
         /**
          * Add each specific combination
          */
-        foreach($product->getVariationOptions() as $option) {
+        foreach ($product->getVariationOptions() as $option) {
             $variation = new VariationType();
             $variation->SKU = $option['sku'];
             $variation->Quantity = $option['quantity'];
 
-            if(array_key_exists('price', $option)) {
+            if (array_key_exists('price', $option)) {
                 $variation->StartPrice = new AmountType(array('value' => doubleval($option['price'])));
             }
 
             $variationSpecifics = new NameValueListArrayType();
 
-            foreach($option['properties'] as $property) {
+            foreach ($option['properties'] as $property) {
                 $nameValue = new NameValueListType();
                 $nameValue->Name = $property['name'];
                 $nameValue->Value = [$property['value']];
@@ -228,7 +224,7 @@ class ProductWrapper extends EbayWrapper
          * Not accepted
          */
         $default = [
-            'ReturnsAccepted' => false,
+          'ReturnsAccepted' => false,
         ];
 
         $policy = array_merge($default, $overrides);
@@ -242,5 +238,45 @@ class ProductWrapper extends EbayWrapper
             $item->ReturnPolicy->ReturnsWithinOption = $policy['ReturnsWithin'];
             $item->ReturnPolicy->ShippingCostPaidByOption = $policy['ShippingCostPaidBy'];
         }
+    }
+
+    /**
+     * @param string $url Url of the picture
+     * @param string $name Name of the picture (optional)
+     * @param boolean $replaceCurrent Indicates whether to add the picture to the current list or replace it
+     * @return object eBay Response
+     * @throws EbayException
+     */
+    public function uploadPicture($url, $name = '', $replaceCurrent = false)
+    {
+        $uploadRequest = new UploadSiteHostedPicturesRequestType();
+        $uploadRequest = $this->addAuthToRequest($uploadRequest);
+
+        if ($name) {
+            $uploadRequest->PictureName = $name;
+        }
+
+        $uploadRequest->ExternalPictureURL = [$url];
+
+        $uploadRequest->PictureUploadPolicy = PictureUploadPolicyCodeType::C_ADD;
+
+        if ($replaceCurrent) {
+            $uploadRequest->PictureUploadPolicy = PictureUploadPolicyCodeType::C_CLEAR_AND_ADD;
+        }
+
+        $response = $this->service->uploadSiteHostedPictures($uploadRequest);
+
+        if ($response->Ack === 'Failure') {
+            $this->handleError($response);
+        }
+
+        $picture = new \stdClass();
+
+        $picture->name = $response->SiteHostedPictureDetails->PictureName;
+        $picture->url = $response->SiteHostedPictureDetails->FullURL;
+        $picture->format = $response->SiteHostedPictureDetails->PictureFormat;
+        $picture->expireDate = $response->SiteHostedPictureDetails->UseByDate;
+
+        return $picture;
     }
 }
