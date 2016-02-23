@@ -215,4 +215,9 @@ class EbayProductIntegrator implements ProductIntegratorInterface, CategoriesAgg
 
         return $shippingMethods;
     }
+
+    public function uploadSiteHostedPicture($url, $name = '', $replace = false)
+    {
+        return $this->productWrapper->uploadPicture($url, $name, $replace);
+    }
 }
